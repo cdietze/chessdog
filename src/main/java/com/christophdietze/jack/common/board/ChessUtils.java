@@ -43,18 +43,41 @@ public class ChessUtils {
 				+ (move.isPromotionMove() ? move.getPromotionPiece().getSymbol() : "");
 	}
 
-	public static Move fromAlgebraic(String algebraic) {
-		// TODO
-		return null;
+	public static Move fromAlgebraic(String algebraicMove) {
+		try {
+			if (algebraicMove.length() != 4 || algebraicMove.length() != 5) {
+				throw new RuntimeException("Algebraic move notation must have length 4 or 5");
+			}
+			int from = toIndexFromAlgebraic(algebraicMove.substring(0, 2));
+			int to = toIndexFromAlgebraic(algebraicMove.substring(2, 4));
+			if (algebraicMove.length() == 4) {
+				return new Move(from, to);
+			} else {
+				PieceType promoPiece = PieceType.getBySymbol(algebraicMove.charAt(4));
+				if (promoPiece == null) {
+					throw new RuntimeException("Unknown symbol for promotion piece: '" + algebraicMove.charAt(4) + "'");
+				}
+				return new Move(from, to, promoPiece);
+			}
+		} catch (RuntimeException ex) {
+			throw new RuntimeException("Error while parsing algebraic move notation '" + algebraicMove + "'");
+		}
 	}
 
-	public static int toIndexFromAlgebraic(String algebraic) {
-		if (algebraic.length() != 2) {
-			throw new RuntimeException("Algebraic notation must have be two characters, was '" + algebraic + "'");
+	public static int toIndexFromAlgebraic(String algebraicSquare) {
+		try {
+			if (algebraicSquare.length() != 2) {
+				throw new RuntimeException("Algebraic square notation must consist of two characters");
+			}
+			int file = algebraicSquare.charAt(0) - 'a';
+			int rank = algebraicSquare.charAt(1) - '1';
+			if (file < 0 || file >= 8 || rank < 0 || rank >= 8) {
+				throw new RuntimeException("Algebraic square notation contains unexpected character(s)");
+			}
+			return file + 8 * rank;
+		} catch (RuntimeException ex) {
+			throw new RuntimeException("Error while parsing algebraic square notation '" + algebraicSquare + "'");
 		}
-		int file = algebraic.charAt(0) - 'a';
-		int rank = algebraic.charAt(1) - '1';
-		return file + 8 * rank;
 	}
 
 	public static int toPlyFromFullmoveNumber(int fullmoveNumber, boolean isWhiteToMove) {
@@ -68,5 +91,4 @@ public class ChessUtils {
 	public static boolean toIsWhiteToMoveFromPly(int ply) {
 		return ply % 2 == 0;
 	}
-
 }

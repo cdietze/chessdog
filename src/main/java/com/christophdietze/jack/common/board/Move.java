@@ -8,6 +8,8 @@ public class Move {
 	private final PieceType promotionPiece;
 
 	public Move(int from, int to, PieceType promotionPiece) {
+		assert from >= 0 && from < 64;
+		assert to >= 0 && to < 64;
 		this.from = from;
 		this.to = to;
 		this.promotionPiece = promotionPiece;
@@ -32,11 +34,6 @@ public class Move {
 	public PieceType getPromotionPiece() {
 		return promotionPiece;
 	}
-
-	// public Move setPromotionPiece(PieceType promotionPiece) {
-	// this.promotionPiece = promotionPiece;
-	// return this;
-	// }
 
 	@Override
 	public String toString() {
