@@ -1,0 +1,40 @@
+@CHARSET "UTF-8";
+
+@external .dragdrop-dropTarget;
+@external .dragdrop-dropTarget-engage;
+@external .dragdrop-flow-panel-positioner;
+@external .dragdrop-boundary;
+@external .dragdrop-handle;
+@external .dragdrop-selected;
+@external .dragdrop-dragging;
+@external .dragdrop-proxy;
+@external .dragdrop-selected 
+@external .dragdrop-movable-panel;
+	
+@external .dragdrop-positioner; 
+@external .dragdrop-draggable;
+	
+.dragdrop-handle {
+	cursor: pointer;
+}
+
+.dragdrop-positioner {
+	border: 0px;
+	margin: 0px !important;
+	zoom: 1; /* IE gain hasLayout */
+	z-index: 100;
+}
+
+.dragdrop-proxy {
+	background-color: #77AAFF;  /* light blue */
+}
+
+.dragdrop-selected,.dragdrop-dragging,.dragdrop-proxy {
+	filter: alpha(opacity \= 100);
+	opacity: 1.0;
+}
+
+.dragdrop-dragging {
+	zoom: normal;
+	background-image: none !important;	
+}

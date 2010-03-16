@@ -1,0 +1,68 @@
+@CHARSET "UTF-8";
+
+@def whiteColor #ffce9e;
+@def blackColor #d18b47;
+@def squareSize 45px;
+@def rankLabelWidth 12px;
+HTML,BODY {
+	height: 100%;
+}
+
+.whiteSquare {
+	background-color: whiteColor !important;
+}
+
+.blackSquare {
+	background-color: blackColor !important;
+}
+
+.whiteSquare2 {
+	background-color: whiteColor !important;
+	float: left;
+}
+
+.blackSquare2 {
+	background-color: blackColor !important;
+	float: left;
+}
+
+.rankLabel2 {
+	width: rankLabelWidth;
+	padding-top: 15px;
+	float: left;
+	clear: both;
+}
+
+.fileLabel2 {
+	padding-top: 3px;
+	float: left;
+	width: squareSize;
+	text-align: center;
+}
+
+.fileLabelPlaceHolder {
+	width: rankLabelWidth;
+	height: 1px;
+	float: left;
+	clear: both;
+}
+
+.rankLabel {
+	padding-right: 0.3em;
+}
+
+.fileLabel {
+	padding-top: 0.3em;
+}
+
+.promotionPieceImage {
+	cursor: pointer;
+}
+
+.promotionPopup {
+	opacity: 0.9;
+	filter: literal("alpha(opacity = 90)");
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 1px solid #888888;
+	height: squareSize;
+}

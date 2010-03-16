@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/workspace/jack_2009_12_21_fresh_prototype/war/WEB-INF/lib/gwt-log-3.0.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/aopalliance.jar"/>
+	<classpathentry kind="lib" path="C:/workspace/jack_2009_12_21_fresh_prototype/lib/gin-1.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-2.0.jar"/>
+	<classpathentry kind="lib" path="C:/workspace/jack_2009_12_21_fresh_prototype/lib/gwt-dnd-3.0.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/jack_2009_12_21_fresh_prototype/war/WEB-INF/lib/gwt-dnd-3.0.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/workspace/jack_2009_12_21_fresh_prototype/war/WEB-INF/lib/gwt-servlet.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-servlet-2.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-collect-1.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/slf4j-api-1.5.11.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/slf4j-jdk14-1.5.11.jar"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+</classpath>
