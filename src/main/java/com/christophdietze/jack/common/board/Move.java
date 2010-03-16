@@ -1,21 +1,20 @@
 package com.christophdietze.jack.common.board;
 
-/**
- * TODO make this immutable
- */
 public class Move {
 
-	private int from;
-	private int to;
+	private final int from;
+	private final int to;
 	/** is null for non-promotion moves */
-	private PieceType promotionPiece;
+	private final PieceType promotionPiece;
 
-	public Move() {
+	public Move(int from, int to, PieceType promotionPiece) {
+		this.from = from;
+		this.to = to;
+		this.promotionPiece = promotionPiece;
 	}
 
 	public Move(int from, int to) {
-		this.from = from;
-		this.to = to;
+		this(from, to, null);
 	}
 
 	public int getFrom() {
@@ -34,10 +33,10 @@ public class Move {
 		return promotionPiece;
 	}
 
-	public Move setPromotionPiece(PieceType promotionPiece) {
-		this.promotionPiece = promotionPiece;
-		return this;
-	}
+	// public Move setPromotionPiece(PieceType promotionPiece) {
+	// this.promotionPiece = promotionPiece;
+	// return this;
+	// }
 
 	@Override
 	public String toString() {

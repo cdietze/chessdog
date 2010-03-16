@@ -29,10 +29,12 @@ public class PromotionPresenter {
 
 	private View view;
 	private GlobalEventBus eventBus;
-	private Move move;
+	private int moveFrom;
+	private int moveTo;
 
 	@Inject
 	public PromotionPresenter(GlobalEventBus eventBus) {
+		invalidateMove();
 		this.eventBus = eventBus;
 		initListeners();
 	}
@@ -45,27 +47,31 @@ public class PromotionPresenter {
 	public void onPieceSelected(PieceType piece) {
 		assert piece != null;
 		Log.debug("Promotion Piece selected: " + piece);
-		move.setPromotionPiece(piece);
+		Move actualMove = new Move(moveFrom, moveTo, piece);
 		try {
-			gameManager.makeMoveVerified(move);
+			gameManager.makeMoveVerified(actualMove);
 		} catch (IllegalMoveException ex) {
 			throw (AssertionError) (new AssertionError("Illegal promotion move should have been discarded earlier")
 					.initCause(ex));
 		}
-		move = null;
+		invalidateMove();
 	}
 	public void onNoPieceSelected() {
-		move = null;
+		invalidateMove();
 		eventBus.fireEvent(new PromotionMoveCancelledEvent());
 	}
-
 	private void initListeners() {
 		eventBus.addHandler(PromotionMoveInitiatedEvent.TYPE, new PromotionMoveInitiatedEventHandler() {
 			@Override
 			public void onEvent(PromotionMoveInitiatedEvent event) {
-				move = new Move(event.getFromIndex(), event.getToIndex());
+				moveFrom = event.getFromIndex();
+				moveTo = event.getToIndex();
 				view.showPopup(event.getToIndex());
 			}
 		});
+	}
+
+	private void invalidateMove() {
+		moveFrom = moveTo = -1;
 	}
 }

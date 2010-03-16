@@ -167,8 +167,8 @@ public class PgnParser {
 				GameResult result = GameResult.parseSymbol(curToken.getValue());
 				if (result != null) {
 					if (this.gameResult != null && this.gameResult != result) {
-						throw new PgnParsingException("Conflicting specifications of game result, found "
-								+ this.gameResult + " and " + result);
+						throw new PgnParsingException("Conflicting specifications of game result, found " + this.gameResult
+								+ " and " + result);
 					}
 					this.gameResult = result;
 					nextToken();
@@ -198,8 +198,7 @@ public class PgnParser {
 			// SAN-move
 			String sanString = curToken.getValue();
 			try {
-				sanParser.parse(sanString, replayBoard);
-				Move move = sanParser.getMove();
+				Move move = sanParser.parse(sanString, replayBoard);
 				replayBoard.makeMove(move);
 				moves.add(move);
 			} catch (SanParsingException ex) {

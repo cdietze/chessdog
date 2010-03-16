@@ -10,31 +10,19 @@ import java.util.List;
  * @see {@link http://en.wikipedia.org/wiki/Pgn#Movetext}
  */
 public class SanParser {
+
 	private Position position;
-
 	private int curIndex;
-
 	private String sanString;
-
 	private char curChar;
-
 	private Move move;
-
 	private PieceType promotionPiece;
-
 	private int toIndex;
-
 	private int fromFile;
-
 	private int fromRank;
-
 	private PieceType movingPiece;
 
 	public SanParser() {
-	}
-
-	public Move getMove() {
-		return move;
 	}
 
 	private void reset() {
@@ -46,7 +34,7 @@ public class SanParser {
 		movingPiece = PieceType.PAWN;
 	}
 
-	public void parse(String sanString, Position position) throws SanParsingException {
+	public Move parse(String sanString, Position position) throws SanParsingException {
 		reset();
 		this.sanString = sanString;
 		this.position = position;
@@ -55,10 +43,11 @@ public class SanParser {
 
 		parseImpl();
 		if (move != null) {
-			return;
+			return move;
 		}
-		move = findMove();
-		move.setPromotionPiece(promotionPiece);
+		move = findSpecificMove();
+		move = new Move(move.getFrom(), move.getTo(), promotionPiece);
+		return move;
 	}
 
 	private void parseImpl() throws SanParsingException {
@@ -157,7 +146,7 @@ public class SanParser {
 	/**
 	 * parsing is done, now find which move is meant
 	 */
-	private Move findMove() throws SanParsingException {
+	private Move findSpecificMove() throws SanParsingException {
 		// find the pieces that are candidates
 		List<Integer> fromIndices = position
 				.findPieces(Piece.getFromColorAndPiece(position.isWhiteToMove(), movingPiece));
