@@ -45,7 +45,7 @@ public class ChessUtils {
 
 	public static Move fromAlgebraic(String algebraicMove) {
 		try {
-			if (algebraicMove.length() != 4 || algebraicMove.length() != 5) {
+			if (algebraicMove.length() != 4 && algebraicMove.length() != 5) {
 				throw new RuntimeException("Algebraic move notation must have length 4 or 5");
 			}
 			int from = toIndexFromAlgebraic(algebraicMove.substring(0, 2));
@@ -60,7 +60,7 @@ public class ChessUtils {
 				return new Move(from, to, promoPiece);
 			}
 		} catch (RuntimeException ex) {
-			throw new RuntimeException("Error while parsing algebraic move notation '" + algebraicMove + "'");
+			throw new RuntimeException("Error while parsing algebraic move notation '" + algebraicMove + "'", ex);
 		}
 	}
 
@@ -76,7 +76,7 @@ public class ChessUtils {
 			}
 			return file + 8 * rank;
 		} catch (RuntimeException ex) {
-			throw new RuntimeException("Error while parsing algebraic square notation '" + algebraicSquare + "'");
+			throw new RuntimeException("Error while parsing algebraic square notation '" + algebraicSquare + "'", ex);
 		}
 	}
 
