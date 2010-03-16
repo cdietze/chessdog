@@ -38,6 +38,16 @@ public class ChessUtils {
 		return "" + toFileCharFromIndex(index) + toRankCharFromIndex(index);
 	}
 
+	public static String toAlgebraic(Move move) {
+		return ChessUtils.toAlgebraicFromIndex(move.getFrom()) + ChessUtils.toAlgebraicFromIndex(move.getTo())
+				+ (move.isPromotionMove() ? move.getPromotionPiece().getSymbol() : "");
+	}
+
+	public static Move fromAlgebraic(String algebraic) {
+		// TODO
+		return null;
+	}
+
 	public static int toIndexFromAlgebraic(String algebraic) {
 		if (algebraic.length() != 2) {
 			throw new RuntimeException("Algebraic notation must have be two characters, was '" + algebraic + "'");

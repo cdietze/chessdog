@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * SAN (Standard Algebraic Notation)
+ * 
+ * @see {@link http://en.wikipedia.org/wiki/Pgn#Movetext}
+ */
 public class SanParser {
 	private Position position;
 
@@ -41,8 +46,7 @@ public class SanParser {
 		movingPiece = PieceType.PAWN;
 	}
 
-	public void parse(String sanString, Position position)
-			throws SanParsingException {
+	public void parse(String sanString, Position position) throws SanParsingException {
 		reset();
 		this.sanString = sanString;
 		this.position = position;
@@ -71,8 +75,7 @@ public class SanParser {
 		// square, 4. source square infos, 5. moving piece type
 
 		// annotations
-		while (curChar == '+' || curChar == '#' || curChar == '!'
-				|| curChar == '?') {
+		while (curChar == '+' || curChar == '#' || curChar == '!' || curChar == '?') {
 			nextChar();
 		}
 
@@ -81,26 +84,20 @@ public class SanParser {
 		if (promotionPiece != null) {
 			nextChar();
 			if (curChar != '=') {
-				throw new SanParsingException(
-						"Expected '=' before promotional piece, found "
-								+ curChar);
+				throw new SanParsingException("Expected '=' before promotional piece, found " + curChar);
 			}
 			nextChar();
 		}
 
 		// destination square
 		if (curChar < '1' || curChar > '8') {
-			throw new SanParsingException(
-					"Expected destination rank indication (1..8), found "
-							+ curChar);
+			throw new SanParsingException("Expected destination rank indication (1..8), found " + curChar);
 		}
 		int dstRank = curChar - '1';
 		nextChar();
 
 		if (curChar < 'a' || curChar > 'h') {
-			throw new SanParsingException(
-					"Expected destination file indication (a..h), found "
-							+ curChar);
+			throw new SanParsingException("Expected destination file indication (a..h), found " + curChar);
 		}
 		int dstFile = curChar - 'a';
 		nextChar();
@@ -136,13 +133,11 @@ public class SanParser {
 		// moving piece type
 		movingPiece = PieceType.getBySymbol(curChar);
 		if (movingPiece == null) {
-			throw new SanParsingException("Expected moving piece type, found "
-					+ curChar);
+			throw new SanParsingException("Expected moving piece type, found " + curChar);
 		}
 		nextChar();
 		if (hasMoreChars()) {
-			throw new SanParsingException("Expected end of move, found "
-					+ curChar);
+			throw new SanParsingException("Expected end of move, found " + curChar);
 		}
 	}
 
@@ -164,11 +159,10 @@ public class SanParser {
 	 */
 	private Move findMove() throws SanParsingException {
 		// find the pieces that are candidates
-		List<Integer> fromIndices = position.findPieces(Piece
-				.getFromColorAndPiece(position.isWhiteToMove(), movingPiece));
+		List<Integer> fromIndices = position
+				.findPieces(Piece.getFromColorAndPiece(position.isWhiteToMove(), movingPiece));
 		if (fromIndices.size() == 0) {
-			throw new SanParsingException(
-					"Found no matching piece on the board");
+			throw new SanParsingException("Found no matching piece on the board");
 		}
 		if (fromIndices.size() == 1) {
 			return new Move(fromIndices.get(0), toIndex);
@@ -179,8 +173,7 @@ public class SanParser {
 		}
 		// filter the moves that are pseudo illegal
 		// and the ones not fitting the move disambiguating info
-		for (Iterator<Move> iterator = moveCandidates.iterator(); iterator
-				.hasNext();) {
+		for (Iterator<Move> iterator = moveCandidates.iterator(); iterator.hasNext();) {
 			Move move = iterator.next();
 			if (fromFile >= 0 && fromFile != move.getFrom() % 8) {
 				iterator.remove();
@@ -191,8 +184,7 @@ public class SanParser {
 			}
 		}
 		if (moveCandidates.size() == 0) {
-			throw new SanParsingException(
-					"None of the pieces is on the specified file and/or rank");
+			throw new SanParsingException("None of the pieces is on the specified file and/or rank");
 		}
 		if (moveCandidates.size() == 1) {
 			return moveCandidates.get(0);
@@ -200,19 +192,16 @@ public class SanParser {
 		// filter the ones that cannot legally move
 		filterIllegalMoves(moveCandidates);
 		if (moveCandidates.size() == 0) {
-			throw new SanParsingException(
-					"Moving any of the matching pieces would be a move into check");
+			throw new SanParsingException("Moving any of the matching pieces would be a move into check");
 		}
 		if (moveCandidates.size() == 1) {
 			return moveCandidates.get(0);
 		}
-		throw new SanParsingException("Ambiguous move, possible are "
-				+ moveCandidates);
+		throw new SanParsingException("Ambiguous move, possible are " + moveCandidates);
 	}
 
 	private void filterIllegalMoves(List<Move> candidates) {
-		for (Iterator<Move> iterator = candidates.iterator(); iterator
-				.hasNext();) {
+		for (Iterator<Move> iterator = candidates.iterator(); iterator.hasNext();) {
 			Move move = iterator.next();
 			Position trialBoard = position.copy();
 			trialBoard.makeMove(move);

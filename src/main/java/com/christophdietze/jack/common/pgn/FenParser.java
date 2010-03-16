@@ -10,7 +10,7 @@ import com.christophdietze.jack.common.board.Position;
 import com.christophdietze.jack.common.board.PositionChecker;
 
 /**
- * @see http://en.wikipedia.org/wiki/Forsyth-Edwards_Notation
+ * @see {@link http://en.wikipedia.org/wiki/Forsyth-Edwards_Notation}
  */
 public class FenParser {
 

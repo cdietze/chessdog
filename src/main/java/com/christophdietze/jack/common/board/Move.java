@@ -1,11 +1,13 @@
 package com.christophdietze.jack.common.board;
 
-import com.christophdietze.jack.common.util.SimpleToStringBuilder;
-
+/**
+ * TODO make this immutable
+ */
 public class Move {
 
 	private int from;
 	private int to;
+	/** is null for non-promotion moves */
 	private PieceType promotionPiece;
 
 	public Move() {
@@ -20,16 +22,12 @@ public class Move {
 		return from;
 	}
 
-	public void setFrom(int from) {
-		this.from = from;
-	}
-
 	public int getTo() {
 		return to;
 	}
 
-	public void setTo(int to) {
-		this.to = to;
+	public boolean isPromotionMove() {
+		return promotionPiece != null;
 	}
 
 	public PieceType getPromotionPiece() {
@@ -43,10 +41,6 @@ public class Move {
 
 	@Override
 	public String toString() {
-		return SimpleToStringBuilder.create(this).append("from", from).append("to", to).toString();
-	}
-
-	public String toAlgebraic() {
-		return ChessUtils.toAlgebraicFromIndex(from) + ChessUtils.toAlgebraicFromIndex(to);
+		return "Move[" + ChessUtils.toAlgebraic(this) + "]";
 	}
 }
