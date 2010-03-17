@@ -34,16 +34,16 @@ public class ChessUtils {
 		return toRankChar(toRank(index));
 	}
 
-	public static String toAlgebraicFromIndex(int index) {
+	public static String toAlgebraicSquare(int index) {
 		return "" + toFileCharFromIndex(index) + toRankCharFromIndex(index);
 	}
 
-	public static String toAlgebraic(Move move) {
-		return ChessUtils.toAlgebraicFromIndex(move.getFrom()) + ChessUtils.toAlgebraicFromIndex(move.getTo())
+	public static String toAlgebraicMove(Move move) {
+		return ChessUtils.toAlgebraicSquare(move.getFrom()) + ChessUtils.toAlgebraicSquare(move.getTo())
 				+ (move.isPromotionMove() ? move.getPromotionPiece().getSymbol() : "");
 	}
 
-	public static Move fromAlgebraic(String algebraicMove) {
+	public static Move toMoveFromAlgebraic(String algebraicMove) {
 		try {
 			if (algebraicMove.length() != 4 && algebraicMove.length() != 5) {
 				throw new RuntimeException("Algebraic move notation must have length 4 or 5");

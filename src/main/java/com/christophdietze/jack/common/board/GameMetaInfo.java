@@ -94,7 +94,7 @@ public class GameMetaInfo {
 
 		@Override
 		public String toString() {
-			return SimpleToStringBuilder.create(this).append("name", name)
+			return SimpleToStringBuilder.forObject(this).append("name", name)
 					.append("value", value).toString();
 		}
 	}

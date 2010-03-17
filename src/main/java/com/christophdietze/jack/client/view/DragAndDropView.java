@@ -87,11 +87,9 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 	private class MyDragController extends AbstractDragController {
 
 		private Image draggingImage = new Image();
-		private Label label = new Label("label");
 
 		public MyDragController() {
 			super(RootPanel.get());
-			RootPanel.get().add(label);
 			draggingImage.setResource(PieceImageBundle.INSTANCE.bbishop());
 			draggingImage.getElement().getStyle().setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
 			draggingImage.setVisible(false);
@@ -110,7 +108,7 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 					draggingImage.setVisible(false);
 					Image srcImage = (Image) event.getContext().draggable;
 					int fromIndex = imageMap.get(srcImage);
-					int toIndex = calcIndex();
+					int toIndex = calcIndexOfMouse();
 					model.movePiece(fromIndex, toIndex);
 				}
 
@@ -121,12 +119,9 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 			int desiredLeft = context.desiredDraggableX;
 			int desiredTop = context.desiredDraggableY;
 			DOMUtil.fastSetElementPosition(draggingImage.getElement(), desiredLeft, desiredTop);
-
-			int index = calcIndex();
-			label.setText("index: " + index);
 		}
 
-		private int calcIndex() {
+		private int calcIndexOfMouse() {
 			int squareWidth = boardView.getSquareImages()[0].getWidth();
 			int leftMost = boardView.getSquareImages()[0].getAbsoluteLeft();
 			int file = (context.mouseX - leftMost) / squareWidth;

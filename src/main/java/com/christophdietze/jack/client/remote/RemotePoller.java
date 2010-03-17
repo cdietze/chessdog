@@ -44,7 +44,7 @@ public class RemotePoller {
 							if (result instanceof MatchFoundEvent) {
 								callback.onMatchFound();
 							} else if (result instanceof MoveMadeEvent) {
-								callback.onMove();
+								callback.onMove((MoveMadeEvent) result);
 							} else {
 								throw new AssertionError("unknown remote event: " + result);
 							}

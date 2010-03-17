@@ -8,7 +8,7 @@ public class SimpleToStringBuilder {
 
 	private boolean stringClosed = false;
 
-	public static SimpleToStringBuilder create(Object object) {
+	public static SimpleToStringBuilder forObject(Object object) {
 		SimpleToStringBuilder csb = new SimpleToStringBuilder(object);
 		StringBuilder sb = csb.sb;
 		if (object == null) {
@@ -56,15 +56,25 @@ public class SimpleToStringBuilder {
 	}
 
 	public SimpleToStringBuilder append(String label, Object value) {
+		appendFieldSeperator();
+		sb.append(label);
+		sb.append("=");
+		sb.append(value);
+		return this;
+	}
+
+	public SimpleToStringBuilder append(Object value) {
+		appendFieldSeperator();
+		sb.append(value);
+		return this;
+	}
+
+	private void appendFieldSeperator() {
 		if (beforeFirstArg) {
 			beforeFirstArg = false;
 		} else {
 			sb.append(",");
 		}
-		sb.append(label);
-		sb.append("=");
-		sb.append(value);
-		return this;
 	}
 
 	@Override

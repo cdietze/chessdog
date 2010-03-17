@@ -37,6 +37,6 @@ public class Move {
 
 	@Override
 	public String toString() {
-		return "Move[" + ChessUtils.toAlgebraic(this) + "]";
+		return "Move[" + ChessUtils.toAlgebraicMove(this) + "]";
 	}
 }

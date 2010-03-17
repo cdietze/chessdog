@@ -153,7 +153,7 @@ public class SanWriter {
 	}
 
 	private void writeTo() {
-		sb.append(ChessUtils.toAlgebraicFromIndex(move.getTo()));
+		sb.append(ChessUtils.toAlgebraicSquare(move.getTo()));
 	}
 
 	private void writeCaptureX() {
