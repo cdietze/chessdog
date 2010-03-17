@@ -30,7 +30,7 @@ public class FenParserTest extends MyTestCase {
 				++counter;
 				FenParser parser = new FenParser();
 				parser.parse(inputFenPos);
-				log.info(parser.getPosition().toDiagramString());
+				// log.info(parser.getPosition().toDiagramString());
 
 				FenWriter writer = new FenWriter();
 				String outputFenPos = writer.write(parser.getPosition());

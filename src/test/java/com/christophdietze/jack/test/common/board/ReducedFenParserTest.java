@@ -22,11 +22,11 @@ public class ReducedFenParserTest extends MyTestCase {
 		position.setupStartingPosition();
 		ReducedFenWriter writer = new ReducedFenWriter();
 		String result = writer.write(position);
-		log.info("position: '" + result + "'");
+		// log.info("position: '" + result + "'");
 
 		ReducedFenParser parser = new ReducedFenParser();
 		parser.parse(result);
 
-		assertTrue(PositionSetupUtils.arePositionsEqual(position, parser.getPosition()));
+		assertTrue(PositionTestUtils.arePositionsEqual(position, parser.getPosition()));
 	}
 }
