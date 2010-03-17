@@ -18,7 +18,6 @@ import com.christophdietze.jack.common.board.Piece;
 import com.christophdietze.jack.common.board.Position;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

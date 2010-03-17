@@ -1,4 +1,4 @@
-package com.christophdietze.jack.client;
+package com.christophdietze.jack.client.presenter;
 
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.common.ChessServiceAsync;
@@ -21,8 +21,6 @@ public class GameManager {
 	public void makeMoveVerified(Move move) throws IllegalMoveException {
 		game.makeMoveVerified(move);
 		String algebraicMove = ChessUtils.toAlgebraicMove(move);
-		// Character promoSymbol = move.getPromotionPiece() == null ? null : move.getPromotionPiece().getSymbol();
-		// chessService.makeMove(move.getFrom(), move.getTo(), promoSymbol, MyAsyncCallback.<Void> doNothing());
 		chessService.makeMove(algebraicMove, MyAsyncCallback.<Void> doNothing());
 	}
 }

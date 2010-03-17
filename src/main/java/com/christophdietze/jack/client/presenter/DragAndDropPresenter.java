@@ -1,6 +1,5 @@
 package com.christophdietze.jack.client.presenter;
 
-import com.christophdietze.jack.client.GameManager;
 import com.christophdietze.jack.client.event.GameUpdatedEvent;
 import com.christophdietze.jack.client.event.GameUpdatedEventHandler;
 import com.christophdietze.jack.client.event.PromotionMoveInitiatedEvent;

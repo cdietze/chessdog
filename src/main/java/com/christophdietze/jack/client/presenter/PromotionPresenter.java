@@ -1,7 +1,6 @@
 package com.christophdietze.jack.client.presenter;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.christophdietze.jack.client.GameManager;
 import com.christophdietze.jack.client.event.PromotionMoveCancelledEvent;
 import com.christophdietze.jack.client.event.PromotionMoveInitiatedEvent;
 import com.christophdietze.jack.client.event.PromotionMoveInitiatedEventHandler;
