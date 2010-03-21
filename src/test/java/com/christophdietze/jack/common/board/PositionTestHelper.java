@@ -9,9 +9,9 @@ import com.christophdietze.jack.common.board.PieceType;
 import com.christophdietze.jack.common.board.Position;
 import com.christophdietze.jack.common.pgn.FenWriter;
 
-public class PositionTestUtils {
+public class PositionTestHelper {
 
-	private static Logger log = LoggerFactory.getLogger(PositionTestUtils.class);
+	private static Logger log = LoggerFactory.getLogger(PositionTestHelper.class);
 
 	/**
 	 * Creates a new Position containing only the pieces specified in the squareNotationList.

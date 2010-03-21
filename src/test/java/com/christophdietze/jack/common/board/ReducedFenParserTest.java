@@ -17,6 +17,6 @@ public class ReducedFenParserTest extends TestCase {
 		ReducedFenParser parser = new ReducedFenParser();
 		parser.parse(result);
 
-		assertTrue(PositionTestUtils.arePositionsEqual(position, parser.getPosition()));
+		assertTrue(PositionTestHelper.arePositionsEqual(position, parser.getPosition()));
 	}
 }

@@ -2,33 +2,37 @@ package com.christophdietze.jack.server;
 
 import junit.framework.TestCase;
 
-import com.google.inject.AbstractModule;
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.servlet.SessionScoped;
 
 public class LoginTest extends TestCase {
 
+	private final LocalServiceTestHelper appengineHelper = new LocalServiceTestHelper(
+			new LocalDatastoreServiceTestConfig());
+
+	@Override
+	protected void setUp() throws Exception {
+		appengineHelper.setUp();
+	}
+
 	@Override
 	protected void tearDown() throws Exception {
-		MockSessionScope.INSTANCE.reset();
+		appengineHelper.tearDown();
 	}
 
 	public void testLogin1() {
-		Injector injector = getInjector();
+		SessionTestHelper sessionHelper = new SessionTestHelper();
+		Injector injector = Guice.createInjector(sessionHelper.getModule());
 		ChessServiceImpl chessService = injector.getInstance(ChessServiceImpl.class);
 		long userId1 = chessService.login();
-		MockSessionScope.INSTANCE.setCurrentSessionId(2);
-		long userId2 = chessService.login();
-		assertNotSame(userId1, userId2);
-	}
+		assertSame(userId1, chessService.login());
 
-	private Injector getInjector() {
-		return Guice.createInjector(new AbstractModule() {
-			@Override
-			protected void configure() {
-				bindScope(SessionScoped.class, MockSessionScope.INSTANCE);
-			}
-		});
+		sessionHelper.setCurrentSessionId(2);
+		long userId2 = chessService.login();
+		assertSame(userId2, chessService.login());
+
+		assertNotSame(userId1, userId2);
 	}
 }
