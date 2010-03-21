@@ -7,6 +7,7 @@ import com.christophdietze.jack.common.ChessServiceAsync;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.inject.Inject;
@@ -37,6 +38,14 @@ public class MainView {
 
 		container.add(boardView.getPanel());
 
+		addLoginStuff(container);
+		container.add(new HTML("<br/>"));
+		addSeekListStuff(container);
+		container.add(new HTML("<br/>"));
+		addEventPollingStuff(container);
+	}
+
+	private void addLoginStuff(Panel container) {
 		Button loginButton = new Button("Login");
 		container.add(loginButton);
 
@@ -55,7 +64,26 @@ public class MainView {
 				});
 			}
 		});
+	}
 
+	private void addSeekListStuff(Panel container) {
+		Button seekButton = new Button("Seek Game");
+		container.add(seekButton);
+
+		seekButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				chessService.postSeek(new MyAsyncCallback<Void>() {
+					@Override
+					public void onSuccess(Void result) {
+						Log.debug("Seek posted");
+					}
+				});
+			}
+		});
+	}
+
+	private void addEventPollingStuff(Panel container) {
 		togglePollingButton = new Button();
 		container.add(togglePollingButton);
 		updatePollingButton();

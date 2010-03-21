@@ -10,4 +10,6 @@ public interface ChessServiceAsync {
 
 	void poll(AsyncCallback<RemoteEvent> callback);
 
+	void postSeek(AsyncCallback<Void> callback);
+
 }

@@ -8,6 +8,9 @@ public interface ChessService extends RemoteService {
 	public static final String SERVLET_PATH = "chessService";
 
 	public long login();
+
+	public void postSeek();
+
 	public void makeMove(String algebraicMove);
 
 	public RemoteEvent poll();
