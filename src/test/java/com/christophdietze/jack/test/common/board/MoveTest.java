@@ -1,4 +1,9 @@
-package com.christophdietze.jack.common.board;
+package com.christophdietze.jack.test.common.board;
+
+import com.christophdietze.jack.common.board.ChessUtils;
+import com.christophdietze.jack.common.board.IllegalMoveException;
+import com.christophdietze.jack.common.board.Piece;
+import com.christophdietze.jack.common.board.Position;
 
 import junit.framework.TestCase;
 

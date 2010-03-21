@@ -1,7 +1,8 @@
-package com.christophdietze.jack.common.board;
+package com.christophdietze.jack.test.common.board;
 
 import junit.framework.TestCase;
 
+import com.christophdietze.jack.common.board.Position;
 import com.christophdietze.jack.common.pgn.ReducedFenParser;
 import com.christophdietze.jack.common.pgn.ReducedFenWriter;
 

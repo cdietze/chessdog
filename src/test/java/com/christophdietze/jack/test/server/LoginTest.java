@@ -1,7 +1,8 @@
-package com.christophdietze.jack.server;
+package com.christophdietze.jack.test.server;
 
 import junit.framework.TestCase;
 
+import com.christophdietze.jack.server.ChessServiceImpl;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.inject.Guice;

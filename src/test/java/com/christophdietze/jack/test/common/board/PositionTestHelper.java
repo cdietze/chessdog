@@ -1,4 +1,4 @@
-package com.christophdietze.jack.common.board;
+package com.christophdietze.jack.test.common.board;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

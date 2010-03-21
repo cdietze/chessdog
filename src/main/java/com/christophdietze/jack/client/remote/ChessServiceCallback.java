@@ -23,6 +23,7 @@ public class ChessServiceCallback {
 		try {
 			game.makeMoveVerified(move);
 		} catch (IllegalMoveException ex) {
+			// TODO act more fault tolerant ...
 			throw new RuntimeException(ex);
 		}
 	}

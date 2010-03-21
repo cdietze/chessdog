@@ -1,4 +1,4 @@
-package com.christophdietze.jack.server;
+package com.christophdietze.jack.test.server;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;

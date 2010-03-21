@@ -1,4 +1,4 @@
-package com.christophdietze.jack.common.board;
+package com.christophdietze.jack.test.common.board;
 
 import junit.framework.TestCase;
 
