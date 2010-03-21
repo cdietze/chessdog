@@ -1,4 +1,4 @@
-package com.christophdietze.jack.test.server;
+package com.christophdietze.jack.server;
 
 
 import org.slf4j.Logger;

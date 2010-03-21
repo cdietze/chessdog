@@ -1,4 +1,4 @@
-package com.christophdietze.jack.test.server;
+package com.christophdietze.jack.server;
 
 import java.util.Map;
 

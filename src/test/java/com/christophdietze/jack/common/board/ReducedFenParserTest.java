@@ -1,9 +1,9 @@
-package com.christophdietze.jack.test.common.board;
+package com.christophdietze.jack.common.board;
 
+import com.christophdietze.jack.MyTestCase;
 import com.christophdietze.jack.common.board.Position;
 import com.christophdietze.jack.common.pgn.ReducedFenParser;
 import com.christophdietze.jack.common.pgn.ReducedFenWriter;
-import com.christophdietze.jack.test.MyTestCase;
 
 public class ReducedFenParserTest extends MyTestCase {
 

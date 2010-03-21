@@ -1,4 +1,4 @@
-package com.christophdietze.jack.test;
+package com.christophdietze.jack;
 
 import com.google.inject.AbstractModule;
 

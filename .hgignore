@@ -5,3 +5,5 @@ syntax: regexp
 ^war/jackadmin$
 syntax: regexp
 ^war/jack$
+syntax: regexp
+^war/WEB-INF/appengine-generated$

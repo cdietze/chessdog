@@ -1,4 +1,4 @@
-package com.christophdietze.jack.test;
+package com.christophdietze.jack;
 
 import junit.framework.TestCase;
 
