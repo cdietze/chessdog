@@ -1,12 +1,7 @@
 package com.christophdietze.jack.server;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import junit.framework.TestCase;
 
-import com.christophdietze.jack.server.ChessServiceImpl;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -14,21 +9,18 @@ import com.google.inject.servlet.SessionScoped;
 
 public class LoginTest extends TestCase {
 
-	private Logger log = LoggerFactory.getLogger(this.getClass());
-
 	@Override
 	protected void tearDown() throws Exception {
 		MockSessionScope.INSTANCE.reset();
 	}
 
-	public void test1() {
-		log.info("test1 info");
+	public void testLogin1() {
 		Injector injector = getInjector();
 		ChessServiceImpl chessService = injector.getInstance(ChessServiceImpl.class);
-		chessService.login();
+		long userId1 = chessService.login();
 		MockSessionScope.INSTANCE.setCurrentSessionId(2);
-		chessService.login();
-		chessService.login();
+		long userId2 = chessService.login();
+		assertNotSame(userId1, userId2);
 	}
 
 	private Injector getInjector() {

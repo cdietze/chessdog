@@ -1,22 +1,8 @@
 package com.christophdietze.jack.common.board;
 
-import com.christophdietze.jack.MyTestCase;
-import com.christophdietze.jack.common.board.ChessUtils;
-import com.christophdietze.jack.common.board.IllegalMoveException;
-import com.christophdietze.jack.common.board.Piece;
-import com.christophdietze.jack.common.board.Position;
+import junit.framework.TestCase;
 
-public class MoveTest extends MyTestCase {
-
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
+public class MoveTest extends TestCase {
 
 	public void testWhiteCastleKingside() {
 		Position position = PositionTestUtils.newPosition("Ke1", "Rh1");

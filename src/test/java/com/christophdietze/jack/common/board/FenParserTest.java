@@ -1,26 +1,21 @@
 package com.christophdietze.jack.common.board;
 
-import org.junit.Test;
+import junit.framework.TestCase;
 
-import com.christophdietze.jack.MyTestCase;
+import org.junit.Test;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 import com.christophdietze.jack.common.pgn.FenParser;
 import com.christophdietze.jack.common.pgn.FenWriter;
 
-public class FenParserTest extends MyTestCase {
+public class FenParserTest extends TestCase {
 
 	private static String[] testFenPositions = { "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
 			"8/8/8/2k5/4K3/8/8/8 w KQkq - 0 1", "8/8/8/2k5/4K3/8/8/8 w - - 0 1", "k7/8/8/pP6/8/8/8/K7 w - a6 0 1",
 			"k7/8/8/8/pP6/8/8/K7 b - b3 0 1" };
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Test
 	public void test1() throws Exception {

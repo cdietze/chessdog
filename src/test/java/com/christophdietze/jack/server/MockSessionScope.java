@@ -11,12 +11,17 @@ import com.google.inject.Provider;
 import com.google.inject.Scope;
 
 class MockSessionScope implements Scope {
-	public static MockSessionScope INSTANCE = new MockSessionScope();
+	public static final MockSessionScope INSTANCE = new MockSessionScope();
+	private static final long DEFAULT_SESSION_ID = 0;
 
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private Map<Key<?>, Map<Long, Object>> map = Maps.newHashMap();
-	private long currentSessionId = 0L;
+	private long currentSessionId;
+
+	private MockSessionScope() {
+		reset();
+	}
 
 	public void setCurrentSessionId(long id) {
 		currentSessionId = id;
@@ -24,6 +29,7 @@ class MockSessionScope implements Scope {
 
 	public void reset() {
 		map.clear();
+		currentSessionId = DEFAULT_SESSION_ID;
 	}
 
 	@Override
