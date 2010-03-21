@@ -78,7 +78,7 @@ public class AutoRefreshJob {
 				ListBox seekBox = adminView.seekBox;
 				seekBox.clear();
 				for (Long item : result) {
-					seekBox.addItem("User " + item.toString());
+					seekBox.addItem("User[" + item.toString() + "]");
 				}
 				onAsyncCallReturned();
 			}
@@ -92,7 +92,7 @@ public class AutoRefreshJob {
 				ListBox matchBox = adminView.matchBox;
 				matchBox.clear();
 				for (MatchDto match : result) {
-					matchBox.addItem("User " + match.getUserA() + " vs " + "User " + match.getUserB());
+					matchBox.addItem("User[" + match.getUserA() + "] vs " + "User[" + match.getUserB() + "]");
 				}
 				onAsyncCallReturned();
 			}

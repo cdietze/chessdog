@@ -6,8 +6,6 @@ import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.common.ChessServiceAsync;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -60,7 +58,7 @@ public class MainView {
 				chessService.login(new MyAsyncCallback<Long>() {
 					@Override
 					public void onSuccess(Long result) {
-						userNameLabel.setText("You are logged in as User with id " + result);
+						userNameLabel.setText("You are logged in as User[ " + result + "]");
 						Log.info("Logged in as user with id " + result);
 					}
 				});

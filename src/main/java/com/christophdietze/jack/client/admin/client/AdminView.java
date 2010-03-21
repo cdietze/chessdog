@@ -49,35 +49,4 @@ public class AdminView extends Composite {
 	private void updateAutoRefreshButton() {
 		autoUpdateButton.setText(autoRefreshJob.isActive() ? "Turn auto refresh off" : "Turn auto refresh on");
 	}
-
-	// @UiHandler("button")
-	// void onClick(ClickEvent e) {
-	// adminService.getSeekingUsers(new MyAsyncCallback<ArrayList<Long>>() {
-	// @Override
-	// public void onSuccess(ArrayList<Long> result) {
-	// refreshSeekList();
-	// }
-	// });
-	// adminService.getMatches(new MyAsyncCallback<ArrayList<MatchDto>>() {
-	// @Override
-	// public void onSuccess(ArrayList<MatchDto> result) {
-	// matchBox.clear();
-	// for (MatchDto match : result) {
-	// matchBox.addItem("User " + match.getUserA() + " vs " + "User " + match.getUserB());
-	// }
-	// }
-	// });
-	// }
-
-	// private void refreshSeekList() {
-	// adminService.getSeekingUsers(new MyAsyncCallback<ArrayList<Long>>() {
-	// @Override
-	// public void onSuccess(ArrayList<Long> result) {
-	// seekBox.clear();
-	// for (Long item : result) {
-	// seekBox.addItem("User " + item.toString());
-	// }
-	// }
-	// });
-	// }
 }
