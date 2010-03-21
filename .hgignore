@@ -7,3 +7,5 @@ syntax: regexp
 ^war/jack$
 syntax: regexp
 ^war/WEB-INF/appengine-generated$
+syntax: regexp
+^WEB-INF/appengine-generated$
