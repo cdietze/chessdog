@@ -14,7 +14,8 @@ public class ChessServiceCallback {
 	private Game game;
 
 	public void onMatchFound() {
-		Log.info("callback match found");
+		Log.info("Match received");
+		game.setupStartingPosition();
 	}
 
 	public void onMove(MoveMadeEvent event) {
