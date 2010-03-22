@@ -4,6 +4,7 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.remote.RemotePoller;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.common.ChessServiceAsync;
+import com.christophdietze.jack.common.PostSeekResponse;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -43,6 +44,8 @@ public class MainView {
 		addSeekListStuff(container);
 		container.add(new HTML("<br/>"));
 		addEventPollingStuff(container);
+		container.add(new HTML("<br/>"));
+		addAbortMatchStuff(container);
 	}
 
 	private void addLoginStuff(Panel container) {
@@ -73,10 +76,38 @@ public class MainView {
 		seekButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				chessService.postSeek(new MyAsyncCallback<Void>() {
+				chessService.postSeek(new MyAsyncCallback<PostSeekResponse>() {
+					@Override
+					public void onSuccess(PostSeekResponse result) {
+						switch (result) {
+						case OK:
+							Log.debug("Seek posted");
+							break;
+						case ALREADY_SEEKING:
+							Log.warn("You already have an active seek");
+							break;
+						case HAS_ACTIVE_MATCH:
+							Log.warn("You cannot seek while you have an active match");
+							break;
+						default:
+							throw new AssertionError();
+						}
+					}
+				});
+			}
+		});
+	}
+
+	private void addAbortMatchStuff(Panel container) {
+		Button button = new Button("Abort Match");
+		container.add(button);
+		button.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				chessService.abortMatch(new MyAsyncCallback<Void>() {
 					@Override
 					public void onSuccess(Void result) {
-						Log.debug("Seek posted");
+						Log.debug("Abort sent");
 					}
 				});
 			}

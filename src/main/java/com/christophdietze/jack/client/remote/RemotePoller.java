@@ -2,8 +2,6 @@ package com.christophdietze.jack.client.remote;
 
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.common.ChessServiceAsync;
-import com.christophdietze.jack.common.MatchFoundEvent;
-import com.christophdietze.jack.common.MoveMadeEvent;
 import com.christophdietze.jack.common.RemoteEvent;
 import com.google.gwt.user.client.Timer;
 import com.google.inject.Inject;
@@ -12,7 +10,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class RemotePoller {
 
-	private static final int POLL_INTERVAL = 5000;
+	private static final int POLL_INTERVAL = 2000;
 
 	private ChessServiceAsync chessService;
 	private ChessServiceCallback callback;
@@ -41,13 +39,7 @@ public class RemotePoller {
 					@Override
 					public void onSuccess(RemoteEvent result) {
 						if (result != null) {
-							if (result instanceof MatchFoundEvent) {
-								callback.onMatchFound();
-							} else if (result instanceof MoveMadeEvent) {
-								callback.onMove((MoveMadeEvent) result);
-							} else {
-								throw new AssertionError("unknown remote event: " + result);
-							}
+							callback.dispatchEvent(result);
 						}
 						if (isActive) {
 							t.schedule(POLL_INTERVAL);

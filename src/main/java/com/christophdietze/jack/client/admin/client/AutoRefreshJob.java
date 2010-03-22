@@ -13,7 +13,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class AutoRefreshJob {
 
-	private static final int POLL_INTERVAL = 5000;
+	private static final int POLL_INTERVAL = 2000;
 
 	@Inject
 	private AdminServiceAsync adminService;
@@ -22,7 +22,7 @@ public class AutoRefreshJob {
 
 	private Timer timer;
 
-	private boolean isActive = true;
+	private boolean isActive = false;
 	private int pendingAsyncCalls = 0;
 
 	public AutoRefreshJob() {
@@ -92,7 +92,8 @@ public class AutoRefreshJob {
 				ListBox matchBox = adminView.matchBox;
 				matchBox.clear();
 				for (MatchDto match : result) {
-					matchBox.addItem("User[" + match.getUserA() + "] vs " + "User[" + match.getUserB() + "]");
+					matchBox.addItem("User[" + match.getUserA() + "] vs " + "User[" + match.getUserB() + "]"
+							+ (match.isActive() ? "" : " inactive"));
 				}
 				onAsyncCallReturned();
 			}

@@ -8,7 +8,7 @@ public class SimpleToStringBuilder {
 
 	private boolean stringClosed = false;
 
-	public static SimpleToStringBuilder forObject(Object object) {
+	public static SimpleToStringBuilder create(Object object) {
 		SimpleToStringBuilder csb = new SimpleToStringBuilder(object);
 		StringBuilder sb = csb.sb;
 		if (object == null) {

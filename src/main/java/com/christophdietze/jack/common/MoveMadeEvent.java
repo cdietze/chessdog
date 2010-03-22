@@ -20,6 +20,6 @@ public class MoveMadeEvent extends RemoteEvent {
 
 	@Override
 	public String toString() {
-		return SimpleToStringBuilder.forObject(this).append(algebraicMove).toString();
+		return SimpleToStringBuilder.create(this).append(algebraicMove).toString();
 	}
 }
