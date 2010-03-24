@@ -219,11 +219,6 @@ public class Position {
 		this.setPiece(enPassantPawnIndex, whiteToMove ? Piece.BLACK_EN_PASSANT_PAWN : Piece.WHITE_EN_PASSANT_PAWN);
 	}
 
-	public void disallowEnPassant() {
-		clearEnPassantPawn();
-		this.enPassantPawnIndex = null;
-	}
-
 	public boolean isWhiteToMove() {
 		return whiteToMove;
 	}
