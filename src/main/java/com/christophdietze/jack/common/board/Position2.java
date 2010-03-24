@@ -5,6 +5,32 @@ import java.util.List;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+/**
+ * A Immutable Position
+ * 
+ * <pre>
+ *   |-----------------------|
+ * 8 |56|57|58|59|60|61|62|63|
+ *   |--+--+--+--+--+--+--+--|
+ * 7 |48|49|50|51|52|53|54|55|
+ *   |--+--+--+--+--+--+--+--|
+ * 6 |40|41|42|43|44|45|46|47|
+ *   |--+--+--+--+--+--+--+--|
+ * 5 |32|33|34|35|36|37|38|39|
+ *   |--+--+--+--+--+--+--+--|
+ * 4 |24|25|26|27|28|29|30|31|
+ *   |--+--+--+--+--+--+--+--|
+ * 3 |16|17|18|19|20|21|22|23|
+ *   |--+--+--+--+--+--+--+--|
+ * 2 | 8| 9|10|11|12|13|14|15|
+ *   |--+--+--+--+--+--+--+--|
+ * 1 | 0| 1| 2| 3| 4| 5| 6| 7|
+ *   |-----------------------|
+ *     a  b  c  d  e  f  g  h
+ * </pre>
+ * 
+ * 'a' to 'h' are called files and '1' to '8' are called ranks.
+ */
 public class Position2 {
 	public static Position2 STARTING_POSITION = buildStartingPosition();
 	public static Position2 EMPTY_POSITION = new Builder().build();
@@ -108,6 +134,14 @@ public class Position2 {
 			this.enPassantPawnIndex = position.enPassantPawnIndex;
 		}
 
+		public boolean isWhiteToMove() {
+			return whiteToMove;
+		}
+
+		public int getFullmoveNumber() {
+			return fullmoveNumber;
+		}
+
 		public Builder piece(int index, Piece piece) {
 			if (pieces instanceof ImmutableList<?>) {
 				this.pieces = Lists.newArrayList(this.pieces);
@@ -151,8 +185,18 @@ public class Position2 {
 			return this;
 		}
 
-		public Builder enPassantPawnIndex(Integer enPassantPawnIndex) {
+		public Builder enPassantPawnIndex(int enPassantPawnIndex, boolean isWhiteEnPassantPawn) {
+			clearEnPassantPawn();
 			this.enPassantPawnIndex = enPassantPawnIndex;
+			piece(enPassantPawnIndex, isWhiteEnPassantPawn ? Piece.WHITE_EN_PASSANT_PAWN : Piece.BLACK_EN_PASSANT_PAWN);
+			return this;
+		}
+
+		public Builder clearEnPassantPawn() {
+			if (this.enPassantPawnIndex != null) {
+				piece(enPassantPawnIndex, Piece.EMPTY);
+			}
+			this.enPassantPawnIndex = null;
 			return this;
 		}
 
@@ -163,6 +207,11 @@ public class Position2 {
 
 		public Builder setPhantomKings(int indexA, int indexB) {
 			this.phantomKingIndices = ImmutableList.of(indexA, indexB);
+			return this;
+		}
+
+		public Builder switchPlayerToMove() {
+			this.whiteToMove = !whiteToMove;
 			return this;
 		}
 

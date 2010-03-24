@@ -3,6 +3,7 @@ package com.christophdietze.jack.common.board;
 public class MoveUtil {
 
 	public static boolean makeCastleMove(Move move, Position position) {
+		// FIXME check that the piece to move is a king!
 		if (move.getFrom() == 4 && move.getTo() == 6) {
 			// white O-O
 			position.setPiece(4, Piece.EMPTY);
