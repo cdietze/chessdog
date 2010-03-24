@@ -2,7 +2,6 @@ package com.christophdietze.jack.common.board;
 
 import java.util.List;
 
-
 public class MoveChecker2 {
 
 	/**
@@ -192,8 +191,6 @@ public class MoveChecker2 {
 	}
 
 	public static boolean canCaptureKing(Position2 position) {
-		// Square kingSquare = position.isWhiteToMove() ? Square.BLACK_KING
-		// : Square.WHITE_KING;
 		boolean isWhiteKing = !position.isWhiteToMove();
 		Piece kingSquare = isWhiteKing ? Piece.WHITE_KING : Piece.BLACK_KING;
 		List<Integer> kingIndices = position.findPieces(kingSquare);

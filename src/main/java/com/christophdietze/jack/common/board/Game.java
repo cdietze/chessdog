@@ -10,8 +10,8 @@ public class Game {
 
 	private GlobalEventBus eventBus;
 
-	private MoveNode initialMoveNode;
-	private MoveNode currentMoveNode;
+	private MoveNode2 initialMoveNode;
+	private MoveNode2 currentMoveNode;
 
 	private GameMetaInfo metaInfo = new GameMetaInfo();
 	private GameResult gameResult;
@@ -20,9 +20,8 @@ public class Game {
 	public Game(GlobalEventBus eventBus) {
 		this.eventBus = eventBus;
 		clearAttributes();
-		Position initialPosition = new Position();
-		initialPosition.setupStartingPosition();
-		initialMoveNode = MoveNode.createInitialNode(initialPosition);
+		Position2 initialPosition = Position2.STARTING_POSITION;
+		initialMoveNode = MoveNode2.createInitialNode(initialPosition);
 		currentMoveNode = initialMoveNode;
 		initListeners();
 	}
@@ -32,19 +31,19 @@ public class Game {
 		gameResult = GameResult.UNDECIDED;
 	}
 
-	public MoveNode getInitialMoveNode() {
+	public MoveNode2 getInitialMoveNode() {
 		return initialMoveNode;
 	}
 
-	public MoveNode getCurrentMoveNode() {
+	public MoveNode2 getCurrentMoveNode() {
 		return currentMoveNode;
 	}
 
-	public Position getPosition() {
+	public Position2 getPosition() {
 		return currentMoveNode.getPosition();
 	}
 
-	public Position getInitialPosition() {
+	public Position2 getInitialPosition() {
 		return initialMoveNode.getPosition();
 	}
 
@@ -71,7 +70,7 @@ public class Game {
 	}
 
 	public void makeMoveVerified(Move move) throws IllegalMoveException {
-		MoveNode newNode = MoveNode.createNextNodeVerified(currentMoveNode, move);
+		MoveNode2 newNode = MoveNode2.createNextNodeVerified(currentMoveNode, move);
 		currentMoveNode = newNode;
 		// TODO set GameResult when checkmate / stalemate occurs
 		gameResult = GameResult.UNDECIDED;
@@ -83,9 +82,9 @@ public class Game {
 	 * It does not verify the move, does not fire events.
 	 */
 	public void addMove(Move move) {
-		MoveNode newNode;
+		MoveNode2 newNode;
 		try {
-			newNode = MoveNode.createNextNodeVerified(currentMoveNode, move);
+			newNode = MoveNode2.createNextNodeVerified(currentMoveNode, move);
 		} catch (IllegalMoveException e) {
 			throw new AssertionError();
 		}
@@ -101,8 +100,8 @@ public class Game {
 	// position.makeMove(move);
 	// firePositionChanged();
 	// }
-	public void setInitialPosition(Position initialPosition) {
-		initialMoveNode = MoveNode.createInitialNode(initialPosition);
+	public void setInitialPosition(Position2 initialPosition) {
+		initialMoveNode = MoveNode2.createInitialNode(initialPosition);
 		currentMoveNode = initialMoveNode;
 		gameResult = GameResult.UNDECIDED;
 		firePositionChanged();
@@ -117,15 +116,12 @@ public class Game {
 
 	public void setupStartingPosition() {
 		clearAttributes();
-		Position initialPosition = new Position();
-		initialPosition.setupStartingPosition();
-		setInitialPosition(initialPosition);
+		setInitialPosition(Position2.STARTING_POSITION);
 	}
 
 	public void clearPosition() {
 		clearAttributes();
-		Position position = new Position();
-		setInitialPosition(position);
+		setInitialPosition(Position2.EMPTY_POSITION);
 	}
 
 	public void gotoPrevMove() {

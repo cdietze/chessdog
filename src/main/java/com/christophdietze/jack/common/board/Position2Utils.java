@@ -1,15 +1,14 @@
 package com.christophdietze.jack.common.board;
 
-
 public class Position2Utils {
 
 	public static Position2 makeMoveVerified(Position2 position, Move move) throws IllegalMoveException {
-		MoveLegality legality = MoveChecker.isPseudoLegalMove(null, null);
+		MoveLegality legality = MoveChecker2.isPseudoLegalMove(null, null);
 		if (!legality.isLegal()) {
 			throw new IllegalMoveException(legality.getMessage());
 		}
 		Position2 trialPosition = makeMove(position, move);
-		if (MoveChecker.canCaptureKing(/* trialPosition */null)) {
+		if (MoveChecker2.canCaptureKing(/* trialPosition */null)) {
 			throw new IllegalMoveException();
 		}
 		return trialPosition;
