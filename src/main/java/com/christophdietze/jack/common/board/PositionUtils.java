@@ -3,12 +3,12 @@ package com.christophdietze.jack.common.board;
 public class PositionUtils {
 
 	public static Position makeMoveVerified(Position position, Move move) throws IllegalMoveException {
-		MoveLegality legality = MoveChecker.isPseudoLegalMove(null, null);
+		MoveLegality legality = MoveChecker.isPseudoLegalMove(position, move);
 		if (!legality.isLegal()) {
 			throw new IllegalMoveException(legality.getMessage());
 		}
 		Position trialPosition = makeMove(position, move);
-		if (MoveChecker.canCaptureKing(/* trialPosition */null)) {
+		if (MoveChecker.canCaptureKing(trialPosition)) {
 			throw new IllegalMoveException();
 		}
 		return trialPosition;
