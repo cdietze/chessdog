@@ -32,8 +32,8 @@ import com.google.common.collect.Lists;
  * 'a' to 'h' are called files and '1' to '8' are called ranks.
  */
 public class Position2 {
-	public static Position2 STARTING_POSITION = buildStartingPosition();
-	public static Position2 EMPTY_POSITION = new Builder().build();
+	public static final Position2 STARTING_POSITION = buildStartingPosition();
+	public static final Position2 EMPTY_POSITION = new Builder().build();
 
 	private final ImmutableList<Piece> pieces;
 	private final boolean whiteToMove;
