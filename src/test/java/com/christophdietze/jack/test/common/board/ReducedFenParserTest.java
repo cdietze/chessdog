@@ -9,8 +9,7 @@ import com.christophdietze.jack.common.pgn.ReducedFenWriter;
 public class ReducedFenParserTest extends TestCase {
 
 	public void test1() throws Exception {
-		Position position = new Position();
-		position.setupStartingPosition();
+		Position position = Position.STARTING_POSITION;
 		ReducedFenWriter writer = new ReducedFenWriter();
 		String result = writer.write(position);
 		// log.info("position: '" + result + "'");

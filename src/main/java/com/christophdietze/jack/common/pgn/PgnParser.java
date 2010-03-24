@@ -10,6 +10,7 @@ import com.christophdietze.jack.common.board.GameResult;
 import com.christophdietze.jack.common.board.IllegalPositionException;
 import com.christophdietze.jack.common.board.Move;
 import com.christophdietze.jack.common.board.Position;
+import com.christophdietze.jack.common.board.PositionUtils;
 import com.christophdietze.jack.common.board.SanParser;
 import com.christophdietze.jack.common.board.SanParsingException;
 import com.christophdietze.jack.common.pgn.PgnToken.TokenType;
@@ -21,8 +22,8 @@ public class PgnParser {
 	private Iterator<PgnToken> tokenIterator;
 	private PgnToken curToken;
 
-	private Position replayBoard = new Position();
-	private Position initialPosition = new Position();
+	private Position replayBoard;
+	private Position initialPosition;
 	private List<Move> moves = new ArrayList<Move>();
 	private String whitePlayerName;
 	private String blackPlayerName;
@@ -72,8 +73,8 @@ public class PgnParser {
 
 	private void clear() {
 		moves.clear();
-		initialPosition.setupStartingPosition();
-		replayBoard.setupStartingPosition();
+		initialPosition = Position.STARTING_POSITION;
+		replayBoard = Position.STARTING_POSITION;
 		whitePlayerName = null;
 		blackPlayerName = null;
 		gameResult = null;
@@ -136,7 +137,7 @@ public class PgnParser {
 						throw new PgnParsingException(ex);
 					}
 					initialPosition = fenParser.getPosition();
-					replayBoard = initialPosition.copy();
+					replayBoard = initialPosition;
 				} catch (FenParsingException ex) {
 					throw new PgnParsingException(ex);
 				}
@@ -199,7 +200,7 @@ public class PgnParser {
 			String sanString = curToken.getValue();
 			try {
 				Move move = sanParser.parse(sanString, replayBoard);
-				replayBoard.makeMove(move);
+				replayBoard = PositionUtils.makeMove(replayBoard, move);
 				moves.add(move);
 			} catch (SanParsingException ex) {
 				throw new PgnParsingException("Parsing of move '" + sanString + "' failed", ex);

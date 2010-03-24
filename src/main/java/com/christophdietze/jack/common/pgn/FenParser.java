@@ -24,6 +24,7 @@ public class FenParser {
 
 	private PositionChecker positionChecker = new PositionChecker();
 
+	private Position.Builder builder;
 	private Position position;
 
 	private String fenString;
@@ -37,7 +38,8 @@ public class FenParser {
 		this.fenString = fenString;
 		curIndex = -1;
 		nextChar();
-		position = new Position();
+		position = null;
+		builder = new Position.Builder();
 		parsePosition();
 		parseWhitespace();
 		parseActiveColor();
@@ -52,6 +54,8 @@ public class FenParser {
 		if (hasMoreChars()) {
 			throw new FenParsingException(fenString, curIndex, "end of input expected, found '" + curChar + "'");
 		}
+		position = builder.build();
+		builder = null;
 		positionChecker.checkForSensiblePosition(position);
 	}
 
@@ -75,7 +79,7 @@ public class FenParser {
 					throw new FenParsingException(fenString, curIndex, "unknown piece code '" + curChar + "'");
 				}
 				int boardPosIndex = (7 - fenPosIndex / 8) * 8 + fenPosIndex % 8;
-				position.setPiece(boardPosIndex, toSquare(curChar));
+				builder.piece(boardPosIndex, toSquare(curChar));
 				fenPosIndex++;
 			}
 			nextChar();
@@ -84,9 +88,9 @@ public class FenParser {
 
 	private void parseActiveColor() throws FenParsingException {
 		if (curChar == 'w') {
-			position.setWhiteToMove(true);
+			builder.whiteToMove(true);
 		} else if (curChar == 'b') {
-			position.setWhiteToMove(false);
+			builder.whiteToMove(false);
 		} else {
 			throw new FenParsingException(fenString, curIndex, "expected 'w' or 'b' indicating the active color '");
 		}
@@ -94,23 +98,23 @@ public class FenParser {
 	}
 
 	private void parseCastlingAvailability() throws FenParsingException {
-		position.setCanWhiteCastleKingside(false);
-		position.setCanWhiteCastleQueenside(false);
-		position.setCanBlackCastleKingside(false);
-		position.setCanBlackCastleQueenside(false);
+		builder.canWhiteCastleKingside(false);
+		builder.canWhiteCastleQueenside(false);
+		builder.canBlackCastleKingside(false);
+		builder.canBlackCastleQueenside(false);
 		if (curChar == '-') {
 			nextChar();
 			return;
 		}
 		while (curChar != ' ') {
 			if (curChar == 'K') {
-				position.setCanWhiteCastleKingside(true);
+				builder.canWhiteCastleKingside(true);
 			} else if (curChar == 'Q') {
-				position.setCanWhiteCastleQueenside(true);
+				builder.canWhiteCastleQueenside(true);
 			} else if (curChar == 'k') {
-				position.setCanBlackCastleKingside(true);
+				builder.canBlackCastleKingside(true);
 			} else if (curChar == 'q') {
-				position.setCanBlackCastleQueenside(true);
+				builder.canBlackCastleQueenside(true);
 			}
 			nextChar();
 		}
@@ -123,13 +127,13 @@ public class FenParser {
 		}
 		int file = curChar - 'a';
 		nextChar();
-		int rank = position.isWhiteToMove() ? 5 : 2;
+		int rank = builder.isWhiteToMove() ? 5 : 2;
 		char expectedRank = Character.forDigit(rank + 1, 10);
 		if (curChar != expectedRank) {
 			throw new FenParsingException(fenString, curIndex, "expected rank " + expectedRank);
 		}
 		int squareIndex = file + 8 * rank;
-		position.setEnPassantPawnIndex(squareIndex);
+		builder.enPassantPawnIndex(squareIndex, !builder.isWhiteToMove());
 		nextChar();
 	}
 
@@ -139,7 +143,7 @@ public class FenParser {
 			nextChar();
 		}
 		int halfmoveClock = Integer.parseInt(fenString.substring(startIndex, curIndex));
-		position.setHalfmoveClock(halfmoveClock);
+		builder.halfmoveClock(halfmoveClock);
 	}
 
 	private void parseFullmoveNumber() throws FenParsingException {
@@ -148,7 +152,7 @@ public class FenParser {
 			nextChar();
 		}
 		int fullmoveNumber = Integer.parseInt(fenString.substring(startIndex, curIndex));
-		position.setFullmoveNumber(fullmoveNumber);
+		builder.fullmoveNumber(fullmoveNumber);
 	}
 
 	private void parseWhitespace() throws FenParsingException {

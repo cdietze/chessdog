@@ -1,23 +1,23 @@
 package com.christophdietze.jack.common.board;
 
-public class Position2Utils {
+public class PositionUtils {
 
-	public static Position2 makeMoveVerified(Position2 position, Move move) throws IllegalMoveException {
-		MoveLegality legality = MoveChecker2.isPseudoLegalMove(null, null);
+	public static Position makeMoveVerified(Position position, Move move) throws IllegalMoveException {
+		MoveLegality legality = MoveChecker.isPseudoLegalMove(null, null);
 		if (!legality.isLegal()) {
 			throw new IllegalMoveException(legality.getMessage());
 		}
-		Position2 trialPosition = makeMove(position, move);
-		if (MoveChecker2.canCaptureKing(/* trialPosition */null)) {
+		Position trialPosition = makeMove(position, move);
+		if (MoveChecker.canCaptureKing(/* trialPosition */null)) {
 			throw new IllegalMoveException();
 		}
 		return trialPosition;
 	}
 
-	public static Position2 makeMove(Position2 position, Move move) {
+	public static Position makeMove(Position position, Move move) {
 		if (isPseudoLegalCastleMove(position, move)) {
 			// castle move
-			Position2.Builder builder = new Position2.Builder(position);
+			Position.Builder builder = new Position.Builder(position);
 			builder.clearEnPassantPawn().clearPhantomKings().switchPlayerToMove();
 			if (builder.isWhiteToMove()) {
 				builder.fullmoveNumber(builder.getFullmoveNumber() + 1);
@@ -26,7 +26,7 @@ public class Position2Utils {
 			return builder.build();
 		} else {
 			// normal move
-			Position2.Builder builder = new Position2.Builder(position);
+			Position.Builder builder = new Position.Builder(position);
 			builder.clearEnPassantPawn().clearPhantomKings();
 			Piece fromPiece = position.getPiece(move.getFrom());
 			Piece toPiece = position.getPiece(move.getTo());
@@ -90,7 +90,7 @@ public class Position2Utils {
 	/**
 	 * TODO fix redundancy to MoveChecker.isPseudoLegalCastleMove
 	 */
-	private static boolean isPseudoLegalCastleMove(Position2 position, Move move) {
+	private static boolean isPseudoLegalCastleMove(Position position, Move move) {
 		if (position.isWhiteToMove() && move.getFrom() == 4 && move.getTo() == 6) {
 			return (position.canWhiteCastleKingside() && position.getPiece(4) == Piece.WHITE_KING
 					&& position.getPiece(5) == Piece.EMPTY && position.getPiece(6) == Piece.EMPTY && position.getPiece(7) == Piece.WHITE_ROOK);
@@ -113,7 +113,7 @@ public class Position2Utils {
 		return false;
 	}
 
-	private static boolean isPseudoPromotionMove(Position2 position, Move move) {
+	public static boolean isPseudoPromotionMove(Position position, Move move) {
 		if (position.getPiece(move.getFrom()) == Piece.WHITE_PAWN && move.getFrom() / 8 == 6) {
 			return true;
 		}
@@ -126,7 +126,7 @@ public class Position2Utils {
 	/**
 	 * The specified move must already be checked for pseudo legality, this function does not check.
 	 */
-	private static Position2.Builder makeCastleMove(Position2.Builder builder, Move move) {
+	private static Position.Builder makeCastleMove(Position.Builder builder, Move move) {
 		// FIXME check that the piece to move is a king!
 		if (move.getFrom() == 4 && move.getTo() == 6) {
 			// white O-O
@@ -164,7 +164,7 @@ public class Position2Utils {
 		return builder;
 	}
 
-	public static String toDiagramString(Position2 pos) {
+	public static String toDiagramString(Position pos) {
 		StringBuilder sb = new StringBuilder();
 		for (int y = 7; y >= 0; --y) {
 			if (y == 7) {

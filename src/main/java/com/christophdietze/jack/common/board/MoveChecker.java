@@ -2,7 +2,7 @@ package com.christophdietze.jack.common.board;
 
 import java.util.List;
 
-public class MoveChecker2 {
+public class MoveChecker {
 
 	/**
 	 * A bitboard with an additional 2 square sized border.<br>
@@ -41,7 +41,7 @@ public class MoveChecker2 {
 		}
 	}
 
-	public static MoveLegality isPseudoLegalMove(Position2 position, Move move) {
+	public static MoveLegality isPseudoLegalMove(Position position, Move move) {
 		Piece toSquare = position.getPiece(move.getTo());
 		if (toSquare.isPiece() && toSquare.isWhite() == position.isWhiteToMove()) {
 			// cannot capture or move over our own pieces
@@ -80,7 +80,7 @@ public class MoveChecker2 {
 		}
 	}
 
-	private static boolean isPseudoLegalMoveByOffset(Position2 position, int[] offsets, Move move) {
+	private static boolean isPseudoLegalMoveByOffset(Position position, int[] offsets, Move move) {
 		int boundaryIndexFrom = toBoundaryIndex(move.getFrom());
 		int boundaryIndexTo = toBoundaryIndex(move.getTo());
 		int desiredOffset = boundaryIndexTo - boundaryIndexFrom;
@@ -92,7 +92,7 @@ public class MoveChecker2 {
 		return false;
 	}
 
-	private static boolean isPseudoLegalMoveByDirection(Position2 position, int[] directions, Move move) {
+	private static boolean isPseudoLegalMoveByDirection(Position position, int[] directions, Move move) {
 		int boundaryIndexFrom = toBoundaryIndex(move.getFrom());
 		for (int dir : directions) {
 			for (int curBoundaryIndex = boundaryIndexFrom + dir; boundaryBoardIndices[curBoundaryIndex] >= 0; curBoundaryIndex += dir) {
@@ -115,7 +115,7 @@ public class MoveChecker2 {
 		return false;
 	}
 
-	private static boolean isPseudoLegalPawnMove(Position2 position, Move move) {
+	private static boolean isPseudoLegalPawnMove(Position position, Move move) {
 		final int moveOffsetsWhite[] = { 8, 16 };
 		final int moveOffsetsBlack[] = { -8, -16 };
 		final int captureOffsetsWhite[] = { 7, 9 };
@@ -159,7 +159,7 @@ public class MoveChecker2 {
 		return false;
 	}
 
-	public static boolean isPseudoLegalCastleMove(Position2 position, Move move) {
+	public static boolean isPseudoLegalCastleMove(Position position, Move move) {
 		if (position.isWhiteToMove() && move.getFrom() == 4 && move.getTo() == 6) {
 			return (position.canWhiteCastleKingside() && position.getPiece(4) == Piece.WHITE_KING
 					&& position.getPiece(5) == Piece.EMPTY && position.getPiece(6) == Piece.EMPTY && position.getPiece(7) == Piece.WHITE_ROOK);
@@ -190,7 +190,7 @@ public class MoveChecker2 {
 		return boundaryIndex % 12 - 2 + (boundaryIndex / 12 - 2) * 8;
 	}
 
-	public static boolean canCaptureKing(Position2 position) {
+	public static boolean canCaptureKing(Position position) {
 		boolean isWhiteKing = !position.isWhiteToMove();
 		Piece kingSquare = isWhiteKing ? Piece.WHITE_KING : Piece.BLACK_KING;
 		List<Integer> kingIndices = position.findPieces(kingSquare);
@@ -210,11 +210,11 @@ public class MoveChecker2 {
 		return false;
 	}
 
-	public static boolean isLegalMove(Position2 position, Move move) {
+	public static boolean isLegalMove(Position position, Move move) {
 		if (!isPseudoLegalMove(position, move).isLegal()) {
 			return false;
 		}
-		Position2 trialPosition = Position2Utils.makeMove(position, move);
+		Position trialPosition = PositionUtils.makeMove(position, move);
 		if (canCaptureKing(trialPosition)) {
 			return false;
 		}

@@ -3,35 +3,34 @@ package com.christophdietze.jack.common.board;
 import java.util.Collections;
 import java.util.List;
 
-
 /**
  * TODO make immutable
  */
-public class MoveNode2 {
+public class MoveNode {
 
 	/**
 	 * The move that was most recently done before this position was reached or null for initial positions.
 	 */
 	private Move move;
 	private int ply;
-	private Position2 position;
-	private MoveNode2 prev;
-	private MoveNode2 next;
-	private List<MoveNode2> variations = Collections.emptyList();
+	private Position position;
+	private MoveNode prev;
+	private MoveNode next;
+	private List<MoveNode> variations = Collections.emptyList();
 	private String sanNotation;
 
-	public static MoveNode2 createInitialNode(Position2 position) {
-		MoveNode2 node = new MoveNode2();
+	public static MoveNode createInitialNode(Position position) {
+		MoveNode node = new MoveNode();
 		node.position = position;
 		node.ply = position.getPly() - 1;
 		node.prev = null;
 		return node;
 	}
 
-	public static MoveNode2 createNextNodeVerified(MoveNode2 currentNode, Move move) throws IllegalMoveException {
-		Position2 newPosition = Position2Utils.makeMoveVerified(currentNode.position, move);
+	public static MoveNode createNextNodeVerified(MoveNode currentNode, Move move) throws IllegalMoveException {
+		Position newPosition = PositionUtils.makeMoveVerified(currentNode.position, move);
 
-		MoveNode2 newNode = new MoveNode2();
+		MoveNode newNode = new MoveNode();
 		newNode.move = move;
 		newNode.ply = currentNode.ply + 1;
 		if (currentNode.next != null) {
@@ -42,7 +41,7 @@ public class MoveNode2 {
 		newNode.position = newPosition;
 
 		try {
-			SanWriter2 sanWriter = new SanWriter2();
+			SanWriter sanWriter = new SanWriter();
 			newNode.sanNotation = sanWriter.write(currentNode.position, move);
 		} catch (SanWritingException ex) {
 			throw new RuntimeException(ex);
@@ -51,7 +50,7 @@ public class MoveNode2 {
 		return newNode;
 	}
 
-	private MoveNode2() {
+	private MoveNode() {
 	}
 
 	public Move getMove() {
@@ -62,15 +61,15 @@ public class MoveNode2 {
 		return ply;
 	}
 
-	public Position2 getPosition() {
+	public Position getPosition() {
 		return position;
 	}
 
-	public MoveNode2 getPrev() {
+	public MoveNode getPrev() {
 		return prev;
 	}
 
-	public MoveNode2 getNext() {
+	public MoveNode getNext() {
 		return next;
 	}
 
@@ -90,7 +89,7 @@ public class MoveNode2 {
 		return !variations.isEmpty();
 	}
 
-	public List<MoveNode2> getVariations() {
+	public List<MoveNode> getVariations() {
 		return variations;
 	}
 

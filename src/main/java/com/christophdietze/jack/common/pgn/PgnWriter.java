@@ -13,6 +13,7 @@ import com.christophdietze.jack.common.board.GameMetaInfo;
 import com.christophdietze.jack.common.board.Move;
 import com.christophdietze.jack.common.board.MoveNode;
 import com.christophdietze.jack.common.board.Position;
+import com.christophdietze.jack.common.board.PositionUtils;
 import com.christophdietze.jack.common.board.SanWriter;
 import com.christophdietze.jack.common.board.SanWritingException;
 import com.christophdietze.jack.common.board.GameMetaInfo.TagPair;
@@ -44,40 +45,29 @@ public class PgnWriter {
 
 	private void writeTagPairSection() {
 		GameMetaInfo metaInfo = game.getMetaInfo();
-		writeTagPair(PgnStandardTagName.Event,
-				getTag(PgnStandardTagName.Event), "?");
-		writeTagPair(PgnStandardTagName.Site, getTag(PgnStandardTagName.Site),
-				"?");
-		writeTagPair(PgnStandardTagName.Date, getTag(PgnStandardTagName.Date),
-				"????.??.??");
-		writeTagPair(PgnStandardTagName.Round,
-				getTag(PgnStandardTagName.Round), "?");
+		writeTagPair(PgnStandardTagName.Event, getTag(PgnStandardTagName.Event), "?");
+		writeTagPair(PgnStandardTagName.Site, getTag(PgnStandardTagName.Site), "?");
+		writeTagPair(PgnStandardTagName.Date, getTag(PgnStandardTagName.Date), "????.??.??");
+		writeTagPair(PgnStandardTagName.Round, getTag(PgnStandardTagName.Round), "?");
 
-		String whiteName = metaInfo.getWhitePlayerName() == null ? "?"
-				: metaInfo.getWhitePlayerName();
+		String whiteName = metaInfo.getWhitePlayerName() == null ? "?" : metaInfo.getWhitePlayerName();
 		writeTagPair(PgnStandardTagName.White, whiteName);
-		String blackName = metaInfo.getBlackPlayerName() == null ? "?"
-				: metaInfo.getBlackPlayerName();
+		String blackName = metaInfo.getBlackPlayerName() == null ? "?" : metaInfo.getBlackPlayerName();
 		writeTagPair(PgnStandardTagName.Black, blackName);
 
-		writeTagPair(PgnStandardTagName.Result, game.getGameResult()
-				.getSymbol());
+		writeTagPair(PgnStandardTagName.Result, game.getGameResult().getSymbol());
 
 		List<GameMetaInfo.TagPair> additionalTagPairs = getAdditionalNonStandardTagPairs();
 
 		Position initialPosition = game.getInitialPosition();
-		if (initialPosition != null
-				&& !initialPosition.equals(Position.STARTING_POSITION)) {
+		if (initialPosition != null && !initialPosition.equals(Position.STARTING_POSITION)) {
 			FenWriter fenWriter = new FenWriter();
 			String fenString = fenWriter.write(initialPosition);
 			additionalTagPairs.add(new TagPair("FEN", fenString));
 			additionalTagPairs.add(new TagPair("SetUp", "1"));
-			currentPosition = initialPosition.copy();
-		}
-
-		else {
-			currentPosition = new Position();
-			currentPosition.setupStartingPosition();
+			currentPosition = initialPosition;
+		} else {
+			currentPosition = Position.STARTING_POSITION;
 		}
 
 		Collections.sort(additionalTagPairs, new Comparator<TagPair>() {
@@ -92,8 +82,7 @@ public class PgnWriter {
 		sb.append("\n");
 	}
 
-	private void writeTagPair(PgnStandardTagName tagName, String tagValue,
-			String defaultValue) {
+	private void writeTagPair(PgnStandardTagName tagName, String tagValue, String defaultValue) {
 		if (tagValue != null) {
 			writeTagPair(tagName, tagValue);
 		} else {
@@ -150,11 +139,10 @@ public class PgnWriter {
 		try {
 			SanWriter sanWriter = new SanWriter();
 			String moveString = sanWriter.write(currentPosition, move);
-			currentPosition.makeMove(move);
+			currentPosition = PositionUtils.makeMove(currentPosition, move);
 			return moveString;
 		} catch (SanWritingException ex) {
-			throw new PgnWritingException("Error writing SAN for " + move
-					+ " of position " + currentPosition);
+			throw new PgnWritingException("Error writing SAN for " + move + " of position " + currentPosition);
 		}
 	}
 
@@ -186,8 +174,7 @@ public class PgnWriter {
 		for (PgnStandardTagName tagName : PgnStandardTagName.values()) {
 			standardTags.add(tagName.name());
 		}
-		for (Map.Entry<String, String> entry : game.getMetaInfo().getTags()
-				.entrySet()) {
+		for (Map.Entry<String, String> entry : game.getMetaInfo().getTags().entrySet()) {
 			if (standardTags.contains(entry.getKey())) {
 				continue;
 			}

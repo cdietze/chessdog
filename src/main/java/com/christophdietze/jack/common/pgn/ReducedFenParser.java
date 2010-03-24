@@ -17,7 +17,7 @@ import com.christophdietze.jack.common.board.Position;
  */
 public class ReducedFenParser {
 
-	private Position position;
+	private Position.Builder builder;
 	private String inputString;
 
 	public ReducedFenParser() {
@@ -25,12 +25,12 @@ public class ReducedFenParser {
 
 	public void parse(String inputString) throws ReducedFenParsingException {
 		this.inputString = inputString;
-		position = new Position();
+		builder = new Position.Builder();
 		parsePosition();
 	}
 
 	public Position getPosition() {
-		return position;
+		return builder.build();
 	}
 
 	private void parsePosition() throws ReducedFenParsingException {
@@ -61,7 +61,7 @@ public class ReducedFenParser {
 			if (index > 63) {
 				throw new ReducedFenParsingException("Input too long");
 			}
-			position.setPiece(index, square);
+			builder.piece(index, square);
 			index++;
 		}
 	}

@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
-public class SanWriter2 {
+public class SanWriter {
 
 	private StringBuilder sb;
-	private Position2 position;
+	private Position position;
 	private Move move;
 
 	private Piece fromSquare;
 	private Piece toSquare;
 
-	public String write(Position2 position, Move move) throws SanWritingException {
+	public String write(Position position, Move move) throws SanWritingException {
 		this.sb = new StringBuilder();
 		this.position = position;
 		this.move = move;
@@ -87,7 +86,7 @@ public class SanWriter2 {
 		// filter the moves that are pseudo illegal
 		for (Iterator<Move> iterator = moveCandidates.iterator(); iterator.hasNext();) {
 			Move moveCandidate = iterator.next();
-			if (!MoveChecker2.isPseudoLegalMove(position, moveCandidate).isLegal()) {
+			if (!MoveChecker.isPseudoLegalMove(position, moveCandidate).isLegal()) {
 				iterator.remove();
 			}
 		}
@@ -100,7 +99,7 @@ public class SanWriter2 {
 		// filter the moves that are really illegal
 		for (Iterator<Move> iterator = moveCandidates.iterator(); iterator.hasNext();) {
 			Move moveCandidate = iterator.next();
-			if (!MoveChecker2.isLegalMove(position, moveCandidate)) {
+			if (!MoveChecker.isLegalMove(position, moveCandidate)) {
 				iterator.remove();
 			}
 		}
@@ -174,9 +173,9 @@ public class SanWriter2 {
 	 * Appends + or # when appropriate
 	 */
 	private void writeMateSuffix() {
-		Position2 position2 = Position2Utils.makeMove(position, move);
-		position2.setWhiteToMove(!position2.isWhiteToMove());
-		if (MoveChecker2.canCaptureKing(position2)) {
+		Position position2 = PositionUtils.makeMove(position, move);
+		position2 = new Position.Builder().whiteToMove(!position2.isWhiteToMove()).build();
+		if (MoveChecker.canCaptureKing(position2)) {
 			sb.append("+");
 			// TODO check if it is a mate and append # and set the game result,
 			// if so

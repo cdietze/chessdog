@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class SanParser {
 
-	private Position2 position;
+	private Position position;
 	private int curIndex;
 	private String sanString;
 	private char curChar;
@@ -34,7 +34,7 @@ public class SanParser {
 		movingPiece = PieceType.PAWN;
 	}
 
-	public Move parse(String sanString, Position2 position) throws SanParsingException {
+	public Move parse(String sanString, Position position) throws SanParsingException {
 		reset();
 		this.sanString = sanString;
 		this.position = position;
@@ -168,7 +168,7 @@ public class SanParser {
 				iterator.remove();
 			} else if (fromRank >= 0 && fromRank != move.getFrom() / 8) {
 				iterator.remove();
-			} else if (!MoveChecker2.isPseudoLegalMove(position, move).isLegal()) {
+			} else if (!MoveChecker.isPseudoLegalMove(position, move).isLegal()) {
 				iterator.remove();
 			}
 		}
@@ -192,8 +192,8 @@ public class SanParser {
 	private void filterIllegalMoves(List<Move> candidates) {
 		for (Iterator<Move> iterator = candidates.iterator(); iterator.hasNext();) {
 			Move move = iterator.next();
-			Position2 trialBoard = Position2Utils.makeMove(position, move);
-			if (MoveChecker2.canCaptureKing(trialBoard)) {
+			Position trialBoard = PositionUtils.makeMove(position, move);
+			if (MoveChecker.canCaptureKing(trialBoard)) {
 				iterator.remove();
 			}
 		}

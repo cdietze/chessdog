@@ -7,7 +7,7 @@ public class PositionChecker {
 	public PositionChecker() {
 	}
 
-	public void checkForSensiblePosition(Position2 position) throws IllegalPositionException {
+	public void checkForSensiblePosition(Position position) throws IllegalPositionException {
 		sb = new StringBuilder();
 		checkKingCount(position);
 		checkPawnPositions(position);
@@ -23,7 +23,7 @@ public class PositionChecker {
 		throw new IllegalPositionException(msg);
 	}
 
-	private void checkKingCount(Position2 position) {
+	private void checkKingCount(Position position) {
 		int numWhiteKings = 0;
 		int numBlackKings = 0;
 		for (int index = 0; index < 64; ++index) {
@@ -39,7 +39,7 @@ public class PositionChecker {
 		}
 	}
 
-	private void checkPawnPositions(Position2 position) {
+	private void checkPawnPositions(Position position) {
 		for (int index = 0; index < 64; ++index) {
 			int rank = ChessUtils.toRank(index);
 			if (rank == 0 || rank == 7) {
@@ -51,8 +51,8 @@ public class PositionChecker {
 		}
 	}
 
-	private void checkCheckSituation(Position2 position) {
-		if (MoveChecker2.canCaptureKing(position)) {
+	private void checkCheckSituation(Position position) {
+		if (MoveChecker.canCaptureKing(position)) {
 			sb.append("The player to move can capture the opponent's king. ");
 		}
 	}

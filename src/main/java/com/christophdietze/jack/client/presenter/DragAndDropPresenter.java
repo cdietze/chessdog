@@ -8,9 +8,9 @@ import com.christophdietze.jack.common.board.Game;
 import com.christophdietze.jack.common.board.IllegalMoveException;
 import com.christophdietze.jack.common.board.Move;
 import com.christophdietze.jack.common.board.MoveChecker;
-import com.christophdietze.jack.common.board.MoveUtil;
 import com.christophdietze.jack.common.board.PieceType;
 import com.christophdietze.jack.common.board.Position;
+import com.christophdietze.jack.common.board.PositionUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -47,9 +47,9 @@ public class DragAndDropPresenter {
 	public void movePiece(int fromIndex, int toIndex) {
 		Position position = game.getPosition();
 		Move move = new Move(fromIndex, toIndex);
-		if (MoveUtil.isPseudoPromotionMove(move, position)) {
+		if (PositionUtils.isPseudoPromotionMove(position, move)) {
 			Move pretendedPromoMove = new Move(fromIndex, toIndex, PieceType.QUEEN);
-			if (MoveChecker.isLegalMove(pretendedPromoMove, position)) {
+			if (MoveChecker.isLegalMove(position, pretendedPromoMove)) {
 				eventBus.fireEvent(new PromotionMoveInitiatedEvent(fromIndex, toIndex));
 			}
 		} else {

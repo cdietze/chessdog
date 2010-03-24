@@ -7,6 +7,7 @@ import com.christophdietze.jack.common.board.ChessUtils;
 import com.christophdietze.jack.common.board.Piece;
 import com.christophdietze.jack.common.board.PieceType;
 import com.christophdietze.jack.common.board.Position;
+import com.christophdietze.jack.common.board.PositionUtils;
 import com.christophdietze.jack.common.pgn.FenWriter;
 
 public class PositionTestHelper {
@@ -18,20 +19,20 @@ public class PositionTestHelper {
 	 * <p>
 	 * A square notation can be e.g., 'Ke4', 'pf3', etc.
 	 */
-	public static Position newPosition(String... squareNotationList) {
-		Position position = new Position();
+	public static Position.Builder newPosition(String... squareNotationList) {
+		Position.Builder builder = new Position.Builder();
 		for (String squareNotation : squareNotationList) {
 			PositionedPiece square = parseSquareNotation(squareNotation);
-			position.setPiece(square.getIndex(), square.getPiece());
+			builder.piece(square.getIndex(), square.getPiece());
 		}
-		return position;
+		return builder;
 	}
 
 	public static void assertSquares(Position position, String... squareNotationList) {
 		for (String squareNotation : squareNotationList) {
 			PositionedPiece square = parseSquareNotation(squareNotation);
 			if (square.getPiece() != position.getPiece(square.getIndex())) {
-				log.info(position.toDiagramString());
+				log.info(PositionUtils.toDiagramString(position));
 				throw new RuntimeException("Assertion '" + squareNotation + "' failed");
 			}
 		}

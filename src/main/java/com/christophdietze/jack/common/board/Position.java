@@ -32,9 +32,9 @@ import com.google.common.collect.Lists;
  * 
  * 'a' to 'h' are called files and '1' to '8' are called ranks.
  */
-public class Position2 {
-	public static final Position2 STARTING_POSITION = buildStartingPosition();
-	public static final Position2 EMPTY_POSITION = new Builder().build();
+public class Position {
+	public static final Position STARTING_POSITION = buildStartingPosition();
+	public static final Position EMPTY_POSITION = new Builder().build();
 
 	private final ImmutableList<Piece> pieces;
 	private final boolean whiteToMove;
@@ -50,7 +50,7 @@ public class Position2 {
 	private final Integer enPassantPawnIndex;
 	private final ImmutableList<Integer> phantomKingIndices;
 
-	private Position2(Builder b) {
+	private Position(Builder b) {
 		this.pieces = ImmutableList.copyOf(b.pieces);
 		this.whiteToMove = b.whiteToMove;
 		this.canWhiteCastleKingside = b.canWhiteCastleKingside;
@@ -117,9 +117,9 @@ public class Position2 {
 		return result;
 	}
 
-	public Position2 setWhiteToMove(boolean whiteToMove) {
-		return new Builder(this).whiteToMove(whiteToMove).build();
-	}
+	// public Position setWhiteToMove(boolean whiteToMove) {
+	// return new Builder(this).whiteToMove(whiteToMove).build();
+	// }
 
 	public static class Builder {
 		private List<Piece> pieces;
@@ -140,7 +140,7 @@ public class Position2 {
 			}
 		}
 
-		public Builder(Position2 position) {
+		public Builder(Position position) {
 			this.pieces = position.pieces;
 			this.whiteToMove = position.whiteToMove;
 			this.canWhiteCastleKingside = position.canWhiteCastleKingside;
@@ -234,12 +234,12 @@ public class Position2 {
 			return this;
 		}
 
-		public Position2 build() {
-			return new Position2(this);
+		public Position build() {
+			return new Position(this);
 		}
 	}
 
-	private static Position2 buildStartingPosition() {
+	private static Position buildStartingPosition() {
 		Builder b = new Builder();
 		b.piece(0, Piece.WHITE_ROOK).piece(1, Piece.WHITE_KNIGHT).piece(2, Piece.WHITE_BISHOP)
 				.piece(3, Piece.WHITE_QUEEN).piece(4, Piece.WHITE_KING).piece(5, Piece.WHITE_BISHOP).piece(6,
