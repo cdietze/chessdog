@@ -1,5 +1,6 @@
 package com.christophdietze.jack.common.board;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
@@ -96,6 +97,24 @@ public class Position2 {
 
 	public int getHalfmoveClock() {
 		return halfmoveClock;
+	}
+
+	public ImmutableList<Integer> getPhantomKingIndices() {
+		return phantomKingIndices;
+	}
+
+	public int getPly() {
+		return ChessUtils.toPlyFromFullmoveNumber(fullmoveNumber, whiteToMove);
+	}
+
+	public List<Integer> findPieces(final Piece piece) {
+		List<Integer> result = new ArrayList<Integer>();
+		for (int index = 0; index < 64; ++index) {
+			if (pieces.get(index).equals(piece)) {
+				result.add(index);
+			}
+		}
+		return result;
 	}
 
 	public Position2 setWhiteToMove(boolean whiteToMove) {

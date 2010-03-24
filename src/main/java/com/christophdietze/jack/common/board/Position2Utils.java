@@ -1,8 +1,9 @@
 package com.christophdietze.jack.common.board;
 
+
 public class Position2Utils {
 
-	public Position2 makeMoveVerified(Position2 position, Move move) throws IllegalMoveException {
+	public static Position2 makeMoveVerified(Position2 position, Move move) throws IllegalMoveException {
 		MoveLegality legality = MoveChecker.isPseudoLegalMove(null, null);
 		if (!legality.isLegal()) {
 			throw new IllegalMoveException(legality.getMessage());
