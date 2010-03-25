@@ -14,6 +14,10 @@ public class PositionUtils {
 		return trialPosition;
 	}
 
+	public static Position makeMoveVerified(Position position, String algebraicMove) throws IllegalMoveException {
+		return makeMoveVerified(position, ChessUtils.toMoveFromAlgebraic(algebraicMove));
+	}
+
 	public static Position makeMove(Position position, Move move) {
 		if (isPseudoLegalCastleMove(position, move)) {
 			// castle move
@@ -85,6 +89,10 @@ public class PositionUtils {
 			}
 			return builder.build();
 		}
+	}
+
+	public static Position makeMove(Position position, String algebraicMove) {
+		return makeMove(position, ChessUtils.toMoveFromAlgebraic(algebraicMove));
 	}
 
 	/**

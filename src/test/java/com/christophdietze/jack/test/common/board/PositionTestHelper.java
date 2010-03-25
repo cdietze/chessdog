@@ -45,15 +45,20 @@ public class PositionTestHelper {
 	}
 
 	private static PositionedPiece parseSquareNotation(String squareNotation) {
-		if (squareNotation.length() != 3) {
-			throw new RuntimeException("string length must be 3 chars long, '" + squareNotation + "'");
+		if (squareNotation.length() != 2 && squareNotation.length() != 3) {
+			throw new RuntimeException("string length must be 2 or 3 chars long, '" + squareNotation + "'");
 		}
-		char pieceSymbol = squareNotation.charAt(0);
-		PieceType pieceType = PieceType.getBySymbol(Character.toUpperCase(pieceSymbol));
-		boolean isWhite = Character.isUpperCase(pieceSymbol);
-		Piece piece = Piece.getFromColorAndPiece(isWhite, pieceType);
+		Piece piece = Piece.EMPTY;
+		int offset = 0;
+		if (squareNotation.length() == 3) {
+			offset = 1;
+			char pieceSymbol = squareNotation.charAt(0);
+			PieceType pieceType = PieceType.getBySymbol(Character.toUpperCase(pieceSymbol));
+			boolean isWhite = Character.isUpperCase(pieceSymbol);
+			piece = Piece.getFromColorAndPiece(isWhite, pieceType);
+		}
 		assert piece != null;
-		int index = ChessUtils.toIndexFromAlgebraic(squareNotation.substring(1, 3));
+		int index = ChessUtils.toIndexFromAlgebraic(squareNotation.substring(offset, offset + 2));
 		return new PositionedPiece(piece, index);
 	}
 
