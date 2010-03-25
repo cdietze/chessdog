@@ -135,7 +135,8 @@ public class PositionUtils {
 	 * The specified move must already be checked for pseudo legality, this function does not check.
 	 */
 	private static Position.Builder makeCastleMove(Position.Builder builder, Move move) {
-		// FIXME check that the piece to move is a king!
+		assert (builder.getPiece(move.getFrom()) == Piece.WHITE_KING)
+				|| (builder.getPiece(move.getFrom()) == Piece.BLACK_KING);
 		if (move.getFrom() == 4 && move.getTo() == 6) {
 			// white O-O
 			builder.piece(4, Piece.EMPTY);
@@ -171,7 +172,6 @@ public class PositionUtils {
 		}
 		return builder;
 	}
-
 	public static String toDiagramString(Position pos) {
 		StringBuilder sb = new StringBuilder();
 		for (int y = 7; y >= 0; --y) {

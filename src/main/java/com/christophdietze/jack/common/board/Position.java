@@ -153,6 +153,10 @@ public class Position {
 			this.enPassantPawnIndex = position.enPassantPawnIndex;
 		}
 
+		public Piece getPiece(int index) {
+			return pieces.get(index);
+		}
+
 		public boolean isWhiteToMove() {
 			return whiteToMove;
 		}

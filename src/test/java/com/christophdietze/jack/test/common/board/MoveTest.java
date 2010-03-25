@@ -28,11 +28,13 @@ public class MoveTest extends TestCase {
 		position = makeMove(position, "e8g8");
 		PositionTestHelper.assertSquares(position, "kg8", "rf8");
 	}
+
 	public void testBlackCastleQueenside() {
 		Position position = newPosition("ke8", "ra8").whiteToMove(false).build();
 		position = makeMove(position, "e8c8");
 		PositionTestHelper.assertSquares(position, "kc8", "rd8");
 	}
+
 	public void testPhantomKings1() throws Exception {
 		boolean fail = false;
 		Position position = newPosition("Ke1", "Rh1", "re8").build();
@@ -43,6 +45,7 @@ public class MoveTest extends TestCase {
 		}
 		assertTrue(fail);
 	}
+
 	public void testPhantomKings2() throws Exception {
 		boolean fail = false;
 		Position position = newPosition("Ke1", "Rh1", "rf8").build();
@@ -53,6 +56,7 @@ public class MoveTest extends TestCase {
 		}
 		assertTrue(fail);
 	}
+
 	/**
 	 * Doesn't really test for a phantom king, but for the real one.
 	 */
@@ -66,6 +70,7 @@ public class MoveTest extends TestCase {
 		}
 		assertTrue(fail);
 	}
+
 	/**
 	 * moving the king makes castle unavailable
 	 */
@@ -83,6 +88,7 @@ public class MoveTest extends TestCase {
 		}
 		assertTrue(fail);
 	}
+
 	/**
 	 * moving the rook makes castle unavailable
 	 */
@@ -117,6 +123,7 @@ public class MoveTest extends TestCase {
 		assertEquals(Piece.BLACK_PAWN, position.getPiece("e3"));
 		assertEquals(Piece.EMPTY, position.getPiece("e4"));
 	}
+
 	/**
 	 * en passant is not possible two moves later
 	 */
@@ -133,6 +140,7 @@ public class MoveTest extends TestCase {
 		}
 		assertTrue(fail);
 	}
+
 	/**
 	 * pieces can move over en passant pawns.
 	 */
@@ -141,12 +149,14 @@ public class MoveTest extends TestCase {
 		position = makeMoveVerified(position, "e2e4");
 		position = makeMoveVerified(position, "f3a3");
 	}
+
 	public void testPromotion1() throws Exception {
 		Position position = newPosition("Ke1", "Pa7", "kh6").build();
 		position = makeMoveVerified(position, "a7a8R");
 		position = makeMoveVerified(position, "h6h7");
 		position = makeMoveVerified(position, "a8f8");
 	}
+
 	public void testPromotion2() throws Exception {
 		Position position = newPosition("Ke1", "Ra1", "kh6", "pb2").whiteToMove(false).build();
 		position = makeMoveVerified(position, "b2a1Q");
