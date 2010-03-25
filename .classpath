@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry excluding="com/christophdietze/jack/super/|com/christophdietze/jack/super/" kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry excluding="com/google/common/super/|com/google/common/super/|com/google/common/super/" kind="src" path="src/google-collect-gwt-snapshot"/>
+	<classpathentry kind="src" path="src/jsr305"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/aopalliance.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-2.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-servlet-2.0.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/google-collect-1.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/slf4j-api-1.5.11.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.8.1.jar"/>
 	<classpathentry kind="lib" path="lib/mockito-all-1.8.4.jar"/>
@@ -18,6 +19,7 @@
 	<classpathentry kind="lib" path="lib/gwt-dnd-3.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/gin-1.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-log-3.0.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-collect-1.0.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>

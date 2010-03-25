@@ -174,7 +174,7 @@ public class SanWriter {
 	 */
 	private void writeMateSuffix() {
 		Position position2 = PositionUtils.makeMove(position, move);
-		position2 = new Position.Builder().whiteToMove(!position2.isWhiteToMove()).build();
+		position2 = new Position.Builder(position2).whiteToMove(!position2.isWhiteToMove()).build();
 		if (MoveChecker.canCaptureKing(position2)) {
 			sb.append("+");
 			// TODO check if it is a mate and append # and set the game result,
