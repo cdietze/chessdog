@@ -20,7 +20,7 @@
 	<classpathentry kind="lib" path="lib/gin-1.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-log-3.0.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/google-collect-1.0.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/objectify-2.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/objectify-2.1.jar" sourcepath="lib/objectify-2.1-src.zip"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
