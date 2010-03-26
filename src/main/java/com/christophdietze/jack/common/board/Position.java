@@ -34,6 +34,9 @@ import com.google.common.collect.Lists;
  * 'a' to 'h' are called files and '1' to '8' are called ranks.
  */
 public class Position implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	public static final Position STARTING_POSITION = buildStartingPosition();
 	public static final Position EMPTY_POSITION = new Builder().build();
 
