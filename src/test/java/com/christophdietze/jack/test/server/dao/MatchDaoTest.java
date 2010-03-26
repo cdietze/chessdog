@@ -44,15 +44,15 @@ public class MatchDaoTest extends TestCase {
 		long playerId = 3;
 		Injector injector = Guice.createInjector();
 		MatchDao matchDao = injector.getInstance(MatchDao.class);
-		assertFalse(matchDao.hasPlayerActiveMatch(playerId));
+		assertFalse(matchDao.doesPlayerHaveActiveMatch(playerId));
 		matchDao.createMatch(4, 5);
-		assertFalse(matchDao.hasPlayerActiveMatch(playerId));
+		assertFalse(matchDao.doesPlayerHaveActiveMatch(playerId));
 		Match match = matchDao.createMatch(playerId, 6);
 		assertTrue(match.isActive());
-		assertTrue(matchDao.hasPlayerActiveMatch(playerId));
+		assertTrue(matchDao.doesPlayerHaveActiveMatch(playerId));
 		matchDao.makePlayersGameInactive(playerId);
 		match = ObjectifyTestHelper.ofy().get(new Key<Match>(Match.class, match.getId()));
 		assertFalse(match.isActive());
-		assertFalse(matchDao.hasPlayerActiveMatch(3));
+		assertFalse(matchDao.doesPlayerHaveActiveMatch(3));
 	}
 }

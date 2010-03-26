@@ -9,8 +9,7 @@ public interface ChessService extends RemoteService {
 
 	public long login();
 	public PostSeekResponse postSeek();
-	public void abortMatch();
-	public void makeMove(String algebraicMove);
+	public AbortResponse abortMatch();
+	public MakeMoveResponse makeMove(String algebraicMove);
 	public RemoteEvent poll();
-
 }

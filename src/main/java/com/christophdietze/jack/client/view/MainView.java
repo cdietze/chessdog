@@ -3,6 +3,7 @@ package com.christophdietze.jack.client.view;
 import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.remote.RemotePoller;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
+import com.christophdietze.jack.common.AbortResponse;
 import com.christophdietze.jack.common.ChessServiceAsync;
 import com.christophdietze.jack.common.PostSeekResponse;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -81,7 +82,7 @@ public class MainView {
 					public void onSuccess(PostSeekResponse result) {
 						switch (result) {
 						case OK:
-							Log.debug("Seek posted");
+							Log.debug("You joined the seek list");
 							break;
 						case ALREADY_SEEKING:
 							Log.warn("You already have an active seek");
@@ -104,10 +105,19 @@ public class MainView {
 		button.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				chessService.abortMatch(new MyAsyncCallback<Void>() {
+				chessService.abortMatch(new MyAsyncCallback<AbortResponse>() {
 					@Override
-					public void onSuccess(Void result) {
-						Log.debug("Abort sent");
+					public void onSuccess(AbortResponse result) {
+						switch (result) {
+						case OK:
+							Log.debug("You aborted the game");
+							break;
+						case NO_ACTIVE_MATCH:
+							Log.warn("You have no active match");
+							break;
+						default:
+							throw new AssertionError();
+						}
 					}
 				});
 			}
