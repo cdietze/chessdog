@@ -1,6 +1,9 @@
 package com.christophdietze.jack.client.view;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.christophdietze.jack.client.presenter.AnalysisMode;
+import com.christophdietze.jack.client.presenter.ApplicationContext;
+import com.christophdietze.jack.client.presenter.GameModeManager;
 import com.christophdietze.jack.client.remote.RemotePoller;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.common.AbortResponse;
@@ -16,6 +19,12 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class MainView {
+
+	@Inject
+	private ApplicationContext applicationContext;
+
+	@Inject
+	private GameModeManager gameModeManager;
 
 	@Inject
 	private ChessServiceAsync chessService;
@@ -64,6 +73,7 @@ public class MainView {
 					public void onSuccess(Long result) {
 						userNameLabel.setText("You are logged in as User[ " + result + "]");
 						Log.info("Logged in as user with id " + result);
+						applicationContext.setMyUserId(result);
 					}
 				});
 			}
@@ -111,6 +121,7 @@ public class MainView {
 						switch (result) {
 						case OK:
 							Log.debug("You aborted the game");
+							gameModeManager.setCurrentMode(AnalysisMode.INSTANCE);
 							break;
 						case NO_ACTIVE_MATCH:
 							Log.warn("You have no active match");

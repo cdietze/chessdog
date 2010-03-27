@@ -2,15 +2,15 @@ package com.christophdietze.jack.common;
 
 import com.christophdietze.jack.common.util.SimpleToStringBuilder;
 
-public class MatchCreatedEvent extends RemoteEvent {
+public class MatchStartedEvent extends RemoteEvent {
 	private long whitePlayerId;
 	private long blackPlayerId;
 
 	@SuppressWarnings("unused")
-	private MatchCreatedEvent() {
+	private MatchStartedEvent() {
 	}
 
-	public MatchCreatedEvent(long whitePlayerId, long blackPlayerId) {
+	public MatchStartedEvent(long whitePlayerId, long blackPlayerId) {
 		this.whitePlayerId = whitePlayerId;
 		this.blackPlayerId = blackPlayerId;
 	}
