@@ -10,7 +10,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class RemotePoller {
 
-	private static final int POLL_INTERVAL = 2000;
+	private static final int POLL_INTERVAL = 100;
 
 	private ChessServiceAsync chessService;
 	private ChessServiceCallback callback;

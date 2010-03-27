@@ -2,15 +2,15 @@ package com.christophdietze.jack.common;
 
 import com.christophdietze.jack.common.util.SimpleToStringBuilder;
 
-public class MoveMadeEvent extends RemoteEvent {
+public class MoveMadeRemoteEvent extends RemoteEvent {
 
 	private String algebraicMove;
 
 	@SuppressWarnings("unused")
-	private MoveMadeEvent() {
+	private MoveMadeRemoteEvent() {
 	}
 
-	public MoveMadeEvent(String algebraicMove) {
+	public MoveMadeRemoteEvent(String algebraicMove) {
 		this.algebraicMove = algebraicMove;
 	}
 

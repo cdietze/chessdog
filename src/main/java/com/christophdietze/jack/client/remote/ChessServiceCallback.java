@@ -5,9 +5,9 @@ import com.christophdietze.jack.client.presenter.AnalysisMode;
 import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.presenter.GameModeManager;
 import com.christophdietze.jack.client.presenter.MatchMode;
-import com.christophdietze.jack.common.MatchAbortedEvent;
-import com.christophdietze.jack.common.MatchStartedEvent;
-import com.christophdietze.jack.common.MoveMadeEvent;
+import com.christophdietze.jack.common.MatchAbortedRemoteEvent;
+import com.christophdietze.jack.common.MatchStartedRemoteEvent;
+import com.christophdietze.jack.common.MoveMadeRemoteEvent;
 import com.christophdietze.jack.common.RemoteEvent;
 import com.christophdietze.jack.common.board.ChessUtils;
 import com.christophdietze.jack.common.board.Game;
@@ -32,18 +32,18 @@ public class ChessServiceCallback {
 	private Provider<MatchMode.Builder> matchModeProvider;
 
 	public void dispatchEvent(RemoteEvent event) {
-		if (event instanceof MatchStartedEvent) {
-			onMatchStarted((MatchStartedEvent) event);
-		} else if (event instanceof MoveMadeEvent) {
-			onMove((MoveMadeEvent) event);
-		} else if (event instanceof MatchAbortedEvent) {
-			onMatchAborted((MatchAbortedEvent) event);
+		if (event instanceof MatchStartedRemoteEvent) {
+			onMatchStarted((MatchStartedRemoteEvent) event);
+		} else if (event instanceof MoveMadeRemoteEvent) {
+			onMove((MoveMadeRemoteEvent) event);
+		} else if (event instanceof MatchAbortedRemoteEvent) {
+			onMatchAborted((MatchAbortedRemoteEvent) event);
 		} else {
 			throw new AssertionError("unknown remote event: " + event);
 		}
 	}
 
-	private void onMatchStarted(MatchStartedEvent event) {
+	private void onMatchStarted(MatchStartedRemoteEvent event) {
 		Log.info("Match received: " + event);
 		game.setupStartingPosition();
 		long myUserId = applicationContext.getMyUserId();
@@ -56,7 +56,7 @@ public class ChessServiceCallback {
 		gameModeManager.setCurrentMode(matchModeProvider.get().playerIsWhite(playerIsWhite).build());
 	}
 
-	private void onMove(MoveMadeEvent event) {
+	private void onMove(MoveMadeRemoteEvent event) {
 		Log.info("received move: " + event);
 		Move move = ChessUtils.toMoveFromAlgebraic(event.getAlgebraicMove());
 		try {
@@ -67,7 +67,7 @@ public class ChessServiceCallback {
 		}
 	}
 
-	private void onMatchAborted(MatchAbortedEvent event) {
+	private void onMatchAborted(MatchAbortedRemoteEvent event) {
 		Log.info("The other player aborted the match");
 		gameModeManager.setCurrentMode(AnalysisMode.INSTANCE);
 	}
