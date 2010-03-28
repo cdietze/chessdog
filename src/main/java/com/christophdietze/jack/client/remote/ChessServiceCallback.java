@@ -46,7 +46,7 @@ public class ChessServiceCallback {
 	private void onMatchStarted(MatchStartedRemoteEvent event) {
 		Log.info("Match received: " + event);
 		game.setupStartingPosition();
-		long myUserId = applicationContext.getMyUserId();
+		long myUserId = applicationContext.getLocationIdOrFail();
 		if (!Lists.newArrayList(event.getWhitePlayerId(), event.getBlackPlayerId()).contains(myUserId)) {
 			throw new RuntimeException("Received " + event + ", but I (User[" + myUserId
 					+ "]) am not playing in this match.");

@@ -73,7 +73,7 @@ public class MainView {
 					public void onSuccess(Long result) {
 						userNameLabel.setText("You are logged in as User[ " + result + "]");
 						Log.info("Logged in as user with id " + result);
-						applicationContext.setMyUserId(result);
+						applicationContext.setLocationId(result);
 					}
 				});
 			}

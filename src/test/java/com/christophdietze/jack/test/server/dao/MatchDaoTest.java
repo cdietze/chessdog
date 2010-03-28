@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import com.christophdietze.jack.server.dao.Location;
 import com.christophdietze.jack.server.dao.Match;
 import com.christophdietze.jack.server.dao.MatchDao;
 import com.christophdietze.jack.server.dao.NoActiveMatchForPlayerException;
@@ -30,29 +31,37 @@ public class MatchDaoTest extends TestCase {
 
 	@Test
 	public void testCreate() {
+		Key<Location> player1 = Location.newKey(11);
+		Key<Location> player2 = Location.newKey(12);
+		Key<Location> player3 = Location.newKey(13);
+		Key<Location> player4 = Location.newKey(14);
 		Injector injector = Guice.createInjector();
 		MatchDao matchDao = injector.getInstance(MatchDao.class);
 		assertEquals(0, matchDao.getAllMatches().size());
-		matchDao.createMatch(2, 3);
+		matchDao.createMatch(player1, player2);
 		assertEquals(1, matchDao.getAllMatches().size());
-		matchDao.createMatch(4, 5);
+		matchDao.createMatch(player3, player4);
 		assertEquals(2, matchDao.getAllMatches().size());
 	}
 
 	@Test
 	public void testHasPlayerActiveMatches() throws NoActiveMatchForPlayerException, EntityNotFoundException {
-		long playerId = 3;
+		Key<Location> player1 = Location.newKey(11);
+		Key<Location> player2 = Location.newKey(12);
+		Key<Location> player3 = Location.newKey(13);
+		Key<Location> player4 = Location.newKey(14);
+
 		Injector injector = Guice.createInjector();
 		MatchDao matchDao = injector.getInstance(MatchDao.class);
-		assertFalse(matchDao.doesPlayerHaveActiveMatch(playerId));
-		matchDao.createMatch(4, 5);
-		assertFalse(matchDao.doesPlayerHaveActiveMatch(playerId));
-		Match match = matchDao.createMatch(playerId, 6);
+		assertFalse(matchDao.doesLocationHaveActiveMatch(player1));
+		matchDao.createMatch(player2, player3);
+		assertFalse(matchDao.doesLocationHaveActiveMatch(player1));
+		Match match = matchDao.createMatch(player1, player4);
 		assertTrue(match.isActive());
-		assertTrue(matchDao.doesPlayerHaveActiveMatch(playerId));
-		matchDao.makePlayersGameInactive(playerId);
+		assertTrue(matchDao.doesLocationHaveActiveMatch(player1));
+		matchDao.makeLocationsMatchInactive(player1);
 		match = ObjectifyTestHelper.ofy().get(new Key<Match>(Match.class, match.getId()));
 		assertFalse(match.isActive());
-		assertFalse(matchDao.doesPlayerHaveActiveMatch(3));
+		assertFalse(matchDao.doesLocationHaveActiveMatch(player1));
 	}
 }

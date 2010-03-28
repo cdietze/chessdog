@@ -24,16 +24,10 @@ public class LoginTest extends TestCase {
 	}
 
 	public void testLogin1() {
-		SessionTestHelper sessionHelper = new SessionTestHelper();
-		Injector injector = Guice.createInjector(sessionHelper.getModule());
+		Injector injector = Guice.createInjector();
 		ChessServiceImpl chessService = injector.getInstance(ChessServiceImpl.class);
 		long userId1 = chessService.login();
-		assertSame(userId1, chessService.login());
-
-		sessionHelper.setCurrentSessionId(2);
 		long userId2 = chessService.login();
-		assertSame(userId2, chessService.login());
-
 		assertNotSame(userId1, userId2);
 	}
 }
