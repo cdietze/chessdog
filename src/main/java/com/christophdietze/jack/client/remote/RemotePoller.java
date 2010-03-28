@@ -1,5 +1,6 @@
 package com.christophdietze.jack.client.remote;
 
+import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.common.ChessServiceAsync;
 import com.christophdietze.jack.common.RemoteEvent;
@@ -12,6 +13,8 @@ public class RemotePoller {
 
 	private static final int POLL_INTERVAL = 100;
 
+	private ApplicationContext applicationContext;
+
 	private ChessServiceAsync chessService;
 	private ChessServiceCallback callback;
 
@@ -20,9 +23,11 @@ public class RemotePoller {
 	private Timer timer;
 
 	@Inject
-	public RemotePoller(ChessServiceCallback callback, ChessServiceAsync chessService) {
+	public RemotePoller(ChessServiceCallback callback, ChessServiceAsync chessService,
+			ApplicationContext applicationContext) {
 		this.callback = callback;
 		this.chessService = chessService;
+		this.applicationContext = applicationContext;
 		init();
 	}
 
@@ -35,7 +40,7 @@ public class RemotePoller {
 					return;
 				}
 				final Timer t = this;
-				chessService.poll(new MyAsyncCallback<RemoteEvent>() {
+				chessService.poll(applicationContext.getLocationId(), new MyAsyncCallback<RemoteEvent>() {
 					@Override
 					public void onSuccess(RemoteEvent result) {
 						if (result != null) {

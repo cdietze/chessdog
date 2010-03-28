@@ -1,7 +1,6 @@
 package com.christophdietze.jack.client.view;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.christophdietze.jack.client.presenter.AnalysisMode;
 import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.presenter.GameModeManager;
 import com.christophdietze.jack.client.remote.RemotePoller;
@@ -87,7 +86,7 @@ public class MainView {
 		seekButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				chessService.postSeek(new MyAsyncCallback<PostSeekResponse>() {
+				chessService.postSeek(applicationContext.getLocationId(), new MyAsyncCallback<PostSeekResponse>() {
 					@Override
 					public void onSuccess(PostSeekResponse result) {
 						switch (result) {
@@ -115,13 +114,13 @@ public class MainView {
 		button.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				chessService.abortMatch(new MyAsyncCallback<AbortResponse>() {
+				chessService.abortMatch(applicationContext.getLocationId(), new MyAsyncCallback<AbortResponse>() {
 					@Override
 					public void onSuccess(AbortResponse result) {
 						switch (result) {
 						case OK:
 							Log.debug("You aborted the game");
-							gameModeManager.setCurrentMode(AnalysisMode.INSTANCE);
+							gameModeManager.activateAnalysisMode();
 							break;
 						case NO_ACTIVE_MATCH:
 							Log.warn("You have no active match");

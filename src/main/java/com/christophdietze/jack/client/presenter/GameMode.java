@@ -1,15 +1,10 @@
 package com.christophdietze.jack.client.presenter;
 
-import com.christophdietze.jack.common.board.Game;
-import com.christophdietze.jack.common.board.IllegalMoveException;
-import com.christophdietze.jack.common.board.Move;
+import com.christophdietze.jack.common.board.PieceType;
 
-public abstract class GameMode {
+public interface GameMode {
 
-	protected void onBeforeMove(Move move, Game game) throws IllegalMoveException {
-	}
+	public void makePromotionMove(int fromIndex, int toIndex, PieceType promotionPiece);
 
-	protected void onAfterMove(Move move, Game game) {
-	}
-
+	public void makeMove(int fromIndex, int toIndex);
 }

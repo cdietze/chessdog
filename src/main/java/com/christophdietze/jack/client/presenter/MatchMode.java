@@ -1,6 +1,8 @@
 package com.christophdietze.jack.client.presenter;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.christophdietze.jack.client.event.PromotionMoveInitiatedEvent;
+import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.common.ChessServiceAsync;
 import com.christophdietze.jack.common.MakeMoveResponse;
@@ -8,45 +10,42 @@ import com.christophdietze.jack.common.board.ChessUtils;
 import com.christophdietze.jack.common.board.Game;
 import com.christophdietze.jack.common.board.IllegalMoveException;
 import com.christophdietze.jack.common.board.Move;
+import com.christophdietze.jack.common.board.MoveChecker;
+import com.christophdietze.jack.common.board.PieceType;
+import com.christophdietze.jack.common.board.Position;
+import com.christophdietze.jack.common.board.PositionUtils;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-public class MatchMode extends GameMode {
-
-	@Inject
-	ChessServiceAsync chessService;
-
-	private boolean playerIsWhite;
-
-	public static class Builder {
-		@Inject
-		private MatchMode o;
-
-		public Builder playerIsWhite(boolean playerIsWhite) {
-			o.playerIsWhite = playerIsWhite;
-			return this;
-		}
-
-		public GameMode build() {
-			return o;
-		}
-	}
+@Singleton
+public class MatchMode implements GameMode {
 
 	@Inject
-	private MatchMode() {
+	private ApplicationContext applicationContext;
+
+	@Inject
+	private Game game;
+
+	@Inject
+	private GlobalEventBus eventBus;
+
+	@Inject
+	private ChessServiceAsync chessService;
+
+	private boolean playerIsWhite() {
+		return applicationContext.getLocationId() == applicationContext.getCurrentMatchInfo().getWhitePlayerId();
 	}
 
-	@Override
-	protected void onBeforeMove(Move move, Game game) throws IllegalMoveException {
+	private void onBeforeMove(Move move, Game game) throws IllegalMoveException {
 		boolean isWhiteMove = game.getPosition().getPiece(move.getFrom()).isWhite();
-		if (isWhiteMove != playerIsWhite) {
+		if (isWhiteMove != playerIsWhite()) {
 			throw new IllegalMoveException();
 		}
 	}
 
-	@Override
-	protected void onAfterMove(Move move, Game game) {
+	private void sendMoveToServer(Move move, Game game) {
 		String algebraicMove = ChessUtils.toAlgebraicMove(move);
-		chessService.makeMove(algebraicMove, new MyAsyncCallback<MakeMoveResponse>() {
+		chessService.makeMove(applicationContext.getLocationId(), algebraicMove, new MyAsyncCallback<MakeMoveResponse>() {
 			@Override
 			public void onSuccess(MakeMoveResponse result) {
 				switch (result) {
@@ -66,5 +65,39 @@ public class MatchMode extends GameMode {
 				}
 			}
 		});
+	}
+
+	@Override
+	public void makeMove(int fromIndex, int toIndex) {
+		Position position = game.getPosition();
+		Move move = new Move(fromIndex, toIndex);
+		if (PositionUtils.isPseudoPromotionMove(position, move)) {
+			Move pretendedPromoMove = new Move(fromIndex, toIndex, PieceType.QUEEN);
+			if (MoveChecker.isLegalMove(position, pretendedPromoMove)) {
+				if (position.getPiece(fromIndex).isWhite() != playerIsWhite()) {
+					return;
+				}
+				eventBus.fireEvent(new PromotionMoveInitiatedEvent(fromIndex, toIndex));
+			}
+		} else {
+			try {
+				onBeforeMove(move, game);
+				game.makeMoveVerified(move);
+				sendMoveToServer(move, game);
+			} catch (IllegalMoveException ex) {
+			}
+		}
+	}
+
+	@Override
+	public void makePromotionMove(int fromIndex, int toIndex, PieceType promotionPiece) {
+		Move move = new Move(fromIndex, toIndex, promotionPiece);
+		try {
+			game.makeMoveVerified(move);
+			sendMoveToServer(move, game);
+		} catch (IllegalMoveException ex) {
+			throw (AssertionError) (new AssertionError("Illegal promotion move should have been discarded earlier")
+					.initCause(ex));
+		}
 	}
 }
