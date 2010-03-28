@@ -5,12 +5,6 @@
 
 <web-app>
 
-	<!--
-		Servlets <servlet> <servlet-name>greetServlet</servlet-name>
-		<servlet-class>com.christophdietze.jack.server.GreetingServiceImpl</servlet-class>
-		</servlet> <servlet-mapping> <servlet-name>greetServlet</servlet-name>
-		<url-pattern>/jack/greet</url-pattern> </servlet-mapping>
-	-->
 	<filter>
 		<filter-name>guiceFilter</filter-name>
 		<filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
@@ -25,7 +19,6 @@
 		<listener-class>com.christophdietze.jack.server.MyGuiceServletConfig</listener-class>
 	</listener>
 
-	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>Jack.html</welcome-file>
 	</welcome-file-list>

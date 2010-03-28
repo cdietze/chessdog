@@ -5,24 +5,26 @@ import com.google.inject.Singleton;
 @Singleton
 public class ApplicationContext {
 
-	private Long myUserId;
+	private Long locationId;
 
-	public void setMyUserId(Long myUserId) {
-		this.myUserId = myUserId;
+	private MatchInfo currentMatchInfo;
+
+	public void setLocationId(Long locationId) {
+		this.locationId = locationId;
 	}
 
-	public boolean amILoggedIn() {
-		return myUserId != null;
-	}
-
-	public long getMyUserId() {
-		if (myUserId == null) {
+	public long getLocationId() {
+		if (locationId == null) {
 			throw new RuntimeException("Expected User to be logged in");
 		}
-		return myUserId;
+		return locationId;
 	}
 
-	public Long getMyUserIdOrNull() {
-		return myUserId;
+	public void setCurrentMatchInfo(MatchInfo currentMatchInfo) {
+		this.currentMatchInfo = currentMatchInfo;
+	}
+
+	public MatchInfo getCurrentMatchInfo() {
+		return currentMatchInfo;
 	}
 }
