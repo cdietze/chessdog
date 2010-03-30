@@ -6,32 +6,31 @@ import com.google.inject.Singleton;
 @Singleton
 public class GameModeManager {
 
-	@Inject
-	private ApplicationContext applicationContext;
-
-	@Inject
 	private AnalysisMode analysisMode;
 
-	@Inject
 	private MatchMode matchMode;
 
 	private GameMode currentMode;
 
+	@Inject
+	public GameModeManager(AnalysisMode analysisMode, MatchMode matchMode) {
+		this.analysisMode = analysisMode;
+		this.matchMode = matchMode;
+		this.currentMode = analysisMode;
+	}
+
 	public void activateAnalysisMode() {
-		applicationContext.setCurrentMatchInfo(null);
+		currentMode.deactivate();
 		currentMode = analysisMode;
 	}
 
 	public void activateMatchMode(MatchInfo matchInfo) {
-		applicationContext.setCurrentMatchInfo(matchInfo);
+		currentMode.deactivate();
 		currentMode = matchMode;
+		matchMode.activate(matchInfo);
 	}
 
 	public GameMode getCurrentMode() {
-		if (currentMode == null) {
-			currentMode = analysisMode;
-		}
 		return currentMode;
 	}
-
 }

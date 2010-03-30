@@ -44,7 +44,7 @@ public class PromotionView implements PromotionPresenter.View {
 		whitePopupPanel = createPopupPanel(true);
 		blackPopupPanel = createPopupPanel(false);
 
-		model.setView(this);
+		model.bindView(this);
 	}
 
 	@Override

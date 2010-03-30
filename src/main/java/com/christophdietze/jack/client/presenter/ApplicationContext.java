@@ -7,8 +7,6 @@ public class ApplicationContext {
 
 	private Long locationId;
 
-	private MatchInfo currentMatchInfo;
-
 	public void setLocationId(Long locationId) {
 		this.locationId = locationId;
 	}
@@ -20,11 +18,15 @@ public class ApplicationContext {
 		return locationId;
 	}
 
-	public void setCurrentMatchInfo(MatchInfo currentMatchInfo) {
-		this.currentMatchInfo = currentMatchInfo;
+	public boolean isSignedIn() {
+		return locationId != null;
 	}
 
-	public MatchInfo getCurrentMatchInfo() {
-		return currentMatchInfo;
-	}
+	// public void setCurrentMatchInfo(MatchInfo currentMatchInfo) {
+	// this.currentMatchInfo = currentMatchInfo;
+	// }
+	//
+	// public MatchInfo getCurrentMatchInfo() {
+	// return currentMatchInfo;
+	// }
 }

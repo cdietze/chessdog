@@ -1,8 +1,10 @@
 package com.christophdietze.jack.client;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.christophdietze.jack.client.view.MainView2;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class Main implements EntryPoint {
 
@@ -15,7 +17,10 @@ public class Main implements EntryPoint {
 			}
 		});
 
-		injector.getApplication();
+		MainView2 mainView2 = injector.getMainView();
+		RootPanel.get().add(mainView2);
+
+		// injector.getApplication();
 		Log.info("GWT Module " + this.getClass().getName() + " initialized.");
 	}
 }

@@ -9,6 +9,7 @@ import com.christophdietze.jack.client.resources.PieceImageProvider;
 import com.christophdietze.jack.common.board.ChessUtils;
 import com.christophdietze.jack.common.board.Piece;
 import com.christophdietze.jack.common.board.PieceType;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -17,7 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class BoardView implements BoardPresenter.View {
+public class BoardView extends Composite implements BoardPresenter.View {
 
 	private static MyCss CSS = MyClientBundle.CSS;
 
@@ -31,6 +32,7 @@ public class BoardView implements BoardPresenter.View {
 
 	@Inject
 	public BoardView(BoardPresenter model) {
+		super.initWidget(rootPanel);
 		this.model = model;
 		initGrid();
 

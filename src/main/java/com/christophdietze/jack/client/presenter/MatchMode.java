@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class MatchMode implements GameMode {
+public class MatchMode extends GameMode {
 
 	@Inject
 	private ApplicationContext applicationContext;
@@ -32,8 +32,10 @@ public class MatchMode implements GameMode {
 	@Inject
 	private ChessServiceAsync chessService;
 
+	private MatchInfo matchInfo;
+
 	private boolean playerIsWhite() {
-		return applicationContext.getLocationId() == applicationContext.getCurrentMatchInfo().getWhitePlayerId();
+		return applicationContext.getLocationId() == matchInfo.getWhitePlayerId();
 	}
 
 	private void onBeforeMove(Move move, Game game) throws IllegalMoveException {
@@ -65,6 +67,15 @@ public class MatchMode implements GameMode {
 				}
 			}
 		});
+	}
+
+	void activate(MatchInfo matchInfo) {
+		this.matchInfo = matchInfo;
+	}
+
+	@Override
+	void deactivate() {
+		this.matchInfo = null;
 	}
 
 	@Override

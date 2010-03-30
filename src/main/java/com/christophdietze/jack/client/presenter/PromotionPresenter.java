@@ -17,7 +17,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class PromotionPresenter {
 
-	public static interface View {
+	public interface View {
 		public void showPopup(int toIndex);
 	}
 
@@ -36,7 +36,7 @@ public class PromotionPresenter {
 		initListeners();
 	}
 
-	public void setView(View view) {
+	public void bindView(View view) {
 		assert this.view == null;
 		this.view = view;
 	}
