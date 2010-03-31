@@ -6,9 +6,16 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
-		This is the MainView
-		<v:BoardView/>
-		<v:CommandView />
-	</g:HTMLPanel>
+
+	<g:DockLayoutPanel unit="EM">
+		<g:north size="1.5">
+			<v:HeaderBarView />
+		</g:north>
+		<g:center>
+			<g:FlowPanel>
+				<v:BoardView />
+				<v:CommandView />
+			</g:FlowPanel>
+		</g:center>
+	</g:DockLayoutPanel>
 </ui:UiBinder>

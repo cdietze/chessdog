@@ -39,19 +39,6 @@ public class DragAndDropPresenter {
 
 	public void movePiece(int fromIndex, int toIndex) {
 		gameModeManager.getCurrentMode().makeMove(fromIndex, toIndex);
-		// Position position = game.getPosition();
-		// Move move = new Move(fromIndex, toIndex);
-		// if (PositionUtils.isPseudoPromotionMove(position, move)) {
-		// Move pretendedPromoMove = new Move(fromIndex, toIndex, PieceType.QUEEN);
-		// if (MoveChecker.isLegalMove(position, pretendedPromoMove)) {
-		// eventBus.fireEvent(new PromotionMoveInitiatedEvent(fromIndex, toIndex));
-		// }
-		// } else {
-		// try {
-		// gameManager.makeMoveVerified(move);
-		// } catch (IllegalMoveException ex) {
-		// }
-		// }
 	}
 
 	private void initListeners() {

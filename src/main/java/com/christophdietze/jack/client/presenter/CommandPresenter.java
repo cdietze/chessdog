@@ -1,13 +1,14 @@
 package com.christophdietze.jack.client.presenter;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.christophdietze.jack.client.event.GameModeChangedEvent;
+import com.christophdietze.jack.client.event.GameModeChangedEventHandler;
 import com.christophdietze.jack.client.event.SignedInEvent;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.common.AbortResponse;
 import com.christophdietze.jack.common.ChessServiceAsync;
 import com.christophdietze.jack.common.PostSeekResponse;
-import com.christophdietze.jack.common.board.Game;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.inject.Inject;
 
@@ -19,16 +20,22 @@ public class CommandPresenter {
 		UIObject abortMatchLink();
 	}
 
+	private GlobalEventBus eventBus;
+	private ApplicationContext applicationContext;
+	private GameModeManager gameModeManager;
+	private ChessServiceAsync chessService;
+
 	private View view;
 
 	@Inject
-	private GlobalEventBus eventBus;
-	@Inject
-	private ApplicationContext applicationContext;
-	@Inject
-	private GameModeManager gameModeManager;
-	@Inject
-	private ChessServiceAsync chessService;
+	public CommandPresenter(GlobalEventBus eventBus, ApplicationContext applicationContext,
+			GameModeManager gameModeManager, ChessServiceAsync chessService) {
+		this.eventBus = eventBus;
+		this.applicationContext = applicationContext;
+		this.gameModeManager = gameModeManager;
+		this.chessService = chessService;
+		initListeners();
+	}
 
 	public void bindView(View view) {
 		assert this.view == null;
@@ -90,9 +97,19 @@ public class CommandPresenter {
 		});
 	}
 
+	private void initListeners() {
+		eventBus.addHandler(GameModeChangedEvent.TYPE, new GameModeChangedEventHandler() {
+			@Override
+			public void onGameModeChanged(GameModeChangedEvent event) {
+				updateView();
+			}
+		});
+	}
+
 	private void updateView() {
 		boolean signedIn = applicationContext.isSignedIn();
 		view.signInLink().setVisible(!signedIn);
 		view.seekLink().setVisible(signedIn);
+		view.abortMatchLink().setVisible(gameModeManager.getCurrentMode() instanceof MatchMode);
 	}
 }

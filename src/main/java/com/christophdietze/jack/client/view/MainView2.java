@@ -23,6 +23,8 @@ public class MainView2 extends Composite {
 		@Inject
 		private Provider<BoardView> boardViewProvider;
 		@Inject
+		private Provider<HeaderBarView> headerBarViewProvider;
+		@Inject
 		private Provider<DragAndDropView> dndViewProvider;
 		@Inject
 		private Provider<PromotionView> promotionViewProvider;
@@ -45,9 +47,12 @@ public class MainView2 extends Composite {
 	CommandView makeCommandPanel() {
 		return providerHelper.commandPanelProvider.get();
 	}
-
 	@UiFactory
 	BoardView makeBoardView() {
 		return providerHelper.boardViewProvider.get();
+	}
+	@UiFactory
+	HeaderBarView makeHeaderBarView() {
+		return providerHelper.headerBarViewProvider.get();
 	}
 }
