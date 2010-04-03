@@ -1,11 +1,22 @@
 @CHARSET "UTF-8";
 
+@def linkColor #027AC6;
+
 @def whiteColor #ffce9e;
 @def blackColor #d18b47;
 @def squareSize 45px;
 @def rankLabelWidth 12px;
 HTML,BODY {
 	height: 100%;
+}
+
+.myLink,.myLink:hover,.myLink:visited {
+	color: linkColor;
+	display: block;
+}
+
+.myLink:hover {
+	text-decoration: underline;
 }
 
 .whiteSquare {
@@ -65,4 +76,8 @@ HTML,BODY {
 	background: none repeat scroll 0 0 #FFFFFF;
 	border: 1px solid #888888;
 	height: squareSize;
+}
+
+.draggingImage { /*position: absolute; */
+	z-index: 100;
 }

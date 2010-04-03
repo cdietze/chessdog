@@ -11,9 +11,9 @@ import com.google.inject.Provider;
 
 public class MainView2 extends Composite {
 
-	private static MainView2UiBinder uiBinder = GWT.create(MainView2UiBinder.class);
+	private static MyUiBinder uiBinder = GWT.create(MyUiBinder.class);
 
-	interface MainView2UiBinder extends UiBinder<Widget, MainView2> {
+	interface MyUiBinder extends UiBinder<Widget, MainView2> {
 	}
 
 	// inner class must be public for injection to work
@@ -22,8 +22,6 @@ public class MainView2 extends Composite {
 		private Provider<CommandView> commandPanelProvider;
 		@Inject
 		private Provider<BoardView> boardViewProvider;
-		@Inject
-		private Provider<HeaderBarView> headerBarViewProvider;
 		@Inject
 		private Provider<DragAndDropView> dndViewProvider;
 		@Inject
@@ -50,9 +48,5 @@ public class MainView2 extends Composite {
 	@UiFactory
 	BoardView makeBoardView() {
 		return providerHelper.boardViewProvider.get();
-	}
-	@UiFactory
-	HeaderBarView makeHeaderBarView() {
-		return providerHelper.headerBarViewProvider.get();
 	}
 }

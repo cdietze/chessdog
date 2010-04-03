@@ -2,20 +2,20 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:com.christophdietze.jack.client.view">
 	<ui:style>
-		.important {
-			font-weight: bold;
+		.floatLeft {
+			float: left;
 		}
 	</ui:style>
 
 	<g:DockLayoutPanel unit="EM">
 		<g:north size="1.5">
-			<v:HeaderBarView />
+			<g:HTMLPanel></g:HTMLPanel>
 		</g:north>
+		<g:west size="17">
+			<v:CommandView />
+		</g:west>
 		<g:center>
-			<g:FlowPanel>
-				<v:BoardView />
-				<v:CommandView />
-			</g:FlowPanel>
+			<v:BoardView />
 		</g:center>
 	</g:DockLayoutPanel>
 </ui:UiBinder>

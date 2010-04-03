@@ -9,15 +9,12 @@ import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.common.AbortResponse;
 import com.christophdietze.jack.common.ChessServiceAsync;
 import com.christophdietze.jack.common.PostSeekResponse;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.inject.Inject;
 
 public class CommandPresenter {
 
 	public interface View {
-		UIObject signInLink();
-		UIObject seekLink();
-		UIObject abortMatchLink();
+		void update();
 	}
 
 	private GlobalEventBus eventBus;
@@ -40,7 +37,7 @@ public class CommandPresenter {
 	public void bindView(View view) {
 		assert this.view == null;
 		this.view = view;
-		updateView();
+		view.update();
 	}
 
 	public void onSignInClick() {
@@ -52,9 +49,13 @@ public class CommandPresenter {
 				Log.info("Logged in as user with id " + result);
 				applicationContext.setLocationId(result);
 				eventBus.fireEvent(new SignedInEvent(result));
-				updateView();
+				view.update();
 			}
 		});
+	}
+
+	public void onSignOutClick() {
+		throw new RuntimeException();
 	}
 
 	public void onSeekClick() {
@@ -101,15 +102,8 @@ public class CommandPresenter {
 		eventBus.addHandler(GameModeChangedEvent.TYPE, new GameModeChangedEventHandler() {
 			@Override
 			public void onGameModeChanged(GameModeChangedEvent event) {
-				updateView();
+				view.update();
 			}
 		});
-	}
-
-	private void updateView() {
-		boolean signedIn = applicationContext.isSignedIn();
-		view.signInLink().setVisible(!signedIn);
-		view.seekLink().setVisible(signedIn);
-		view.abortMatchLink().setVisible(gameModeManager.getCurrentMode() instanceof MatchMode);
 	}
 }

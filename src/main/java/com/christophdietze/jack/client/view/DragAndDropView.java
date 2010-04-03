@@ -11,6 +11,7 @@ import com.allen_sauer.gwt.dnd.client.util.DOMUtil;
 import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.presenter.DragAndDropPresenter;
 import com.christophdietze.jack.client.resources.MyClientBundle;
+import com.christophdietze.jack.client.resources.MyCss;
 import com.christophdietze.jack.client.resources.PieceImageBundle;
 import com.christophdietze.jack.client.resources.PieceImageProvider;
 import com.christophdietze.jack.common.board.ChessUtils;
@@ -18,14 +19,19 @@ import com.christophdietze.jack.common.board.Piece;
 import com.christophdietze.jack.common.board.Position;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class DragAndDropView implements DragAndDropPresenter.View {
+
+	private static MyCss CSS = MyClientBundle.CSS;
+
 	static {
 		StyleInjector.inject(MyClientBundle.INSTANCE.gwtDndOverrides().getText());
+		CSS.ensureInjected();
 	}
 
 	private DragAndDropPresenter model;
@@ -89,10 +95,12 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 
 		public MyDragController() {
 			super(RootPanel.get());
-			draggingImage.setResource(PieceImageBundle.INSTANCE.bbishop());
-			draggingImage.getElement().getStyle().setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
+			draggingImage.setResource(PieceImageBundle.INSTANCE.empty());
+			draggingImage.addStyleName(CSS.draggingImage());
+			// draggingImage.getElement().getStyle().setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
 			draggingImage.setVisible(false);
-			RootPanel.get().add(draggingImage);
+			RootLayoutPanel.get().add(draggingImage);
+			// RootPanel.get().add(draggingImage);
 			this.addDragHandler(new DragHandlerAdapter() {
 				@Override
 				public void onDragStart(DragStartEvent event) {
@@ -108,6 +116,9 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 					Image srcImage = (Image) event.getContext().draggable;
 					int fromIndex = imageMap.get(srcImage);
 					int toIndex = calcIndexOfMouse();
+					if (toIndex < 0) {
+						return;
+					}
 					model.movePiece(fromIndex, toIndex);
 				}
 

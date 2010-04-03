@@ -4,6 +4,8 @@ import com.google.gwt.resources.client.CssResource;
 
 public interface MyCss extends CssResource {
 
+	String myLink();
+
 	String whiteSquare();
 	String blackSquare();
 	String rankLabel();
@@ -17,4 +19,6 @@ public interface MyCss extends CssResource {
 
 	String promotionPieceImage();
 	String promotionPopup();
+
+	String draggingImage();
 }
