@@ -82,6 +82,14 @@ public class MatchMode extends GameMode {
 		return isPlayerWhite() ? matchInfo.getBlackPlayerId() : matchInfo.getWhitePlayerId();
 	}
 
+	public long getWhitePlayerId() {
+		return matchInfo.getWhitePlayerId();
+	}
+
+	public long getBlackPlayerId() {
+		return matchInfo.getBlackPlayerId();
+	}
+
 	@Override
 	public void makeMove(int fromIndex, int toIndex) {
 		Position position = game.getPosition();

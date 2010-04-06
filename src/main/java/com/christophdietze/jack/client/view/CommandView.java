@@ -4,6 +4,8 @@ import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEventHandler;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.event.MatchStartedEventHandler;
+import com.christophdietze.jack.client.event.SignedInEvent;
+import com.christophdietze.jack.client.event.SignedInEventHandler;
 import com.christophdietze.jack.client.presenter.AnalysisMode;
 import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.presenter.CommandPresenter;
@@ -56,10 +58,12 @@ public class CommandView extends Composite implements CommandPresenter.View {
 		this.gameModeManager = gameModeManager;
 		this.eventBus = eventBus;
 		initWidget(uiBinder.createAndBindUi(this));
+		seekLink.setVisible(false);
 		seekRunningPanel.setVisible(false);
 		presenter.bindView(this);
 		initListeners();
 	}
+
 	private void initListeners() {
 		signInLink.addClickHandler(new ClickHandler() {
 			@Override
@@ -88,6 +92,12 @@ public class CommandView extends Composite implements CommandPresenter.View {
 			}
 		});
 
+		eventBus.addHandler(SignedInEvent.TYPE, new SignedInEventHandler() {
+			@Override
+			public void onSignIn(SignedInEvent event) {
+				seekLink.setVisible(true);
+			}
+		});
 		eventBus.addHandler(MatchStartedEvent.TYPE, new MatchStartedEventHandler() {
 			@Override
 			public void onMatchStarted(MatchStartedEvent event) {

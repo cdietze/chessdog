@@ -1,13 +1,19 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style>
-		.important {
-			font-weight: bold;
-		}
-	</ui:style>
+	<ui:with type="com.christophdietze.jack.client.resources.MyClientBundle"
+		field="bundle" />
+	<ui:style
+		type="com.christophdietze.jack.client.view.PlayerNamePanel.MyStyle">
+			.playerToMove {
+				font-weight: bold;
+			}
+		</ui:style>
 	<g:HTMLPanel>
-		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
+		<g:Image resource="{bundle.blackPlayerIcon}" />
+		<g:InlineLabel ui:field="upperPlayerLabel" />
+		<br />
+		<g:Image resource="{bundle.whitePlayerIcon}" />
+		<g:InlineLabel ui:field="lowerPlayerLabel" />
 	</g:HTMLPanel>
 </ui:UiBinder> 

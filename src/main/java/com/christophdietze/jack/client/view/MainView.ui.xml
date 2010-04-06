@@ -2,8 +2,14 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:com.christophdietze.jack.client.view">
 	<ui:style>
-		.floatLeft {
+		.boardView {
 			float: left;
+		}
+		
+		.playerNamePanel {
+			float: left;
+			margin-left: 1em;
+			margin-top: 0.5em;
 		}
 	</ui:style>
 
@@ -15,7 +21,10 @@
 			<v:CommandView />
 		</g:west>
 		<g:center>
-			<v:BoardView />
+			<g:FlowPanel>
+				<v:BoardView styleName="{style.boardView}" />
+				<v:PlayerNamePanel styleName="{style.playerNamePanel}" />
+			</g:FlowPanel>
 		</g:center>
 	</g:DockLayoutPanel>
 </ui:UiBinder>

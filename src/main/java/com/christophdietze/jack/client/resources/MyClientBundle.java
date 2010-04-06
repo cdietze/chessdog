@@ -15,5 +15,8 @@ public interface MyClientBundle extends ClientBundle {
 
 	CssResource gwtDndOverrides();
 
-	ImageResource bbishop();
+	ImageResource blackPlayerIcon();
+
+	ImageResource whitePlayerIcon();
+
 }
