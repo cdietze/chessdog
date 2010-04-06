@@ -21,12 +21,4 @@ public class ApplicationContext {
 	public boolean isSignedIn() {
 		return locationId != null;
 	}
-
-	// public void setCurrentMatchInfo(MatchInfo currentMatchInfo) {
-	// this.currentMatchInfo = currentMatchInfo;
-	// }
-	//
-	// public MatchInfo getCurrentMatchInfo() {
-	// return currentMatchInfo;
-	// }
 }

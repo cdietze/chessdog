@@ -34,13 +34,13 @@ public class MatchMode extends GameMode {
 
 	private MatchInfo matchInfo;
 
-	private boolean playerIsWhite() {
+	public boolean isPlayerWhite() {
 		return applicationContext.getLocationId() == matchInfo.getWhitePlayerId();
 	}
 
 	private void onBeforeMove(Move move, Game game) throws IllegalMoveException {
 		boolean isWhiteMove = game.getPosition().getPiece(move.getFrom()).isWhite();
-		if (isWhiteMove != playerIsWhite()) {
+		if (isWhiteMove != isPlayerWhite()) {
 			throw new IllegalMoveException();
 		}
 	}
@@ -78,6 +78,10 @@ public class MatchMode extends GameMode {
 		this.matchInfo = null;
 	}
 
+	public long getOpponentId() {
+		return isPlayerWhite() ? matchInfo.getBlackPlayerId() : matchInfo.getWhitePlayerId();
+	}
+
 	@Override
 	public void makeMove(int fromIndex, int toIndex) {
 		Position position = game.getPosition();
@@ -85,7 +89,7 @@ public class MatchMode extends GameMode {
 		if (PositionUtils.isPseudoPromotionMove(position, move)) {
 			Move pretendedPromoMove = new Move(fromIndex, toIndex, PieceType.QUEEN);
 			if (MoveChecker.isLegalMove(position, pretendedPromoMove)) {
-				if (position.getPiece(fromIndex).isWhite() != playerIsWhite()) {
+				if (position.getPiece(fromIndex).isWhite() != isPlayerWhite()) {
 					return;
 				}
 				eventBus.fireEvent(new PromotionMoveInitiatedEvent(fromIndex, toIndex));

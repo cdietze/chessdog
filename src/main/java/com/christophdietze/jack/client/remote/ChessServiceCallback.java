@@ -1,9 +1,12 @@
 package com.christophdietze.jack.client.remote;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.christophdietze.jack.client.event.MatchEndedEvent;
+import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.presenter.GameModeManager;
 import com.christophdietze.jack.client.presenter.MatchInfo;
+import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.common.MatchAbortedRemoteEvent;
 import com.christophdietze.jack.common.MatchStartedRemoteEvent;
 import com.christophdietze.jack.common.MoveMadeRemoteEvent;
@@ -25,6 +28,9 @@ public class ChessServiceCallback {
 
 	@Inject
 	private GameModeManager gameModeManager;
+
+	@Inject
+	private GlobalEventBus eventBus;
 
 	public void dispatchEvent(RemoteEvent event) {
 		if (event instanceof MatchStartedRemoteEvent) {
@@ -48,6 +54,7 @@ public class ChessServiceCallback {
 		}
 		MatchInfo matchInfo = new MatchInfo(event.getWhitePlayerId(), event.getBlackPlayerId());
 		gameModeManager.activateMatchMode(matchInfo);
+		eventBus.fireEvent(new MatchStartedEvent());
 	}
 
 	private void onMove(MoveMadeRemoteEvent event) {
@@ -64,5 +71,6 @@ public class ChessServiceCallback {
 	private void onMatchAborted(MatchAbortedRemoteEvent event) {
 		Log.info("The other player aborted the match");
 		gameModeManager.activateAnalysisMode();
+		eventBus.fireEvent(new MatchEndedEvent());
 	}
 }

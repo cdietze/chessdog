@@ -1,6 +1,6 @@
 package com.christophdietze.jack.client;
 
-import com.christophdietze.jack.client.view.MainView2;
+import com.christophdietze.jack.client.view.MainView;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
@@ -9,5 +9,5 @@ public interface MyGinjector extends Ginjector {
 
 	Application getApplication();
 
-	MainView2 getMainView();
+	MainView getMainView();
 }

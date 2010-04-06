@@ -9,11 +9,11 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class MainView2 extends Composite {
+public class MainView extends Composite {
 
 	private static MyUiBinder uiBinder = GWT.create(MyUiBinder.class);
 
-	interface MyUiBinder extends UiBinder<Widget, MainView2> {
+	interface MyUiBinder extends UiBinder<Widget, MainView> {
 	}
 
 	// inner class must be public for injection to work
@@ -33,7 +33,7 @@ public class MainView2 extends Composite {
 	private ProviderHelper providerHelper;
 
 	@Inject
-	public MainView2(ProviderHelper providerHelper) {
+	public MainView(ProviderHelper providerHelper) {
 		this.providerHelper = providerHelper;
 		initWidget(uiBinder.createAndBindUi(this));
 		providerHelper.dndViewProvider.get();

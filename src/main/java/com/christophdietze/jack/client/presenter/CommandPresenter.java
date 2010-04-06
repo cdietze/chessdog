@@ -1,8 +1,7 @@
 package com.christophdietze.jack.client.presenter;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.christophdietze.jack.client.event.GameModeChangedEvent;
-import com.christophdietze.jack.client.event.GameModeChangedEventHandler;
+import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.SignedInEvent;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
@@ -87,6 +86,7 @@ public class CommandPresenter {
 				case OK:
 					Log.debug("You aborted the game");
 					gameModeManager.activateAnalysisMode();
+					eventBus.fireEvent(new MatchEndedEvent());
 					break;
 				case NO_ACTIVE_MATCH:
 					Log.warn("You have no active match");
@@ -99,11 +99,6 @@ public class CommandPresenter {
 	}
 
 	private void initListeners() {
-		eventBus.addHandler(GameModeChangedEvent.TYPE, new GameModeChangedEventHandler() {
-			@Override
-			public void onGameModeChanged(GameModeChangedEvent event) {
-				view.update();
-			}
-		});
+
 	}
 }

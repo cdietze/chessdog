@@ -1,9 +1,15 @@
 package com.christophdietze.jack.client.view;
 
+import com.christophdietze.jack.client.event.MatchEndedEvent;
+import com.christophdietze.jack.client.event.MatchEndedEventHandler;
+import com.christophdietze.jack.client.event.MatchStartedEvent;
+import com.christophdietze.jack.client.event.MatchStartedEventHandler;
+import com.christophdietze.jack.client.presenter.AnalysisMode;
 import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.presenter.CommandPresenter;
 import com.christophdietze.jack.client.presenter.GameModeManager;
 import com.christophdietze.jack.client.presenter.MatchMode;
+import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -11,8 +17,8 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
@@ -27,26 +33,30 @@ public class CommandView extends Composite implements CommandPresenter.View {
 
 	private ApplicationContext applicationContext;
 	private GameModeManager gameModeManager;
+	private GlobalEventBus eventBus;
 
+	@UiField
+	HTML statusLabel;
 	@UiField
 	Anchor signInLink;
 	@UiField
-	Label userNameLabel;
-	@UiField
 	Anchor signOutLink;
 	@UiField
-	HTMLPanel spacer1;
-	@UiField
 	Anchor seekLink;
+	@UiField
+	HTMLPanel seekRunningPanel;
 	@UiField
 	Anchor abortMatchLink;
 
 	@Inject
-	public CommandView(CommandPresenter presenter, ApplicationContext applicationContext, GameModeManager gameModeManager) {
+	public CommandView(CommandPresenter presenter, ApplicationContext applicationContext,
+			GameModeManager gameModeManager, GlobalEventBus eventBus) {
 		this.presenter = presenter;
 		this.applicationContext = applicationContext;
 		this.gameModeManager = gameModeManager;
+		this.eventBus = eventBus;
 		initWidget(uiBinder.createAndBindUi(this));
+		seekRunningPanel.setVisible(false);
 		presenter.bindView(this);
 		initListeners();
 	}
@@ -67,6 +77,8 @@ public class CommandView extends Composite implements CommandPresenter.View {
 			@Override
 			public void onClick(ClickEvent event) {
 				presenter.onSeekClick();
+				seekLink.setVisible(false);
+				seekRunningPanel.setVisible(true);
 			}
 		});
 		abortMatchLink.addClickHandler(new ClickHandler() {
@@ -75,18 +87,53 @@ public class CommandView extends Composite implements CommandPresenter.View {
 				presenter.onAbortMatchClick();
 			}
 		});
+
+		eventBus.addHandler(MatchStartedEvent.TYPE, new MatchStartedEventHandler() {
+			@Override
+			public void onMatchStarted(MatchStartedEvent event) {
+				seekLink.setVisible(false);
+				seekRunningPanel.setVisible(false);
+				update();
+			}
+		});
+		eventBus.addHandler(MatchEndedEvent.TYPE, new MatchEndedEventHandler() {
+			@Override
+			public void onMatchEnded(MatchEndedEvent event) {
+				seekLink.setVisible(true);
+				seekRunningPanel.setVisible(false);
+				update();
+			}
+		});
 	}
 
 	@Override
 	public void update() {
+		String statusText = getStatusText();
+		statusLabel.setHTML(statusText);
+
 		boolean signedIn = applicationContext.isSignedIn();
-		userNameLabel.setVisible(signedIn);
-		if (signedIn) {
-			userNameLabel.setText("You are signed in as User[" + applicationContext.getLocationId() + "]");
-		}
 		signInLink.setVisible(!signedIn);
 		signOutLink.setVisible(signedIn);
-		seekLink.setVisible(signedIn);
 		abortMatchLink.setVisible(gameModeManager.getCurrentMode() instanceof MatchMode);
+	}
+
+	private String getStatusText() {
+		boolean signedIn = applicationContext.isSignedIn();
+		StringBuilder sb = new StringBuilder();
+		if (!signedIn) {
+			sb.append("You are not signed in.");
+		} else {
+			sb.append("You are signed in as User[" + applicationContext.getLocationId() + "].");
+		}
+		sb.append("<br/>");
+		if (gameModeManager.getCurrentMode() instanceof AnalysisMode) {
+		} else if (gameModeManager.getCurrentMode() instanceof MatchMode) {
+			sb.append("<br/>");
+			MatchMode matchMode = (MatchMode) gameModeManager.getCurrentMode();
+			sb.append("You play as ");
+			sb.append(matchMode.isPlayerWhite() ? "white" : "black");
+			sb.append(" against User[" + matchMode.getOpponentId() + "].");
+		}
+		return sb.toString();
 	}
 }

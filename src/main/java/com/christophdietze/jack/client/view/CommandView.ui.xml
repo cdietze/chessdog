@@ -2,14 +2,21 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:com.christophdietze.jack.client.view">
 	<ui:style>
-		
+		.inline {
+			display: inline;
+		}
 	</ui:style>
 	<g:HTMLPanel>
-		<v:MyAnchor ui:field="signInLink" text="Sign in as guest"  />
-		<g:Label ui:field="userNameLabel" />
+		<g:HTML ui:field="statusLabel" />
+		<br />
+		<v:MyAnchor ui:field="signInLink" text="Sign in as guest" />
 		<v:MyAnchor ui:field="signOutLink" text="Sign out" />
-		<g:HTMLPanel ui:field="spacer1"><br/></g:HTMLPanel>
+		<br /><br />
 		<v:MyAnchor ui:field="seekLink" text="Seek for Match" />
+		<g:HTMLPanel ui:field="seekRunningPanel">
+			Seek running
+		</g:HTMLPanel>
+
 		<v:MyAnchor ui:field="abortMatchLink" text="Abort Match" />
 	</g:HTMLPanel>
 </ui:UiBinder> 

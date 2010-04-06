@@ -12,7 +12,7 @@ HTML,BODY {
 
 .myLink,.myLink:hover,.myLink:visited {
 	color: linkColor;
-	display: block;
+/*	display: block; */
 }
 
 .myLink:hover {
