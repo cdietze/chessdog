@@ -63,8 +63,13 @@ public class PlayerNamePanel extends Composite {
 			@Override
 			public void onMatchStarted(MatchStartedEvent event) {
 				MatchMode matchMode = (MatchMode) gameModeManager.getCurrentMode();
-				upperPlayerLabel.setText("User[" + matchMode.getBlackPlayerId() + "]");
-				lowerPlayerLabel.setText("User[" + matchMode.getWhitePlayerId() + "]");
+				if (matchMode.isPlayerWhite()) {
+					upperPlayerLabel.setText("User[" + matchMode.getBlackPlayerId() + "]");
+					lowerPlayerLabel.setText("You");
+				} else {
+					upperPlayerLabel.setText("You");
+					lowerPlayerLabel.setText("User[" + matchMode.getWhitePlayerId() + "]");
+				}
 			}
 		});
 		eventBus.addHandler(MatchEndedEvent.TYPE, new MatchEndedEventHandler() {
@@ -81,7 +86,6 @@ public class PlayerNamePanel extends Composite {
 			}
 		});
 	}
-
 	private void updatePlayerNameHighlight() {
 		if (game.getPosition().isWhiteToMove()) {
 			upperPlayerLabel.removeStyleName(style.playerToMove());

@@ -17,10 +17,8 @@ public class Main implements EntryPoint {
 			}
 		});
 
-		MainView mainView2 = injector.getMainView();
-		// RootPanel.get().add(mainView2);
-		RootLayoutPanel.get().add(mainView2);
-		// injector.getApplication();
+		MainView mainView = injector.getMainView();
+		RootLayoutPanel.get().add(mainView);
 		Log.info("GWT Module " + this.getClass().getName() + " initialized.");
 	}
 }

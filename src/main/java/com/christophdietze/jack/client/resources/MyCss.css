@@ -1,18 +1,28 @@
 @CHARSET "UTF-8";
 
 @def linkColor #027AC6;
-
 @def whiteColor #ffce9e;
 @def blackColor #d18b47;
 @def squareSize 45px;
 @def rankLabelWidth 12px;
-HTML,BODY {
+html,body { /* required for dragNdrop */
 	height: 100%;
+}
+
+body {
+	font-family: Arial Unicode MS, Arial, sans-serif;
+	font-size: small;
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 0 none;
+	color: black;
+	direction: ltr;
+	margin: 0;
+	padding: 0;
 }
 
 .myLink,.myLink:hover,.myLink:visited {
 	color: linkColor;
-/*	display: block; */
+	/*	display: block; */
 }
 
 .myLink:hover {

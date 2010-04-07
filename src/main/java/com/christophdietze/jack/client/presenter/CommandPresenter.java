@@ -39,25 +39,24 @@ public class CommandPresenter {
 		view.update();
 	}
 
-	public void onSignInClick() {
-		Log.info("presenter: sign in");
-		chessService.login(new MyAsyncCallback<Long>() {
-			@Override
-			public void onSuccess(Long result) {
-				assert result != null;
-				Log.info("Logged in as user with id " + result);
-				applicationContext.setLocationId(result);
-				eventBus.fireEvent(new SignedInEvent(result));
-				view.update();
-			}
-		});
-	}
-
-	public void onSignOutClick() {
-		throw new RuntimeException();
-	}
-
 	public void onSeekClick() {
+		if (!applicationContext.isSignedIn()) {
+			chessService.login(new MyAsyncCallback<Long>() {
+				@Override
+				public void onSuccess(Long result) {
+					assert result != null;
+					Log.info("Logged in as user with id " + result);
+					applicationContext.setLocationId(result);
+					eventBus.fireEvent(new SignedInEvent(result));
+					postSeek();
+				}
+			});
+		} else {
+			postSeek();
+		}
+	}
+
+	private void postSeek() {
 		chessService.postSeek(applicationContext.getLocationId(), new MyAsyncCallback<PostSeekResponse>() {
 			@Override
 			public void onSuccess(PostSeekResponse result) {
@@ -74,6 +73,7 @@ public class CommandPresenter {
 				default:
 					throw new AssertionError();
 				}
+				view.update();
 			}
 		});
 	}
@@ -99,6 +99,5 @@ public class CommandPresenter {
 	}
 
 	private void initListeners() {
-
 	}
 }

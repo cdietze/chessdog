@@ -10,10 +10,8 @@
 			}
 		</ui:style>
 	<g:HTMLPanel>
-		<g:Image resource="{bundle.blackPlayerIcon}" />
-		<g:InlineLabel ui:field="upperPlayerLabel" />
+		<g:Image resource="{bundle.blackPlayerIcon}" />&nbsp;<g:InlineLabel ui:field="upperPlayerLabel" />
 		<br />
-		<g:Image resource="{bundle.whitePlayerIcon}" />
-		<g:InlineLabel ui:field="lowerPlayerLabel" />
+		<g:Image resource="{bundle.whitePlayerIcon}" />&nbsp;<g:InlineLabel ui:field="lowerPlayerLabel" />
 	</g:HTMLPanel>
 </ui:UiBinder> 
