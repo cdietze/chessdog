@@ -66,11 +66,11 @@ public class PlayerNamePanel extends Composite {
 				MatchMode matchMode = (MatchMode) gameModeManager.getCurrentMode();
 				MatchInfo matchInfo = matchMode.getMatchInfo();
 				if (matchInfo.isPlayerWhite()) {
-					upperPlayerLabel.setText("User[" + matchInfo.getBlackPlayerId() + "]");
+					upperPlayerLabel.setText("Guest" + matchInfo.getBlackPlayerId());
 					lowerPlayerLabel.setText("You");
 				} else {
 					upperPlayerLabel.setText("You");
-					lowerPlayerLabel.setText("User[" + matchInfo.getWhitePlayerId() + "]");
+					lowerPlayerLabel.setText("Guest" + matchInfo.getWhitePlayerId());
 				}
 			}
 		});

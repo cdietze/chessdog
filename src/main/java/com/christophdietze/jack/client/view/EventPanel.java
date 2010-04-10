@@ -61,9 +61,9 @@ public class EventPanel extends Composite {
 			public void onMatchStarted(MatchStartedEvent event) {
 				MatchInfo matchInfo = event.getMatchInfo();
 				StringBuilder sb = new StringBuilder();
-				sb.append("Match started - you play as ");
+				sb.append("New Match: You play as ");
 				sb.append(matchInfo.isPlayerWhite() ? "white" : "black");
-				sb.append(" against User[" + matchInfo.getOpponentId() + "].");
+				sb.append(" against Guest" + matchInfo.getOpponentId() + ".");
 				addMessage(sb.toString());
 			}
 		});
@@ -75,7 +75,7 @@ public class EventPanel extends Composite {
 					addMessage("You aborted the match.");
 					break;
 				case OPPONENT_ABORTED:
-					addMessage("The opponent aborted the match.");
+					addMessage("Your opponent aborted the match.");
 					break;
 				}
 			}
