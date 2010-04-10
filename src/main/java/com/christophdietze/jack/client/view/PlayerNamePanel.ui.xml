@@ -8,7 +8,7 @@
 			.playerToMove {
 				font-weight: bold;
 			}
-		</ui:style>
+	</ui:style>
 	<g:HTMLPanel>
 		<g:Image resource="{bundle.blackPlayerIcon}" />&nbsp;<g:InlineLabel ui:field="upperPlayerLabel" />
 		<br />

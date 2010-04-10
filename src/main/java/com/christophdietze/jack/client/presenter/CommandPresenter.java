@@ -3,6 +3,7 @@ package com.christophdietze.jack.client.presenter;
 import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.SignedInEvent;
+import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.common.AbortResponse;
@@ -86,7 +87,7 @@ public class CommandPresenter {
 				case OK:
 					Log.debug("You aborted the game");
 					gameModeManager.activateAnalysisMode();
-					eventBus.fireEvent(new MatchEndedEvent());
+					eventBus.fireEvent(new MatchEndedEvent(Reason.YOU_ABORTED));
 					break;
 				case NO_ACTIVE_MATCH:
 					Log.warn("You have no active match");

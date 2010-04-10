@@ -3,6 +3,7 @@ package com.christophdietze.jack.client.remote;
 import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
+import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.presenter.GameModeManager;
 import com.christophdietze.jack.client.presenter.MatchInfo;
@@ -52,9 +53,10 @@ public class ChessServiceCallback {
 			throw new RuntimeException("Received " + event + ", but I (User[" + myUserId
 					+ "]) am not playing in this match.");
 		}
-		MatchInfo matchInfo = new MatchInfo(event.getWhitePlayerId(), event.getBlackPlayerId());
+		boolean isPlayerWhite = applicationContext.getLocationId() == event.getWhitePlayerId();
+		MatchInfo matchInfo = new MatchInfo(event.getWhitePlayerId(), event.getBlackPlayerId(), isPlayerWhite);
 		gameModeManager.activateMatchMode(matchInfo);
-		eventBus.fireEvent(new MatchStartedEvent());
+		eventBus.fireEvent(new MatchStartedEvent(matchInfo));
 	}
 
 	private void onMove(MoveMadeRemoteEvent event) {
@@ -71,6 +73,6 @@ public class ChessServiceCallback {
 	private void onMatchAborted(MatchAbortedRemoteEvent event) {
 		Log.info("The other player aborted the match");
 		gameModeManager.activateAnalysisMode();
-		eventBus.fireEvent(new MatchEndedEvent());
+		eventBus.fireEvent(new MatchEndedEvent(Reason.OPPONENT_ABORTED));
 	}
 }

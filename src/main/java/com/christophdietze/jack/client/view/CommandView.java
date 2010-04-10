@@ -4,9 +4,6 @@ import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEventHandler;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.event.MatchStartedEventHandler;
-import com.christophdietze.jack.client.event.SignedInEvent;
-import com.christophdietze.jack.client.event.SignedInEventHandler;
-import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.presenter.CommandPresenter;
 import com.christophdietze.jack.client.presenter.GameModeManager;
 import com.christophdietze.jack.client.presenter.MatchMode;
@@ -18,7 +15,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -32,14 +28,9 @@ public class CommandView extends Composite implements CommandPresenter.View {
 
 	private CommandPresenter presenter;
 
-	private ApplicationContext applicationContext;
 	private GameModeManager gameModeManager;
 	private GlobalEventBus eventBus;
 
-	// @UiField
-	// HTML statusLabel;
-	// @UiField
-	// Button signInLink;
 	@UiField
 	Button seekLink;
 	@UiField
@@ -48,26 +39,17 @@ public class CommandView extends Composite implements CommandPresenter.View {
 	Button abortMatchLink;
 
 	@Inject
-	public CommandView(CommandPresenter presenter, ApplicationContext applicationContext,
-			GameModeManager gameModeManager, GlobalEventBus eventBus) {
+	public CommandView(CommandPresenter presenter, GameModeManager gameModeManager, GlobalEventBus eventBus) {
 		this.presenter = presenter;
-		this.applicationContext = applicationContext;
 		this.gameModeManager = gameModeManager;
 		this.eventBus = eventBus;
 		initWidget(uiBinder.createAndBindUi(this));
-		// seekLink.setVisible(false);
 		seekRunningPanel.setVisible(false);
 		presenter.bindView(this);
 		initListeners();
 	}
 
 	private void initListeners() {
-		// signInLink.addClickHandler(new ClickHandler() {
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// presenter.onSignInClick();
-		// }
-		// });
 		seekLink.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -82,13 +64,6 @@ public class CommandView extends Composite implements CommandPresenter.View {
 				presenter.onAbortMatchClick();
 			}
 		});
-
-		// eventBus.addHandler(SignedInEvent.TYPE, new SignedInEventHandler() {
-		// @Override
-		// public void onSignIn(SignedInEvent event) {
-		// seekLink.setVisible(true);
-		// }
-		// });
 		eventBus.addHandler(MatchStartedEvent.TYPE, new MatchStartedEventHandler() {
 			@Override
 			public void onMatchStarted(MatchStartedEvent event) {
@@ -109,31 +84,6 @@ public class CommandView extends Composite implements CommandPresenter.View {
 
 	@Override
 	public void update() {
-		// String statusText = getStatusText();
-		// statusLabel.setHTML(statusText);
-
-		boolean signedIn = applicationContext.isSignedIn();
-		// signInLink.setVisible(!signedIn);
 		abortMatchLink.setVisible(gameModeManager.getCurrentMode() instanceof MatchMode);
-	}
-
-	private String getStatusText() {
-		boolean signedIn = applicationContext.isSignedIn();
-		StringBuilder sb = new StringBuilder();
-		// if (!signedIn) {
-		// sb.append("You are not signed in.");
-		// } else {
-		// sb.append("You are signed in as User[" + applicationContext.getLocationId() + "].");
-		// }
-		// sb.append("<br/>");
-		// if (gameModeManager.getCurrentMode() instanceof AnalysisMode) {
-		// } else if (gameModeManager.getCurrentMode() instanceof MatchMode) {
-		// sb.append("<br/>");
-		// MatchMode matchMode = (MatchMode) gameModeManager.getCurrentMode();
-		// sb.append("You play as ");
-		// sb.append(matchMode.isPlayerWhite() ? "white" : "black");
-		// sb.append(" against User[" + matchMode.getOpponentId() + "].");
-		// }
-		return sb.toString();
 	}
 }

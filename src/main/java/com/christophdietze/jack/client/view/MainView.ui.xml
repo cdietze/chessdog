@@ -15,6 +15,11 @@
 			margin-left: 1em;
 			margin-top: 0.5em;
 		}
+		
+		.eventPanel {
+			margin-left: 1em;
+			margin-right: 1em;
+		}
 	</ui:style>
 
 	<!-- 	<g:HTMLPanel styleName="{style.rootPanel}"> -->
@@ -22,8 +27,15 @@
 		<g:north size="1.5">
 			<g:HTML></g:HTML>
 		</g:north>
-		<g:west size="15">
-			<v:CommandView styleName="{style.commandView}" />
+		<g:west size="18">
+			<g:LayoutPanel>
+				<g:layer>
+					<v:CommandView styleName="{style.commandView}" />
+				</g:layer>
+				<g:layer top="145px" height="16.5em">
+					<v:EventPanel styleName="{style.eventPanel}" />
+				</g:layer>
+			</g:LayoutPanel>
 		</g:west>
 		<g:center>
 			<g:FlowPanel>

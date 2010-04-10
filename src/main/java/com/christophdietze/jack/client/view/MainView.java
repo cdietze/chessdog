@@ -19,17 +19,19 @@ public class MainView extends Composite {
 	// inner class must be public for injection to work
 	public static class ProviderHelper {
 		@Inject
-		private Provider<CommandView> commandPanelProvider;
+		private Provider<RemotePoller> remotePollerProvider;
 		@Inject
 		private Provider<BoardView> boardViewProvider;
-		@Inject
-		private Provider<PlayerNamePanel> playerNamePanelProvider;
 		@Inject
 		private Provider<DragAndDropView> dndViewProvider;
 		@Inject
 		private Provider<PromotionView> promotionViewProvider;
 		@Inject
-		private Provider<RemotePoller> remotePollerProvider;
+		private Provider<CommandView> commandPanelProvider;
+		@Inject
+		private Provider<PlayerNamePanel> playerNamePanelProvider;
+		@Inject
+		private Provider<EventPanel> eventPanelProvider;
 	}
 
 	private ProviderHelper providerHelper;
@@ -51,9 +53,12 @@ public class MainView extends Composite {
 	BoardView makeBoardView() {
 		return providerHelper.boardViewProvider.get();
 	}
-
 	@UiFactory
 	PlayerNamePanel makePlayerNamePanel() {
 		return providerHelper.playerNamePanelProvider.get();
+	}
+	@UiFactory
+	EventPanel makeEventPanel() {
+		return providerHelper.eventPanelProvider.get();
 	}
 }

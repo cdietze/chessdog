@@ -7,6 +7,7 @@ import com.christophdietze.jack.client.event.MatchEndedEventHandler;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.event.MatchStartedEventHandler;
 import com.christophdietze.jack.client.presenter.GameModeManager;
+import com.christophdietze.jack.client.presenter.MatchInfo;
 import com.christophdietze.jack.client.presenter.MatchMode;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.common.board.Game;
@@ -63,12 +64,13 @@ public class PlayerNamePanel extends Composite {
 			@Override
 			public void onMatchStarted(MatchStartedEvent event) {
 				MatchMode matchMode = (MatchMode) gameModeManager.getCurrentMode();
-				if (matchMode.isPlayerWhite()) {
-					upperPlayerLabel.setText("User[" + matchMode.getBlackPlayerId() + "]");
+				MatchInfo matchInfo = matchMode.getMatchInfo();
+				if (matchInfo.isPlayerWhite()) {
+					upperPlayerLabel.setText("User[" + matchInfo.getBlackPlayerId() + "]");
 					lowerPlayerLabel.setText("You");
 				} else {
 					upperPlayerLabel.setText("You");
-					lowerPlayerLabel.setText("User[" + matchMode.getWhitePlayerId() + "]");
+					lowerPlayerLabel.setText("User[" + matchInfo.getWhitePlayerId() + "]");
 				}
 			}
 		});
