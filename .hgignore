@@ -9,3 +9,5 @@ syntax: regexp
 ^war/WEB-INF/appengine-generated$
 syntax: regexp
 ^WEB-INF/appengine-generated$
+syntax: regexp
+^war/admin$
