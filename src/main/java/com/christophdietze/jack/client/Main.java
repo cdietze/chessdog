@@ -18,7 +18,7 @@ public class Main implements EntryPoint {
 		final ApplicationContext applicationContext = injector.getApplicationContext();
 		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
 			public void onUncaughtException(Throwable ex) {
-				Log.error("uncaught exception:", ex);
+				Log.error("Uncaught exception:", ex);
 				JackServiceAsync service = GWT.create(JackService.class);
 				service.sendErrorReport(applicationContext.getLocationId(), buildErrorMessage(ex),
 						new AsyncCallback<Void>() {
