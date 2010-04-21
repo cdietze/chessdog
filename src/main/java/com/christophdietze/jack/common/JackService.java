@@ -12,4 +12,6 @@ public interface JackService extends RemoteService {
 	public AbortResponse abortMatch(long locationId);
 	public MakeMoveResponse makeMove(long locationId, String algebraicMove);
 	public RemoteEvent poll(long locationId);
+
+	public void sendErrorReport(long locationId, String message);
 }

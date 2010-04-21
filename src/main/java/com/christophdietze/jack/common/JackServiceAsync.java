@@ -9,5 +9,6 @@ public interface JackServiceAsync {
 	void abortMatch(long locationId, AsyncCallback<AbortResponse> callback);
 	void makeMove(long locationId, String algebraicMove, AsyncCallback<MakeMoveResponse> callback);
 	void poll(long locationId, AsyncCallback<RemoteEvent> callback);
+	void sendErrorReport(long locationId, String message, AsyncCallback<Void> callback);
 
 }
