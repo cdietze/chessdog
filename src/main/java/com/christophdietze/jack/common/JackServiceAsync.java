@@ -2,7 +2,7 @@ package com.christophdietze.jack.common;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public interface ChessServiceAsync {
+public interface JackServiceAsync {
 
 	void login(AsyncCallback<Long> callback);
 	void postSeek(long locationId, AsyncCallback<PostSeekResponse> callback);

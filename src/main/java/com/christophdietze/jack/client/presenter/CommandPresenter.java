@@ -7,7 +7,7 @@ import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.common.AbortResponse;
-import com.christophdietze.jack.common.ChessServiceAsync;
+import com.christophdietze.jack.common.JackServiceAsync;
 import com.christophdietze.jack.common.PostSeekResponse;
 import com.google.inject.Inject;
 
@@ -20,17 +20,17 @@ public class CommandPresenter {
 	private GlobalEventBus eventBus;
 	private ApplicationContext applicationContext;
 	private GameModeManager gameModeManager;
-	private ChessServiceAsync chessService;
+	private JackServiceAsync jackService;
 
 	private View view;
 
 	@Inject
 	public CommandPresenter(GlobalEventBus eventBus, ApplicationContext applicationContext,
-			GameModeManager gameModeManager, ChessServiceAsync chessService) {
+			GameModeManager gameModeManager, JackServiceAsync jackService) {
 		this.eventBus = eventBus;
 		this.applicationContext = applicationContext;
 		this.gameModeManager = gameModeManager;
-		this.chessService = chessService;
+		this.jackService = jackService;
 		initListeners();
 	}
 
@@ -42,7 +42,7 @@ public class CommandPresenter {
 
 	public void onSeekClick() {
 		if (!applicationContext.isSignedIn()) {
-			chessService.login(new MyAsyncCallback<Long>() {
+			jackService.login(new MyAsyncCallback<Long>() {
 				@Override
 				public void onSuccess(Long result) {
 					assert result != null;
@@ -58,7 +58,7 @@ public class CommandPresenter {
 	}
 
 	private void postSeek() {
-		chessService.postSeek(applicationContext.getLocationId(), new MyAsyncCallback<PostSeekResponse>() {
+		jackService.postSeek(applicationContext.getLocationId(), new MyAsyncCallback<PostSeekResponse>() {
 			@Override
 			public void onSuccess(PostSeekResponse result) {
 				switch (result) {
@@ -80,7 +80,7 @@ public class CommandPresenter {
 	}
 
 	public void onAbortMatchClick() {
-		chessService.abortMatch(applicationContext.getLocationId(), new MyAsyncCallback<AbortResponse>() {
+		jackService.abortMatch(applicationContext.getLocationId(), new MyAsyncCallback<AbortResponse>() {
 			@Override
 			public void onSuccess(AbortResponse result) {
 				switch (result) {

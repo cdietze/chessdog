@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import com.christophdietze.jack.server.ChessServiceImpl;
+import com.christophdietze.jack.server.JackServiceImpl;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.inject.Guice;
@@ -29,7 +29,7 @@ public class PlayGameTest extends TestCase {
 		// SessionTestHelper sessionHelper = new SessionTestHelper();
 		// Injector injector = Guice.createInjector(sessionHelper.getModule());
 		Injector injector = Guice.createInjector();
-		ChessServiceImpl chessService = injector.getInstance(ChessServiceImpl.class);
+		JackServiceImpl chessService = injector.getInstance(JackServiceImpl.class);
 
 		// final long session1 = 1;
 		// final long session2 = 2;

@@ -4,7 +4,7 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.event.PromotionMoveInitiatedEvent;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
-import com.christophdietze.jack.common.ChessServiceAsync;
+import com.christophdietze.jack.common.JackServiceAsync;
 import com.christophdietze.jack.common.MakeMoveResponse;
 import com.christophdietze.jack.common.board.ChessUtils;
 import com.christophdietze.jack.common.board.Game;
@@ -30,7 +30,7 @@ public class MatchMode extends GameMode {
 	private GlobalEventBus eventBus;
 
 	@Inject
-	private ChessServiceAsync chessService;
+	private JackServiceAsync chessService;
 
 	private MatchInfo matchInfo;
 
