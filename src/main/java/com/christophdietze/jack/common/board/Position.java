@@ -107,6 +107,9 @@ public class Position implements Serializable {
 		return phantomKingIndices;
 	}
 
+	/**
+	 * starts with 0
+	 */
 	public int getPly() {
 		return ChessUtils.toPlyFromFullmoveNumber(fullmoveNumber, whiteToMove);
 	}

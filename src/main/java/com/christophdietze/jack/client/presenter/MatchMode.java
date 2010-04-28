@@ -41,13 +41,19 @@ public class MatchMode extends GameMode {
 		}
 	}
 
-	private void sendMoveToServer(Move move, Game game) {
+	private void sendMoveToServer(final Move move, final Game game) {
 		String algebraicMove = ChessUtils.toAlgebraicMove(move);
 		chessService.makeMove(applicationContext.getLocationId(), algebraicMove, new MyAsyncCallback<MakeMoveResponse>() {
 			@Override
 			public void onSuccess(MakeMoveResponse result) {
 				switch (result) {
 				case OK:
+					try {
+						game.makeMoveVerified(move);
+					} catch (IllegalMoveException ex) {
+						throw new RuntimeException("move was checked before, server says ok, why is this move not ok now?!",
+								ex);
+					}
 					break;
 				case NO_ACTIVE_MATCH:
 					Log.error("Found no active match");
@@ -65,12 +71,12 @@ public class MatchMode extends GameMode {
 		});
 	}
 
-	void activate(MatchInfo matchInfo) {
+	public void activate(MatchInfo matchInfo) {
 		this.matchInfo = matchInfo;
 	}
 
 	@Override
-	void deactivate() {
+	public void deactivate() {
 		this.matchInfo = null;
 	}
 	//
@@ -109,7 +115,6 @@ public class MatchMode extends GameMode {
 		} else {
 			try {
 				onBeforeMove(move, game);
-				game.makeMoveVerified(move);
 				sendMoveToServer(move, game);
 			} catch (IllegalMoveException ex) {
 			}
