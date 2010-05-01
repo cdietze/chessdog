@@ -11,3 +11,5 @@ syntax: regexp
 ^WEB-INF/appengine-generated$
 syntax: regexp
 ^war/admin$
+syntax: regexp
+^tomcat$
