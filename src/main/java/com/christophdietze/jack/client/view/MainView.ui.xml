@@ -39,7 +39,7 @@
 		</g:west>
 		<g:center>
 			<g:FlowPanel>
-				<v:BoardView styleName="{style.boardView}" />
+				<v:BoardView addStyleNames="{style.boardView}" />
 				<v:PlayerNamePanel styleName="{style.playerNamePanel}" />
 			</g:FlowPanel>
 		</g:center>

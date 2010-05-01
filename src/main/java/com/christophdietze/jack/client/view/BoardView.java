@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -34,15 +33,12 @@ public class BoardView extends Composite implements BoardPresenter.View {
 	public BoardView(BoardPresenter model) {
 		super.initWidget(rootPanel);
 		this.model = model;
+		rootPanel.addStyleName(CSS.boardContainer());
 		initGrid();
 
 		update();
 		model.setView(this);
 		Log.debug("BoardView initialized");
-	}
-
-	public Panel getPanel() {
-		return rootPanel;
 	}
 
 	private void initGrid() {

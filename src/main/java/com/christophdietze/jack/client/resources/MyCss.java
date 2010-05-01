@@ -6,6 +6,7 @@ public interface MyCss extends CssResource {
 
 	String myLink();
 
+	String boardContainer();
 	String whiteSquare();
 	String blackSquare();
 	String rankLabel();

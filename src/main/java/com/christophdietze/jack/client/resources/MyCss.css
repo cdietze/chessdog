@@ -5,6 +5,8 @@
 @def blackColor #d18b47;
 @def squareSize 45px;
 @def rankLabelWidth 12px;
+@def boardWidth 372px;
+	
 html,body { /* required for dragNdrop */
 	height: 100%;
 }
@@ -27,6 +29,10 @@ body {
 
 .myLink:hover {
 	text-decoration: underline;
+}
+
+.boardContainer {
+	width: boardWidth;
 }
 
 .whiteSquare {

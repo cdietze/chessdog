@@ -48,12 +48,6 @@ public class MatchMode extends GameMode {
 			public void onSuccess(MakeMoveResponse result) {
 				switch (result) {
 				case OK:
-					try {
-						game.makeMoveVerified(move);
-					} catch (IllegalMoveException ex) {
-						throw new RuntimeException("move was checked before, server says ok, why is this move not ok now?!",
-								ex);
-					}
 					break;
 				case NO_ACTIVE_MATCH:
 					Log.error("Found no active match");
@@ -79,22 +73,6 @@ public class MatchMode extends GameMode {
 	public void deactivate() {
 		this.matchInfo = null;
 	}
-	//
-	// public boolean isPlayerWhite() {
-	// return applicationContext.getLocationId() == matchInfo.getWhitePlayerId();
-	// }
-	//
-	// public long getOpponentId() {
-	// return isPlayerWhite() ? matchInfo.getBlackPlayerId() : matchInfo.getWhitePlayerId();
-	// }
-	//
-	// public long getWhitePlayerId() {
-	// return matchInfo.getWhitePlayerId();
-	// }
-	//
-	// public long getBlackPlayerId() {
-	// return matchInfo.getBlackPlayerId();
-	// }
 
 	public MatchInfo getMatchInfo() {
 		return matchInfo;
@@ -115,6 +93,7 @@ public class MatchMode extends GameMode {
 		} else {
 			try {
 				onBeforeMove(move, game);
+				game.makeMoveVerified(move);
 				sendMoveToServer(move, game);
 			} catch (IllegalMoveException ex) {
 			}
