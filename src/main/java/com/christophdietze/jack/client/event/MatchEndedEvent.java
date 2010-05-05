@@ -18,7 +18,7 @@ public class MatchEndedEvent extends GwtEvent<MatchEndedEventHandler> {
 	}
 
 	@Override
-	public com.google.gwt.event.shared.GwtEvent.Type<MatchEndedEventHandler> getAssociatedType() {
+	public GwtEvent.Type<MatchEndedEventHandler> getAssociatedType() {
 		return TYPE;
 	}
 

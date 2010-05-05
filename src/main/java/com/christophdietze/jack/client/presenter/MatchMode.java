@@ -1,7 +1,10 @@
 package com.christophdietze.jack.client.presenter;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.PromotionMoveInitiatedEvent;
+import com.christophdietze.jack.client.event.SwitchGameModeEvent;
+import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.common.JackServiceAsync;
@@ -22,13 +25,10 @@ public class MatchMode extends GameMode {
 
 	@Inject
 	private ApplicationContext applicationContext;
-
 	@Inject
 	private Game game;
-
 	@Inject
 	private GlobalEventBus eventBus;
-
 	@Inject
 	private JackServiceAsync chessService;
 
@@ -50,7 +50,9 @@ public class MatchMode extends GameMode {
 				case OK:
 					break;
 				case NO_ACTIVE_MATCH:
-					Log.error("Found no active match");
+					Log.warn("Found no active match, probably the opponent has just aborted the match");
+					eventBus.fireEvent(SwitchGameModeEvent.newSwitchToAnalysisModeEvent());
+					eventBus.fireEvent(new MatchEndedEvent(Reason.OPPONENT_ABORTED));
 					break;
 				case MOVE_FOR_OPPOSITE_PLAYER:
 					Log.error("Server says you tried to make a move for the opponent");

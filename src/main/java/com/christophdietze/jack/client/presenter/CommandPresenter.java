@@ -3,6 +3,7 @@ package com.christophdietze.jack.client.presenter;
 import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.SignedInEvent;
+import com.christophdietze.jack.client.event.SwitchGameModeEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
@@ -19,17 +20,14 @@ public class CommandPresenter {
 
 	private GlobalEventBus eventBus;
 	private ApplicationContext applicationContext;
-	private GameModeManager gameModeManager;
 	private JackServiceAsync jackService;
 
 	private View view;
 
 	@Inject
-	public CommandPresenter(GlobalEventBus eventBus, ApplicationContext applicationContext,
-			GameModeManager gameModeManager, JackServiceAsync jackService) {
+	public CommandPresenter(GlobalEventBus eventBus, ApplicationContext applicationContext, JackServiceAsync jackService) {
 		this.eventBus = eventBus;
 		this.applicationContext = applicationContext;
-		this.gameModeManager = gameModeManager;
 		this.jackService = jackService;
 		initListeners();
 	}
@@ -86,7 +84,7 @@ public class CommandPresenter {
 				switch (result) {
 				case OK:
 					Log.debug("You aborted the game");
-					gameModeManager.activateAnalysisMode();
+					eventBus.fireEvent(SwitchGameModeEvent.newSwitchToAnalysisModeEvent());
 					eventBus.fireEvent(new MatchEndedEvent(Reason.YOU_ABORTED));
 					break;
 				case NO_ACTIVE_MATCH:

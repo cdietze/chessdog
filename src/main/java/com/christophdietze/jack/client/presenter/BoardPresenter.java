@@ -22,14 +22,12 @@ public class BoardPresenter {
 
 	private View view;
 	private Game game;
-	// private PromotionModel promotionModel;
 	private GlobalEventBus eventBus;
 	private Move promotionMove;
 
 	@Inject
 	public BoardPresenter(GlobalEventBus eventBus, Game game) {
 		this.eventBus = eventBus;
-		// this.promotionModel = promotionModel;
 		this.game = game;
 		initListeners();
 	}

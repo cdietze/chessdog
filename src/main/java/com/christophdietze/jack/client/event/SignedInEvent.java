@@ -17,7 +17,7 @@ public class SignedInEvent extends GwtEvent<SignedInEventHandler> {
 	}
 
 	@Override
-	public com.google.gwt.event.shared.GwtEvent.Type<SignedInEventHandler> getAssociatedType() {
+	public GwtEvent.Type<SignedInEventHandler> getAssociatedType() {
 		return TYPE;
 	}
 

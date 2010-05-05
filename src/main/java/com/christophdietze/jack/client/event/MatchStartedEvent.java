@@ -14,7 +14,7 @@ public class MatchStartedEvent extends GwtEvent<MatchStartedEventHandler> {
 	}
 
 	@Override
-	public com.google.gwt.event.shared.GwtEvent.Type<MatchStartedEventHandler> getAssociatedType() {
+	public GwtEvent.Type<MatchStartedEventHandler> getAssociatedType() {
 		return TYPE;
 	}
 

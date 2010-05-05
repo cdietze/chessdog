@@ -1,5 +1,7 @@
 package com.christophdietze.jack.client.view;
 
+import java.util.List;
+
 import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.presenter.BoardPresenter;
 import com.christophdietze.jack.client.resources.MyClientBundle;
@@ -9,6 +11,7 @@ import com.christophdietze.jack.client.resources.PieceImageProvider;
 import com.christophdietze.jack.common.board.ChessUtils;
 import com.christophdietze.jack.common.board.Piece;
 import com.christophdietze.jack.common.board.PieceType;
+import com.google.common.collect.Lists;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -28,6 +31,8 @@ public class BoardView extends Composite implements BoardPresenter.View {
 	private BoardPresenter model;
 	private FlowPanel rootPanel = new FlowPanel();
 	private final Image[] squareImages = new Image[64];
+	private List<Label> fileLabels = Lists.newArrayList(); // a-h
+	private List<Label> rankLabels = Lists.newArrayList(); // 1-8
 
 	@Inject
 	public BoardView(BoardPresenter model) {
@@ -49,6 +54,7 @@ public class BoardView extends Composite implements BoardPresenter.View {
 
 				if (file == 0) {
 					Label rankLabel = new Label(Character.toString((char) ('1' + rank)));
+					rankLabels.add(rankLabel);
 					rankLabel.addStyleName(CSS.rankLabel2());
 					rootPanel.add(rankLabel);
 				}
@@ -64,6 +70,7 @@ public class BoardView extends Composite implements BoardPresenter.View {
 		rootPanel.add(fileLabelPlaceholder);
 		for (int file = 0; file < 8; ++file) {
 			Label fileLabel = new Label(Character.toString((char) ('a' + file)));
+			fileLabels.add(fileLabel);
 			fileLabel.addStyleName(CSS.fileLabel2());
 			rootPanel.add(fileLabel);
 		}
@@ -71,12 +78,18 @@ public class BoardView extends Composite implements BoardPresenter.View {
 
 	@Override
 	public void update() {
+		for (int i = 0; i < 8; ++i) {
+			int file = model.getGame().isWhiteAtBottom() ? i : 7 - i;
+			int rank = model.getGame().isWhiteAtBottom() ? 7 - i : i;
+			fileLabels.get(i).setText(Character.toString((char) ('a' + file)));
+			rankLabels.get(i).setText(Character.toString((char) ('1' + rank)));
+		}
 		for (int index = 0; index < 64; ++index) {
+			int viewIndex = model.getGame().isWhiteAtBottom() ? index : 63 - index;
 			Piece square = model.getGame().getPosition().getPiece(index);
-			squareImages[index].setResource(PieceImageProvider.getImageResource(square));
+			squareImages[viewIndex].setResource(PieceImageProvider.getImageResource(square));
 		}
 	}
-
 	@Override
 	public void showPromotionPawn(int from, int to) {
 		int rank = ChessUtils.toRank(to);

@@ -76,14 +76,15 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 	private void updateDraggables() {
 		Position position = model.getGame().getPosition();
 		for (int index = 0; index < 64; ++index) {
-			if (position.getPiece(index).isPiece() && !draggablesBitSet[index]) {
-				draggablesBitSet[index] = true;
-				Image image = boardView.getSquareImages()[index];
+			int viewIndex = model.getGame().isWhiteAtBottom() ? index : 63 - index;
+			if (position.getPiece(index).isPiece() && !draggablesBitSet[viewIndex]) {
+				draggablesBitSet[viewIndex] = true;
+				Image image = boardView.getSquareImages()[viewIndex];
 				dragController.makeDraggable(image);
 			}
-			if (!position.getPiece(index).isPiece() && draggablesBitSet[index]) {
-				draggablesBitSet[index] = false;
-				Image image = boardView.getSquareImages()[index];
+			if (!position.getPiece(index).isPiece() && draggablesBitSet[viewIndex]) {
+				draggablesBitSet[viewIndex] = false;
+				Image image = boardView.getSquareImages()[viewIndex];
 				dragController.makeNotDraggable(image);
 			}
 		}
@@ -97,16 +98,17 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 			super(RootPanel.get());
 			draggingImage.setResource(PieceImageBundle.INSTANCE.empty());
 			draggingImage.addStyleName(CSS.draggingImage());
-			// draggingImage.getElement().getStyle().setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
 			draggingImage.setVisible(false);
 			RootLayoutPanel.get().add(draggingImage);
-			// RootPanel.get().add(draggingImage);
 			this.addDragHandler(new DragHandlerAdapter() {
 				@Override
 				public void onDragStart(DragStartEvent event) {
 					draggingImage.setVisible(true);
 					Image image = (Image) event.getContext().draggable;
 					int index = imageMap.get(image);
+					if (!model.getGame().isWhiteAtBottom()) {
+						index = 63 - index;
+					}
 					Piece piece = model.getGame().getPosition().getPiece(index);
 					draggingImage.setResource(PieceImageProvider.getImageResource(piece));
 				}
@@ -118,6 +120,10 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 					int toIndex = calcIndexOfMouse();
 					if (toIndex < 0) {
 						return;
+					}
+					if (!model.getGame().isWhiteAtBottom()) {
+						fromIndex = 63 - fromIndex;
+						toIndex = 63 - toIndex;
 					}
 					model.movePiece(fromIndex, toIndex);
 				}

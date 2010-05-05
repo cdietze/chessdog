@@ -16,6 +16,8 @@ public class Game {
 	private GameMetaInfo metaInfo = new GameMetaInfo();
 	private GameResult gameResult;
 
+	private boolean whiteAtBottom = true;
+
 	@Inject
 	public Game(GlobalEventBus eventBus) {
 		this.eventBus = eventBus;
@@ -24,6 +26,14 @@ public class Game {
 		initialMoveNode = MoveNode.createInitialNode(initialPosition);
 		currentMoveNode = initialMoveNode;
 		initListeners();
+	}
+
+	public boolean isWhiteAtBottom() {
+		return whiteAtBottom;
+	}
+
+	public void setWhiteAtBottom(boolean whiteAtBottom) {
+		this.whiteAtBottom = whiteAtBottom;
 	}
 
 	private void clearAttributes() {
