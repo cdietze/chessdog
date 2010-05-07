@@ -5,13 +5,46 @@
 		field="bundle" />
 	<ui:style
 		type="com.christophdietze.jack.client.view.PlayerNamePanel.MyStyle">
-			.playerToMove {
-				font-weight: bold;
+			.icon {
+				display: inline;
+				line-height: 22px;
+				vertical-align: bottom;
+				margin-right: 5px;
 			}
-	</ui:style>
+			
+			.label {
+				line-height: 22px;
+			}
+			
+			.inactiveSection {
+				display: inline;
+				padding: 5px;
+				border: 1px solid #fff;
+			}
+			
+			.activeSection {
+				display: inline;
+				padding: 5px;
+				border: 1px solid #aaa;
+			}
+			
+			.spacer {
+				line-height: 8px;
+			}
+		</ui:style>
 	<g:HTMLPanel>
-		<g:Image ui:field="upperPlayerIcon" />&nbsp;<g:InlineLabel ui:field="upperPlayerLabel" />
-		<br />
-		<g:Image ui:field="lowerPlayerIcon" />&nbsp;<g:InlineLabel ui:field="lowerPlayerLabel" />
+		<g:HTMLPanel ui:field="upperSection">
+			<g:HTMLPanel styleName="{style.icon}">
+				<g:Image ui:field="upperPlayerIcon" styleName="{style.icon}" />
+			</g:HTMLPanel>
+			<g:InlineLabel ui:field="upperPlayerLabel" styleName="{style.label}" />
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="{style.spacer}">&nbsp;</g:HTMLPanel>
+		<g:HTMLPanel ui:field="lowerSection">
+			<g:HTMLPanel styleName="{style.icon}">
+				<g:Image ui:field="lowerPlayerIcon" styleName="{style.icon}" />
+			</g:HTMLPanel>
+			<g:InlineLabel ui:field="lowerPlayerLabel" styleName="{style.label}" />
+		</g:HTMLPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

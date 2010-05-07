@@ -17,14 +17,16 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
 public class PlayerNamePanel extends Composite {
 
-	private static final String WHITE_PLAYER_DEFAULT_NAME = "White player";
+	private static final String WHITE_PLAYER_DEFAULT_NAME = "White player long name";
 	private static final String BLACK_PLAYER_DEFAULT_NAME = "Black player";
 
 	private static MyClientBundle myClientBundle = MyClientBundle.INSTANCE;
@@ -35,7 +37,8 @@ public class PlayerNamePanel extends Composite {
 	}
 
 	interface MyStyle extends CssResource {
-		String playerToMove();
+		String activeSection();
+		String inactiveSection();
 	}
 
 	private GlobalEventBus eventBus;
@@ -54,6 +57,11 @@ public class PlayerNamePanel extends Composite {
 	Image upperPlayerIcon;
 	@UiField
 	Image lowerPlayerIcon;
+
+	@UiField
+	HTMLPanel upperSection;
+	@UiField
+	HTMLPanel lowerSection;
 
 	@Inject
 	public PlayerNamePanel(GlobalEventBus eventBus, GameModeManager gameModeManager, Game game) {
@@ -109,12 +117,18 @@ public class PlayerNamePanel extends Composite {
 	}
 
 	private void updatePlayerNameHighlighting() {
+		UIObject activeSection;
+		UIObject inactiveSection;
 		if (game.getPosition().isWhiteToMove() == game.isWhiteAtBottom()) {
-			upperPlayerLabel.removeStyleName(style.playerToMove());
-			lowerPlayerLabel.addStyleName(style.playerToMove());
+			activeSection = lowerSection;
+			inactiveSection = upperSection;
 		} else {
-			upperPlayerLabel.addStyleName(style.playerToMove());
-			lowerPlayerLabel.removeStyleName(style.playerToMove());
+			activeSection = upperSection;
+			inactiveSection = lowerSection;
 		}
+		activeSection.addStyleName(style.activeSection());
+		activeSection.removeStyleName(style.inactiveSection());
+		inactiveSection.addStyleName(style.inactiveSection());
+		inactiveSection.removeStyleName(style.activeSection());
 	}
 }
