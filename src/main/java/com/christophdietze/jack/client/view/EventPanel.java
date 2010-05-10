@@ -4,6 +4,8 @@ import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEventHandler;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.event.MatchStartedEventHandler;
+import com.christophdietze.jack.client.event.SignedInEvent;
+import com.christophdietze.jack.client.event.SignedInEventHandler;
 import com.christophdietze.jack.client.presenter.MatchInfo;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.google.gwt.core.client.GWT;
@@ -78,6 +80,12 @@ public class EventPanel extends Composite {
 					addMessage("Your opponent aborted the match.");
 					break;
 				}
+			}
+		});
+		eventBus.addHandler(SignedInEvent.TYPE, new SignedInEventHandler() {
+			@Override
+			public void onSignIn(SignedInEvent event) {
+				addMessage("You are signed in as Guest" + event.getLocationId() + ".");
 			}
 		});
 	}

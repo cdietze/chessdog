@@ -18,6 +18,8 @@ public class MoveChecker {
 	private static final int bishopDirections[] = { -13, -11, 11, 13 };
 	private static final int rookDirections[] = { -12, -1, 1, 12 };
 	private static final int queenDirections[] = { -13, -12, -11, -1, 1, 11, 12, 13 };
+	private static final int whitePawnOffsets[] = { 11, 12, 13, 24 };
+	private static final int blackPawnOffsets[] = { -11, -12, -13, -24 };
 
 	static {
 		init();
@@ -48,7 +50,7 @@ public class MoveChecker {
 			return MoveLegality.CANNOT_CAPTURE_OWN_PIECES;
 		}
 		Piece fromSquare = position.getPiece(move.getFrom());
-		PieceType piece = fromSquare.getPiece();
+		PieceType piece = fromSquare.getPieceType();
 		if (piece == null) {
 			return MoveLegality.BASIC_ILLEGAL_MOVE;
 		}
@@ -60,22 +62,24 @@ public class MoveChecker {
 			return MoveLegality.IT_IS_BLACKS_TURN;
 		}
 
-		if (piece == PieceType.PAWN) {
+		switch (piece) {
+		case PAWN:
 			return MoveLegality.valueOf(isPseudoLegalPawnMove(position, move));
-		} else if (piece == PieceType.KING) {
+		case KING:
 			if (isPseudoLegalCastleMove(position, move)) {
 				return MoveLegality.LEGAL_MOVE;
+			} else {
+				return MoveLegality.valueOf(isPseudoLegalMoveByOffset(position, kingMoveOffsets, move));
 			}
-			return MoveLegality.valueOf(isPseudoLegalMoveByOffset(position, kingMoveOffsets, move));
-		} else if (piece == PieceType.KNIGHT) {
+		case KNIGHT:
 			return MoveLegality.valueOf(isPseudoLegalMoveByOffset(position, knightMoveOffsets, move));
-		} else if (piece == PieceType.BISHOP) {
+		case BISHOP:
 			return MoveLegality.valueOf(isPseudoLegalMoveByDirection(position, bishopDirections, move));
-		} else if (piece == PieceType.ROOK) {
+		case ROOK:
 			return MoveLegality.valueOf(isPseudoLegalMoveByDirection(position, rookDirections, move));
-		} else if (piece == PieceType.QUEEN) {
+		case QUEEN:
 			return MoveLegality.valueOf(isPseudoLegalMoveByDirection(position, queenDirections, move));
-		} else {
+		default:
 			throw new AssertionError();
 		}
 	}
@@ -219,5 +223,102 @@ public class MoveChecker {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * @return true exactly when the current player has at least one legal move.
+	 */
+	public static boolean hasLegalMove(Position position) {
+		for (int index = 0; index < 64; ++index) {
+			Piece piece = position.getPiece(index);
+			if (piece.isEmpty() || piece.isWhite() != position.isWhiteToMove()) {
+				continue;
+			}
+			switch (piece.getPieceType()) {
+			case PAWN:
+				if (hasLegalPawnMoves(position, index)) {
+					return true;
+				}
+				break;
+			case KING:
+				// A king always has a normal legal move when he has a legal castle move, thus we can skip the castle moves
+				if (hasLegalMoveByOffset(position, index, kingMoveOffsets)) {
+					return true;
+				}
+				break;
+			case KNIGHT:
+				if (hasLegalMoveByOffset(position, index, knightMoveOffsets)) {
+					return true;
+				}
+				break;
+			case BISHOP:
+				if (hasLegalMoveByDirection(position, index, bishopDirections)) {
+					return true;
+				}
+				break;
+			case ROOK:
+				if (hasLegalMoveByDirection(position, index, rookDirections)) {
+					return true;
+				}
+				break;
+			case QUEEN:
+				if (hasLegalMoveByDirection(position, index, queenDirections)) {
+					return true;
+				}
+				break;
+			default:
+				throw new AssertionError();
+			}
+		}
+		return false;
+	}
+
+	private static boolean hasLegalMoveByOffset(Position position, int index, int[] offsets) {
+		int boundaryIndex = toBoundaryIndex(index);
+		for (int offset : offsets) {
+			int toBoundaryIndex = boundaryIndex + offset;
+			if (boundaryBoardIndices[toBoundaryIndex] < 0) {
+				continue;
+			}
+			if (isLegalMove(position, new Move(index, toRealIndex(toBoundaryIndex)))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static boolean hasLegalMoveByDirection(Position position, int index, int[] directions) {
+		int boundaryIndex = toBoundaryIndex(index);
+		for (int direction : directions) {
+			for (int curBoundaryIndex = boundaryIndex + direction; boundaryBoardIndices[curBoundaryIndex] >= 0; curBoundaryIndex += direction) {
+				Move move = new Move(index, toRealIndex(curBoundaryIndex));
+				if (!isPseudoLegalMove(position, move).isLegal()) {
+					break;
+				}
+				if (isLegalMove(position, move)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private static boolean hasLegalPawnMoves(Position position, int index) {
+		int boundaryIndex = toBoundaryIndex(index);
+		int[] offsets = position.isWhiteToMove() ? whitePawnOffsets : blackPawnOffsets;
+		for (int offset : offsets) {
+			int toIndex = boundaryBoardIndices[boundaryIndex + offset];
+			if (toIndex < 0) {
+				continue;
+			}
+			int toRank = ChessUtils.toRank(toIndex);
+			PieceType promotionPiece = position.isWhiteToMove() ? (toRank != 7 ? null : PieceType.QUEEN)
+					: (toRank != 0 ? null : PieceType.QUEEN);
+			Move move = new Move(index, toIndex, promotionPiece);
+			if (isLegalMove(position, move)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -149,7 +149,7 @@ public class SanParser {
 	private Move findSpecificMove() throws SanParsingException {
 		// find the pieces that are candidates
 		List<Integer> fromIndices = position
-				.findPieces(Piece.getFromColorAndPiece(position.isWhiteToMove(), movingPiece));
+				.findPieces(Piece.getFromColorAndPieceType(position.isWhiteToMove(), movingPiece));
 		if (fromIndices.size() == 0) {
 			throw new SanParsingException("Found no matching piece on the board");
 		}

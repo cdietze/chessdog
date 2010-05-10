@@ -183,8 +183,8 @@ public class FenParser {
 
 	private static void initMaps() {
 		for (PieceType piece : PieceType.values()) {
-			Piece whiteSquare = Piece.getFromColorAndPiece(true, piece);
-			Piece blackSquare = Piece.getFromColorAndPiece(false, piece);
+			Piece whiteSquare = Piece.getFromColorAndPieceType(true, piece);
+			Piece blackSquare = Piece.getFromColorAndPieceType(false, piece);
 			putMapping(whiteSquare, Character.toUpperCase(piece.getSymbol()));
 			putMapping(blackSquare, Character.toLowerCase(piece.getSymbol()));
 		}

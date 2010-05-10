@@ -26,7 +26,7 @@ import com.google.inject.Inject;
 
 public class PlayerNamePanel extends Composite {
 
-	private static final String WHITE_PLAYER_DEFAULT_NAME = "White player long name";
+	private static final String WHITE_PLAYER_DEFAULT_NAME = "White player";
 	private static final String BLACK_PLAYER_DEFAULT_NAME = "Black player";
 
 	private static MyClientBundle myClientBundle = MyClientBundle.INSTANCE;

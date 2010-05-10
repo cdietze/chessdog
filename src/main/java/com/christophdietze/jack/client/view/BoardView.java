@@ -94,7 +94,7 @@ public class BoardView extends Composite implements BoardPresenter.View {
 	public void showPromotionPawn(int from, int to) {
 		int rank = ChessUtils.toRank(to);
 		assert rank == 0 || rank == 7;
-		Piece pawn = Piece.getFromColorAndPiece(rank == 7, PieceType.PAWN);
+		Piece pawn = Piece.getFromColorAndPieceType(rank == 7, PieceType.PAWN);
 		squareImages[to].setResource(PieceImageProvider.getImageResource(pawn));
 		squareImages[from].setResource(PieceImageBundle.INSTANCE.empty());
 	}

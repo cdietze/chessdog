@@ -8,7 +8,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 /**
- * A Immutable Position
+ * A immutable Position.
  * 
  * <pre>
  *   |-----------------------|

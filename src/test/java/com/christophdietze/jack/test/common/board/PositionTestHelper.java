@@ -55,7 +55,7 @@ public class PositionTestHelper {
 			char pieceSymbol = squareNotation.charAt(0);
 			PieceType pieceType = PieceType.getBySymbol(Character.toUpperCase(pieceSymbol));
 			boolean isWhite = Character.isUpperCase(pieceSymbol);
-			piece = Piece.getFromColorAndPiece(isWhite, pieceType);
+			piece = Piece.getFromColorAndPieceType(isWhite, pieceType);
 		}
 		assert piece != null;
 		int index = ChessUtils.toIndexFromAlgebraic(squareNotation.substring(offset, offset + 2));

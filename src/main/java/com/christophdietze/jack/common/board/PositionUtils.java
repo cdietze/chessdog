@@ -80,7 +80,7 @@ public class PositionUtils {
 				if (move.getPromotionPiece() == null) {
 					throw new RuntimeException("Made a promotion move, but no promotion piece selected");
 				}
-				Piece promoPiece = Piece.getFromColorAndPiece(builder.isWhiteToMove(), move.getPromotionPiece());
+				Piece promoPiece = Piece.getFromColorAndPieceType(builder.isWhiteToMove(), move.getPromotionPiece());
 				builder.piece(move.getTo(), promoPiece);
 			}
 			builder.switchPlayerToMove();
@@ -129,6 +129,24 @@ public class PositionUtils {
 			return true;
 		}
 		return false;
+	}
+
+	public static enum GameState {
+		// TODO: detect draw by 50 move rule
+		// TODO: detect draw by threefold repetition
+		ACTIVE, MATE, STALEMATE;
+	}
+
+	public static GameState getGameState(Position position) {
+		if (MoveChecker.hasLegalMove(position)) {
+			return GameState.ACTIVE;
+		}
+		Position trialPosition = new Position.Builder(position).whiteToMove(!position.isWhiteToMove()).build();
+		if (MoveChecker.canCaptureKing(trialPosition)) {
+			return GameState.MATE;
+		} else {
+			return GameState.STALEMATE;
+		}
 	}
 
 	/**

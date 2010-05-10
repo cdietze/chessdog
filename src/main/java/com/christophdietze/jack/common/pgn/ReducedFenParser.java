@@ -57,7 +57,7 @@ public class ReducedFenParser {
 			if (piece == null) {
 				throw new ReducedFenParsingException("Unrecognized symbol '" + ch + "'");
 			}
-			Piece square = Piece.getFromColorAndPiece(isWhite, piece);
+			Piece square = Piece.getFromColorAndPieceType(isWhite, piece);
 			if (index > 63) {
 				throw new ReducedFenParsingException("Input too long");
 			}

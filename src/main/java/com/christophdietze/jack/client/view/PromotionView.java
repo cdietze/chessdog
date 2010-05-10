@@ -68,7 +68,7 @@ public class PromotionView implements PromotionPresenter.View {
 		popupPanel.setWidget(flow);
 		for (final PieceType piece : new PieceType[] { PieceType.QUEEN, PieceType.ROOK, PieceType.BISHOP,
 				PieceType.KNIGHT }) {
-			Piece square = Piece.getFromColorAndPiece(isWhite, piece);
+			Piece square = Piece.getFromColorAndPieceType(isWhite, piece);
 			Image image = PieceImageProvider.getImage(square);
 			image.addStyleName(CSS.promotionPieceImage());
 			image.addClickHandler(new ClickHandler() {

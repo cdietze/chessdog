@@ -42,7 +42,7 @@ public class SanWriter {
 	}
 
 	private boolean writeIfCastle() {
-		if (fromSquare.getPiece() != PieceType.KING) {
+		if (fromSquare.getPieceType() != PieceType.KING) {
 			return false;
 		}
 		if (move.getFrom() == 4 && move.getTo() == 6) {
@@ -65,8 +65,8 @@ public class SanWriter {
 	}
 
 	private void writePieceSymbol() {
-		if (fromSquare.getPiece() != PieceType.PAWN) {
-			sb.append(fromSquare.getPiece().getSymbol());
+		if (fromSquare.getPieceType() != PieceType.PAWN) {
+			sb.append(fromSquare.getPieceType().getSymbol());
 		}
 	}
 
@@ -152,10 +152,10 @@ public class SanWriter {
 	}
 
 	private void writeCaptureX() {
-		if (toSquare.getPiece() != null) {
+		if (toSquare.getPieceType() != null) {
 			sb.append("x");
 		} else {
-			if (fromSquare.getPiece() == PieceType.PAWN
+			if (fromSquare.getPieceType() == PieceType.PAWN
 					&& (toSquare == Piece.WHITE_EN_PASSANT_PAWN || toSquare == Piece.BLACK_EN_PASSANT_PAWN)) {
 				sb.append("x");
 			}

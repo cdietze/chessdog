@@ -29,7 +29,7 @@ public class ReducedFenWriter {
 				sb.append(skipCount);
 				skipCount = 0;
 			}
-			char symbol = square.getPiece().getSymbol();
+			char symbol = square.getPieceType().getSymbol();
 			if (!square.isWhite()) {
 				symbol = Character.toLowerCase(symbol);
 			}
