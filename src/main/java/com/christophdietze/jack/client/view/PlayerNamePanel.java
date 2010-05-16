@@ -83,13 +83,8 @@ public class PlayerNamePanel extends Composite {
 			public void onMatchStarted(MatchStartedEvent event) {
 				MatchMode matchMode = (MatchMode) gameModeManager.getCurrentMode();
 				MatchInfo matchInfo = matchMode.getMatchInfo();
-				if (matchInfo.isPlayerWhite() == game.isWhiteAtBottom()) {
-					upperPlayerLabel.setText("Guest" + matchInfo.getBlackPlayerId());
-					lowerPlayerLabel.setText("You");
-				} else {
-					upperPlayerLabel.setText("You");
-					lowerPlayerLabel.setText("Guest" + matchInfo.getWhitePlayerId());
-				}
+				upperPlayerLabel.setText("Guest" + matchInfo.getOpponentId());
+				lowerPlayerLabel.setText("You");
 				upperPlayerIcon.setResource(game.isWhiteAtBottom() ? myClientBundle.blackPlayerIcon() : myClientBundle
 						.whitePlayerIcon());
 				lowerPlayerIcon.setResource(game.isWhiteAtBottom() ? myClientBundle.whitePlayerIcon() : myClientBundle
