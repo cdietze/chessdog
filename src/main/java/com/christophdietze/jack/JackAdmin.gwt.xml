@@ -26,6 +26,7 @@
 	<!-- Specify the paths for translatable code                    -->
 	<source path='client' />
 	<source path='common' />
-
- 	<set-property name="user.agent" value="gecko1_8, ie8, safari" />	
+<!-- 
+ 	<set-property name="user.agent" value="gecko1_8, ie8, safari" />
+ 	 -->	
 </module>
