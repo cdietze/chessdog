@@ -17,5 +17,7 @@
 		</g:HTMLPanel>
 
 		<g:Button ui:field="abortMatchLink" text="Abort Match" />
+		
+		<!-- <g:Button ui:field="errorButton" text="Induce Error" />  -->
 	</g:HTMLPanel>
 </ui:UiBinder> 

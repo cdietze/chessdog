@@ -6,6 +6,8 @@ import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.event.MatchStartedEventHandler;
 import com.christophdietze.jack.client.event.SignedInEvent;
 import com.christophdietze.jack.client.event.SignedInEventHandler;
+import com.christophdietze.jack.client.event.UncaughtExceptionEvent;
+import com.christophdietze.jack.client.event.UncaughtExceptionEventHandler;
 import com.christophdietze.jack.client.presenter.MatchInfo;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.google.gwt.core.client.GWT;
@@ -86,6 +88,12 @@ public class MessagePanel extends Composite {
 			@Override
 			public void onSignIn(SignedInEvent event) {
 				addMessage("You are signed in as Guest" + event.getLocationId() + ".");
+			}
+		});
+		eventBus.addHandler(UncaughtExceptionEvent.TYPE, new UncaughtExceptionEventHandler() {
+			@Override
+			public void onException(UncaughtExceptionEvent event) {
+				addMessage("Oops, an unexpected error occurred: " + event.getMessage());
 			}
 		});
 	}

@@ -1,6 +1,7 @@
 package com.christophdietze.jack.client.util;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.StatusCodeException;
 
 public abstract class MyAsyncCallback<T> implements AsyncCallback<T> {
 
@@ -13,6 +14,10 @@ public abstract class MyAsyncCallback<T> implements AsyncCallback<T> {
 	}
 	@Override
 	public void onFailure(Throwable ex) {
-		throw new RuntimeException(ex);
+		StringBuilder sb = new StringBuilder("An RPC error occured");
+		if (ex instanceof StatusCodeException) {
+			sb.append(", status code is " + ((StatusCodeException) ex).getStatusCode());
+		}
+		throw new RuntimeException(sb.toString(), ex);
 	}
 }

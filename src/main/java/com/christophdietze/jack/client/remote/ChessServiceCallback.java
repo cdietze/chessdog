@@ -56,6 +56,8 @@ public class ChessServiceCallback {
 		MatchInfo matchInfo = new MatchInfo(event.getWhitePlayerId(), event.getBlackPlayerId(), isPlayerWhite);
 		eventBus.fireEvent(SwitchGameModeEvent.newSwitchToMatchModeEvent(matchInfo));
 		eventBus.fireEvent(new MatchStartedEvent(matchInfo));
+		// A GameUpdatedEvent is already sent when the starting position is set up, but the direction of the board might
+		// have flipped now. This is of interest for e.g., Drag n Drop
 		eventBus.fireEvent(new GameUpdatedEvent());
 	}
 

@@ -37,6 +37,8 @@ public class CommandView extends Composite implements CommandPresenter.View {
 	HTMLPanel seekRunningPanel;
 	@UiField
 	Button abortMatchLink;
+	// @UiField
+	// Button errorButton;
 
 	@Inject
 	public CommandView(CommandPresenter presenter, GameModeManager gameModeManager, GlobalEventBus eventBus) {
@@ -80,6 +82,18 @@ public class CommandView extends Composite implements CommandPresenter.View {
 				update();
 			}
 		});
+
+		// errorButton.addClickHandler(new ClickHandler() {
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// JackServiceAsync service = GWT.create(JackService.class);
+		// service.induceError("Induced_Error_Message", new MyAsyncCallback<Void>() {
+		// @Override
+		// public void onSuccess(Void arg0) {
+		// }
+		// });
+		// }
+		// });
 	}
 
 	@Override

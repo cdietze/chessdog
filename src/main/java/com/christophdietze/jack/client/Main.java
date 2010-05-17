@@ -1,9 +1,10 @@
 package com.christophdietze.jack.client;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.christophdietze.jack.client.event.UncaughtExceptionEvent;
 import com.christophdietze.jack.client.presenter.ApplicationContext;
+import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.view.MainView;
-import com.christophdietze.jack.common.JackService;
 import com.christophdietze.jack.common.JackServiceAsync;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -16,27 +17,29 @@ public class Main implements EntryPoint {
 
 	public void onModuleLoad() {
 		final ApplicationContext applicationContext = injector.getApplicationContext();
+		final JackServiceAsync service = injector.getJackServiceAsync();
+		final GlobalEventBus eventBus = injector.getEventBus();
 		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
 			public void onUncaughtException(Throwable ex) {
 				Log.error("Uncaught exception:", ex);
-				JackServiceAsync service = GWT.create(JackService.class);
-				service.sendErrorReport(applicationContext.getLocationId(), buildErrorMessage(ex),
-						new AsyncCallback<Void>() {
-							@Override
-							public void onSuccess(Void result) {
-							}
-							@Override
-							public void onFailure(Throwable ex) {
-								// don't throw another uncaught exception, rather just fail silently
-							}
-						});
+				String errorMessage = buildErrorMessage(ex);
+				eventBus.fireEvent(new UncaughtExceptionEvent(errorMessage));
+				service.sendErrorReport(applicationContext.getLocationId(), errorMessage, new AsyncCallback<Void>() {
+					@Override
+					public void onSuccess(Void result) {
+					}
+					@Override
+					public void onFailure(Throwable ex) {
+						// don't throw another uncaught exception, rather just fail silently
+					}
+				});
 			}
 		});
 		MainView mainView = injector.getMainView();
 		RootLayoutPanel.get().add(mainView);
+
 		Log.info("GWT Module " + this.getClass().getName() + " initialized.");
 	}
-
 	private static String buildErrorMessage(Throwable ex) {
 		return buildErrorMessage(new StringBuilder(), ex).toString();
 	}

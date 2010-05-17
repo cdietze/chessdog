@@ -14,4 +14,5 @@ public interface JackService extends RemoteService {
 	public RemoteEvent poll(long locationId);
 
 	public void sendErrorReport(long locationId, String message);
+	public void induceError(String message);
 }
