@@ -7,17 +7,14 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-<!-- 		<g:HTML ui:field="statusLabel" />
-		<br />
-		<g:Button ui:field="signInLink" text="Sign in as guest" />
-		 -->
+
 		<g:Button ui:field="seekLink" text="Seek for Match" />
+
 		<g:HTMLPanel ui:field="seekRunningPanel">
 			Seek running...
 		</g:HTMLPanel>
 
 		<g:Button ui:field="abortMatchLink" text="Abort Match" />
 		
-		<!-- <g:Button ui:field="errorButton" text="Induce Error" />  -->
 	</g:HTMLPanel>
 </ui:UiBinder> 
