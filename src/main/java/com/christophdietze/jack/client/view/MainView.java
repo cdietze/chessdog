@@ -31,7 +31,7 @@ public class MainView extends Composite {
 		@Inject
 		private Provider<PlayerNamePanel> playerNamePanelProvider;
 		@Inject
-		private Provider<EventPanel> eventPanelProvider;
+		private Provider<MessagePanel> messagePanelProvider;
 	}
 
 	private ProviderHelper providerHelper;
@@ -58,7 +58,7 @@ public class MainView extends Composite {
 		return providerHelper.playerNamePanelProvider.get();
 	}
 	@UiFactory
-	EventPanel makeEventPanel() {
-		return providerHelper.eventPanelProvider.get();
+	MessagePanel makeMessagePanel() {
+		return providerHelper.messagePanelProvider.get();
 	}
 }

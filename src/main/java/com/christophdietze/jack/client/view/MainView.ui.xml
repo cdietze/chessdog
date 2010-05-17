@@ -16,7 +16,7 @@
 			margin-top: 0.5em;
 		}
 		
-		.eventPanel {
+		.messagePanel {
 			margin-left: 1em;
 			margin-right: 1em;
 		}
@@ -33,7 +33,7 @@
 					<v:CommandView styleName="{style.commandView}" />
 				</g:layer>
 				<g:layer top="145px" height="16.5em">
-					<v:EventPanel styleName="{style.eventPanel}" />
+					<v:MessagePanel styleName="{style.messagePanel}" />
 				</g:layer>
 			</g:LayoutPanel>
 		</g:west>

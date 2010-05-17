@@ -20,11 +20,11 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
-public class EventPanel extends Composite {
+public class MessagePanel extends Composite {
 
-	private static EventPanelUiBinder uiBinder = GWT.create(EventPanelUiBinder.class);
+	private static MessagePanelUiBinder uiBinder = GWT.create(MessagePanelUiBinder.class);
 
-	interface EventPanelUiBinder extends UiBinder<Widget, EventPanel> {
+	interface MessagePanelUiBinder extends UiBinder<Widget, MessagePanel> {
 	}
 
 	interface MyStyle extends CssResource {
@@ -41,7 +41,7 @@ public class EventPanel extends Composite {
 	FlowPanel messagePanel;
 
 	@Inject
-	public EventPanel(GlobalEventBus eventBus) {
+	public MessagePanel(GlobalEventBus eventBus) {
 		this.eventBus = eventBus;
 		initWidget(uiBinder.createAndBindUi(this));
 		// somehow, adding css style to the scrollpanel in the ui binder xml doesnt work, so do that here.
