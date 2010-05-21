@@ -7,7 +7,7 @@ import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.common.AbortResponse;
-import com.christophdietze.jack.common.JackServiceAsync;
+import com.christophdietze.jack.common.ChessServiceAsync;
 import com.christophdietze.jack.common.PostSeekResponse;
 import com.google.inject.Inject;
 
@@ -20,17 +20,17 @@ public class CommandPresenter {
 	private GlobalEventBus eventBus;
 	private ApplicationContext applicationContext;
 	private GameManager gameManager;
-	private JackServiceAsync jackService;
+	private ChessServiceAsync chessService;
 
 	private View view;
 
 	@Inject
 	public CommandPresenter(GlobalEventBus eventBus, ApplicationContext applicationContext, GameManager gameManager,
-			JackServiceAsync jackService) {
+			ChessServiceAsync chessService) {
 		this.eventBus = eventBus;
 		this.applicationContext = applicationContext;
 		this.gameManager = gameManager;
-		this.jackService = jackService;
+		this.chessService = chessService;
 		initListeners();
 	}
 
@@ -42,7 +42,7 @@ public class CommandPresenter {
 
 	public void onSeekClick() {
 		if (!applicationContext.isSignedIn()) {
-			jackService.login(new MyAsyncCallback<Long>() {
+			chessService.login(new MyAsyncCallback<Long>() {
 				@Override
 				public void onSuccess(Long result) {
 					assert result != null;
@@ -58,7 +58,7 @@ public class CommandPresenter {
 	}
 
 	private void postSeek() {
-		jackService.postSeek(applicationContext.getLocationId(), new MyAsyncCallback<PostSeekResponse>() {
+		chessService.postSeek(applicationContext.getLocationId(), new MyAsyncCallback<PostSeekResponse>() {
 			@Override
 			public void onSuccess(PostSeekResponse result) {
 				switch (result) {
@@ -80,7 +80,7 @@ public class CommandPresenter {
 	}
 
 	public void onAbortMatchClick() {
-		jackService.abortMatch(applicationContext.getLocationId(), new MyAsyncCallback<AbortResponse>() {
+		chessService.abortMatch(applicationContext.getLocationId(), new MyAsyncCallback<AbortResponse>() {
 			@Override
 			public void onSuccess(AbortResponse result) {
 				switch (result) {

@@ -6,7 +6,7 @@ import com.christophdietze.jack.client.event.SignedInEventHandler;
 import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
-import com.christophdietze.jack.common.JackServiceAsync;
+import com.christophdietze.jack.common.ChessServiceAsync;
 import com.christophdietze.jack.common.RemoteEvent;
 import com.google.gwt.user.client.Timer;
 import com.google.inject.Inject;
@@ -19,7 +19,7 @@ public class RemotePoller {
 
 	private ApplicationContext applicationContext;
 	private GlobalEventBus eventBus;
-	private JackServiceAsync jackService;
+	private ChessServiceAsync chessService;
 	private ChessServiceCallback callback;
 
 	private boolean isActive = false;
@@ -27,10 +27,10 @@ public class RemotePoller {
 	private Timer timer;
 
 	@Inject
-	public RemotePoller(ChessServiceCallback callback, JackServiceAsync jackService,
+	public RemotePoller(ChessServiceCallback callback, ChessServiceAsync chessService,
 			ApplicationContext applicationContext, GlobalEventBus eventBus) {
 		this.callback = callback;
-		this.jackService = jackService;
+		this.chessService = chessService;
 		this.applicationContext = applicationContext;
 		this.eventBus = eventBus;
 		init();
@@ -46,7 +46,7 @@ public class RemotePoller {
 					return;
 				}
 				final Timer t = this;
-				jackService.poll(applicationContext.getLocationId(), new MyAsyncCallback<RemoteEvent>() {
+				chessService.poll(applicationContext.getLocationId(), new MyAsyncCallback<RemoteEvent>() {
 					@Override
 					public void onSuccess(RemoteEvent result) {
 						if (result != null) {

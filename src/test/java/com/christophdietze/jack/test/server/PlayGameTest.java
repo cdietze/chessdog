@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import com.christophdietze.jack.server.JackServiceImpl;
+import com.christophdietze.jack.server.ChessServiceImpl;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.inject.Guice;
@@ -27,7 +27,7 @@ public class PlayGameTest extends TestCase {
 	@Test
 	public void test1() {
 		Injector injector = Guice.createInjector();
-		JackServiceImpl chessService = injector.getInstance(JackServiceImpl.class);
+		ChessServiceImpl chessService = injector.getInstance(ChessServiceImpl.class);
 
 		long login1 = chessService.login();
 		chessService.postSeek(login1);

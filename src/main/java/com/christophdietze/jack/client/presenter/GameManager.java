@@ -6,7 +6,7 @@ import com.christophdietze.jack.client.event.PromotionMoveInitiatedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
-import com.christophdietze.jack.common.JackServiceAsync;
+import com.christophdietze.jack.common.ChessServiceAsync;
 import com.christophdietze.jack.common.MakeMoveResponse;
 import com.christophdietze.jack.common.board.ChessUtils;
 import com.christophdietze.jack.common.board.Game;
@@ -24,18 +24,18 @@ public class GameManager {
 
 	private GlobalEventBus eventBus;
 	private Game game;
-	private JackServiceAsync chessService;
+	private ChessServiceAsync chessService;
 	private ApplicationContext applicationContext;
 
 	private MatchInfo matchInfo;
 	private GameMode currentMode = GameMode.ANALYSIS_MODE;
 
 	@Inject
-	public GameManager(GlobalEventBus eventBus, Game game, JackServiceAsync jackService,
+	public GameManager(GlobalEventBus eventBus, Game game, ChessServiceAsync chessService,
 			ApplicationContext applicationContext) {
 		this.eventBus = eventBus;
 		this.game = game;
-		this.chessService = jackService;
+		this.chessService = chessService;
 		this.applicationContext = applicationContext;
 	}
 

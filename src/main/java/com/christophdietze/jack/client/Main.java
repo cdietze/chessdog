@@ -5,7 +5,7 @@ import com.christophdietze.jack.client.event.UncaughtExceptionEvent;
 import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.view.MainView;
-import com.christophdietze.jack.common.JackServiceAsync;
+import com.christophdietze.jack.common.ChessServiceAsync;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -17,7 +17,7 @@ public class Main implements EntryPoint {
 
 	public void onModuleLoad() {
 		final ApplicationContext applicationContext = injector.getApplicationContext();
-		final JackServiceAsync service = injector.getJackServiceAsync();
+		final ChessServiceAsync service = injector.getChessServiceAsync();
 		final GlobalEventBus eventBus = injector.getEventBus();
 		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
 			public void onUncaughtException(Throwable ex) {
