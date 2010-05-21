@@ -10,7 +10,7 @@ import com.christophdietze.jack.client.presenter.GameManager;
 import com.christophdietze.jack.client.presenter.MatchInfo;
 import com.christophdietze.jack.client.resources.MyClientBundle;
 import com.christophdietze.jack.client.util.GlobalEventBus;
-import com.christophdietze.jack.common.board.Game;
+import com.christophdietze.jack.shared.board.Game;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;

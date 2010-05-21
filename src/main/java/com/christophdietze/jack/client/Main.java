@@ -5,7 +5,7 @@ import com.christophdietze.jack.client.event.UncaughtExceptionEvent;
 import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.view.MainView;
-import com.christophdietze.jack.common.ChessServiceAsync;
+import com.christophdietze.jack.shared.ChessServiceAsync;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;

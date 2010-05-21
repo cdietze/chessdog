@@ -1,7 +1,7 @@
 package com.christophdietze.jack.client.view;
 
 import com.christophdietze.jack.client.resources.PieceImageProvider;
-import com.christophdietze.jack.common.board.Piece;
+import com.christophdietze.jack.shared.board.Piece;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 

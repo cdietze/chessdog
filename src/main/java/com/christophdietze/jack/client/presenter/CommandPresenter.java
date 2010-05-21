@@ -6,9 +6,9 @@ import com.christophdietze.jack.client.event.SignedInEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
-import com.christophdietze.jack.common.AbortResponse;
-import com.christophdietze.jack.common.ChessServiceAsync;
-import com.christophdietze.jack.common.PostSeekResponse;
+import com.christophdietze.jack.shared.AbortResponse;
+import com.christophdietze.jack.shared.ChessServiceAsync;
+import com.christophdietze.jack.shared.PostSeekResponse;
 import com.google.inject.Inject;
 
 public class CommandPresenter {

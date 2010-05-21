@@ -5,7 +5,7 @@ import com.christophdietze.jack.client.event.PromotionMoveCancelledEvent;
 import com.christophdietze.jack.client.event.PromotionMoveInitiatedEvent;
 import com.christophdietze.jack.client.event.PromotionMoveInitiatedEventHandler;
 import com.christophdietze.jack.client.util.GlobalEventBus;
-import com.christophdietze.jack.common.board.PieceType;
+import com.christophdietze.jack.shared.board.PieceType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

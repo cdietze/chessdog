@@ -7,8 +7,8 @@ import com.christophdietze.jack.client.event.PromotionMoveCancelledEventHandler;
 import com.christophdietze.jack.client.event.PromotionMoveInitiatedEvent;
 import com.christophdietze.jack.client.event.PromotionMoveInitiatedEventHandler;
 import com.christophdietze.jack.client.util.GlobalEventBus;
-import com.christophdietze.jack.common.board.Game;
-import com.christophdietze.jack.common.board.Move;
+import com.christophdietze.jack.shared.board.Game;
+import com.christophdietze.jack.shared.board.Move;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

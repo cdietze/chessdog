@@ -3,7 +3,7 @@ package com.christophdietze.jack.client.resources;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.christophdietze.jack.common.board.Piece;
+import com.christophdietze.jack.shared.board.Piece;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Image;
 

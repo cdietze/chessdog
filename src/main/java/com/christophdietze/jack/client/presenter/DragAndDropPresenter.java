@@ -3,7 +3,7 @@ package com.christophdietze.jack.client.presenter;
 import com.christophdietze.jack.client.event.GameUpdatedEvent;
 import com.christophdietze.jack.client.event.GameUpdatedEventHandler;
 import com.christophdietze.jack.client.util.GlobalEventBus;
-import com.christophdietze.jack.common.board.Game;
+import com.christophdietze.jack.shared.board.Game;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

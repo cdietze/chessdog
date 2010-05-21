@@ -2,8 +2,8 @@ package com.christophdietze.jack.client.admin.client;
 
 import java.util.ArrayList;
 
-import com.christophdietze.jack.client.admin.common.AdminServiceAsync;
-import com.christophdietze.jack.client.admin.common.MatchDto;
+import com.christophdietze.jack.client.admin.shared.AdminServiceAsync;
+import com.christophdietze.jack.client.admin.shared.MatchDto;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.ListBox;

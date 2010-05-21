@@ -1,10 +1,10 @@
 package com.christophdietze.jack.client;
 
 import com.christophdietze.jack.client.util.ClientConstants;
-import com.christophdietze.jack.common.board.Game;
-import com.christophdietze.jack.common.board.IllegalPositionException;
-import com.christophdietze.jack.common.pgn.FenParsingException;
-import com.christophdietze.jack.common.pgn.ImportUtils;
+import com.christophdietze.jack.shared.board.Game;
+import com.christophdietze.jack.shared.board.IllegalPositionException;
+import com.christophdietze.jack.shared.pgn.FenParsingException;
+import com.christophdietze.jack.shared.pgn.ImportUtils;
 import com.google.gwt.user.client.Window;
 import com.google.inject.Inject;
 
