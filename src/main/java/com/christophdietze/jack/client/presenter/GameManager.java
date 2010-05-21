@@ -3,8 +3,6 @@ package com.christophdietze.jack.client.presenter;
 import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.PromotionMoveInitiatedEvent;
-import com.christophdietze.jack.client.event.SwitchGameModeEvent;
-import com.christophdietze.jack.client.event.SwitchGameModeEventHandler;
 import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
@@ -39,31 +37,10 @@ public class GameManager {
 		this.game = game;
 		this.chessService = jackService;
 		this.applicationContext = applicationContext;
-		initListeners();
 	}
 
 	public GameMode getCurrentMode() {
 		return currentMode;
-	}
-
-	private void initListeners() {
-		eventBus.addHandler(SwitchGameModeEvent.TYPE, new SwitchGameModeEventHandler() {
-			@Override
-			public void onSwitchGameMode(SwitchGameModeEvent event) {
-				switch (event.getNewMode()) {
-				case ANALYSIS_MODE:
-					matchInfo = null;
-					currentMode = GameMode.ANALYSIS_MODE;
-					break;
-				case MATCH_MODE:
-					matchInfo = event.getMatchInfo();
-					currentMode = GameMode.MATCH_MODE;
-					break;
-				default:
-					throw new AssertionError();
-				}
-			}
-		});
 	}
 
 	/**
@@ -71,6 +48,16 @@ public class GameManager {
 	 */
 	public MatchInfo getMatchInfo() {
 		return matchInfo;
+	}
+
+	public void switchToAnalysisMode() {
+		matchInfo = null;
+		this.currentMode = GameMode.ANALYSIS_MODE;
+	}
+
+	public void switchToMatchMode(MatchInfo matchInfo) {
+		this.matchInfo = matchInfo;
+		this.currentMode = GameMode.MATCH_MODE;
 	}
 
 	public void makeMove(int fromIndex, int toIndex) {
@@ -125,7 +112,7 @@ public class GameManager {
 					break;
 				case NO_ACTIVE_MATCH:
 					Log.warn("Found no active match, probably the opponent has just aborted the match");
-					eventBus.fireEvent(SwitchGameModeEvent.newSwitchToAnalysisModeEvent());
+					switchToAnalysisMode();
 					eventBus.fireEvent(new MatchEndedEvent(Reason.OPPONENT_ABORTED));
 					break;
 				case MOVE_FOR_OPPOSITE_PLAYER:

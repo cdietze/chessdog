@@ -4,9 +4,9 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.event.GameUpdatedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
-import com.christophdietze.jack.client.event.SwitchGameModeEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.presenter.ApplicationContext;
+import com.christophdietze.jack.client.presenter.GameManager;
 import com.christophdietze.jack.client.presenter.MatchInfo;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.common.MatchAbortedRemoteEvent;
@@ -24,10 +24,10 @@ public class ChessServiceCallback {
 
 	@Inject
 	private ApplicationContext applicationContext;
-
 	@Inject
 	private Game game;
-
+	@Inject
+	private GameManager gameManager;
 	@Inject
 	private GlobalEventBus eventBus;
 
@@ -54,7 +54,7 @@ public class ChessServiceCallback {
 		boolean isPlayerWhite = applicationContext.getLocationId() == event.getWhitePlayerId();
 		game.setWhiteAtBottom(isPlayerWhite);
 		MatchInfo matchInfo = new MatchInfo(event.getWhitePlayerId(), event.getBlackPlayerId(), isPlayerWhite);
-		eventBus.fireEvent(SwitchGameModeEvent.newSwitchToMatchModeEvent(matchInfo));
+		gameManager.switchToMatchMode(matchInfo);
 		eventBus.fireEvent(new MatchStartedEvent(matchInfo));
 		// A GameUpdatedEvent is already sent when the starting position is set up, but the direction of the board might
 		// have flipped now. This is of interest for e.g., Drag n Drop
@@ -74,7 +74,7 @@ public class ChessServiceCallback {
 
 	private void onMatchAborted(MatchAbortedRemoteEvent event) {
 		Log.info("The other player aborted the match");
-		eventBus.fireEvent(SwitchGameModeEvent.newSwitchToAnalysisModeEvent());
+		gameManager.switchToAnalysisMode();
 		eventBus.fireEvent(new MatchEndedEvent(Reason.OPPONENT_ABORTED));
 	}
 }
