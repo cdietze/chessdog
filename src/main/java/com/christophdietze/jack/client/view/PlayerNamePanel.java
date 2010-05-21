@@ -6,9 +6,8 @@ import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEventHandler;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.event.MatchStartedEventHandler;
-import com.christophdietze.jack.client.presenter.GameModeManager;
+import com.christophdietze.jack.client.presenter.GameManager;
 import com.christophdietze.jack.client.presenter.MatchInfo;
-import com.christophdietze.jack.client.presenter.MatchMode;
 import com.christophdietze.jack.client.resources.MyClientBundle;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.common.board.Game;
@@ -43,7 +42,8 @@ public class PlayerNamePanel extends Composite {
 
 	private GlobalEventBus eventBus;
 
-	private GameModeManager gameModeManager;
+	@SuppressWarnings("unused")
+	private GameManager gameManager;
 
 	private Game game;
 
@@ -57,16 +57,15 @@ public class PlayerNamePanel extends Composite {
 	Image upperPlayerIcon;
 	@UiField
 	Image lowerPlayerIcon;
-
 	@UiField
 	HTMLPanel upperSection;
 	@UiField
 	HTMLPanel lowerSection;
 
 	@Inject
-	public PlayerNamePanel(GlobalEventBus eventBus, GameModeManager gameModeManager, Game game) {
+	public PlayerNamePanel(GlobalEventBus eventBus, GameManager gameManager, Game game) {
 		this.eventBus = eventBus;
-		this.gameModeManager = gameModeManager;
+		this.gameManager = gameManager;
 		this.game = game;
 		initWidget(uiBinder.createAndBindUi(this));
 		upperPlayerLabel.setText(BLACK_PLAYER_DEFAULT_NAME);
@@ -81,8 +80,7 @@ public class PlayerNamePanel extends Composite {
 		eventBus.addHandler(MatchStartedEvent.TYPE, new MatchStartedEventHandler() {
 			@Override
 			public void onMatchStarted(MatchStartedEvent event) {
-				MatchMode matchMode = (MatchMode) gameModeManager.getCurrentMode();
-				MatchInfo matchInfo = matchMode.getMatchInfo();
+				MatchInfo matchInfo = event.getMatchInfo();
 				upperPlayerLabel.setText("Guest" + matchInfo.getOpponentId());
 				lowerPlayerLabel.setText("You");
 				upperPlayerIcon.setResource(game.isWhiteAtBottom() ? myClientBundle.blackPlayerIcon() : myClientBundle

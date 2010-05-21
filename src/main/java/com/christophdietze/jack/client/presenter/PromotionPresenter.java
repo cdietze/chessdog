@@ -22,7 +22,7 @@ public class PromotionPresenter {
 	}
 
 	@Inject
-	private GameModeManager gameModeManager;
+	private GameManager gameManager;
 
 	private View view;
 	private GlobalEventBus eventBus;
@@ -44,7 +44,7 @@ public class PromotionPresenter {
 	public void onPieceSelected(PieceType promotionPiece) {
 		assert promotionPiece != null;
 		Log.debug("Promotion Piece selected: " + promotionPiece);
-		gameModeManager.getCurrentMode().makePromotionMove(fromIndex, toIndex, promotionPiece);
+		gameManager.makePromotionMove(fromIndex, toIndex, promotionPiece);
 		invalidateTentativeMove();
 	}
 

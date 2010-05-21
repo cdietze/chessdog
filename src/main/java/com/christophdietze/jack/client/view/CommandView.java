@@ -5,8 +5,8 @@ import com.christophdietze.jack.client.event.MatchEndedEventHandler;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.event.MatchStartedEventHandler;
 import com.christophdietze.jack.client.presenter.CommandPresenter;
-import com.christophdietze.jack.client.presenter.GameModeManager;
-import com.christophdietze.jack.client.presenter.MatchMode;
+import com.christophdietze.jack.client.presenter.GameManager;
+import com.christophdietze.jack.client.presenter.GameMode;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,7 +28,7 @@ public class CommandView extends Composite implements CommandPresenter.View {
 
 	private CommandPresenter presenter;
 
-	private GameModeManager gameModeManager;
+	private GameManager gameManager;
 	private GlobalEventBus eventBus;
 
 	@UiField
@@ -39,9 +39,9 @@ public class CommandView extends Composite implements CommandPresenter.View {
 	Button abortMatchLink;
 
 	@Inject
-	public CommandView(CommandPresenter presenter, GameModeManager gameModeManager, GlobalEventBus eventBus) {
+	public CommandView(CommandPresenter presenter, GameManager gameManager, GlobalEventBus eventBus) {
 		this.presenter = presenter;
-		this.gameModeManager = gameModeManager;
+		this.gameManager = gameManager;
 		this.eventBus = eventBus;
 		initWidget(uiBinder.createAndBindUi(this));
 		seekRunningPanel.setVisible(false);
@@ -84,6 +84,6 @@ public class CommandView extends Composite implements CommandPresenter.View {
 
 	@Override
 	public void update() {
-		abortMatchLink.setVisible(gameModeManager.getCurrentMode() instanceof MatchMode);
+		abortMatchLink.setVisible(gameManager.getCurrentMode() == GameMode.MATCH_MODE);
 	}
 }

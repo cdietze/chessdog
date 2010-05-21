@@ -17,7 +17,7 @@ public class DragAndDropPresenter {
 	@Inject
 	private Game game;
 	@Inject
-	private GameModeManager gameModeManager;
+	private GameManager gameManager;
 
 	private GlobalEventBus eventBus;
 	private View view;
@@ -38,7 +38,7 @@ public class DragAndDropPresenter {
 	}
 
 	public void movePiece(int fromIndex, int toIndex) {
-		gameModeManager.getCurrentMode().makeMove(fromIndex, toIndex);
+		gameManager.makeMove(fromIndex, toIndex);
 	}
 
 	private void initListeners() {
