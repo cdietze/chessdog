@@ -1,5 +1,7 @@
 package com.christophdietze.jack.client.view;
 
+import com.christophdietze.jack.client.event.GameUpdatedEvent;
+import com.christophdietze.jack.client.event.GameUpdatedEventHandler;
 import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEventHandler;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
@@ -10,6 +12,9 @@ import com.christophdietze.jack.client.event.UncaughtExceptionEvent;
 import com.christophdietze.jack.client.event.UncaughtExceptionEventHandler;
 import com.christophdietze.jack.client.presenter.MatchInfo;
 import com.christophdietze.jack.client.util.GlobalEventBus;
+import com.christophdietze.jack.common.board.Game;
+import com.christophdietze.jack.common.board.PositionUtils;
+import com.christophdietze.jack.common.board.PositionUtils.GameState;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -34,6 +39,7 @@ public class MessagePanel extends Composite {
 	}
 
 	private GlobalEventBus eventBus;
+	private Game game;
 
 	@UiField
 	MyStyle style;
@@ -43,7 +49,8 @@ public class MessagePanel extends Composite {
 	FlowPanel messagePanel;
 
 	@Inject
-	public MessagePanel(GlobalEventBus eventBus) {
+	public MessagePanel(Game game, GlobalEventBus eventBus) {
+		this.game = game;
 		this.eventBus = eventBus;
 		initWidget(uiBinder.createAndBindUi(this));
 		// somehow, adding css style to the scrollpanel in the ui binder xml doesnt work, so do that here.
@@ -88,6 +95,22 @@ public class MessagePanel extends Composite {
 			@Override
 			public void onSignIn(SignedInEvent event) {
 				addMessage("You are signed in as Guest" + event.getLocationId() + ".");
+			}
+		});
+		eventBus.addHandler(GameUpdatedEvent.TYPE, new GameUpdatedEventHandler() {
+			@Override
+			public void onUpdate(GameUpdatedEvent event) {
+				GameState state = PositionUtils.getGameState(game.getPosition());
+				switch (state) {
+				case MATE:
+					StringBuilder sb = new StringBuilder("Checkmate");
+					// TODO print, who won (issue 2)
+					addMessage(sb.toString());
+					break;
+				case STALEMATE:
+					addMessage("Stalemate, the match ends in a draw");
+					break;
+				}
 			}
 		});
 		eventBus.addHandler(UncaughtExceptionEvent.TYPE, new UncaughtExceptionEventHandler() {
