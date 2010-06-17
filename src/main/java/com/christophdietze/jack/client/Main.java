@@ -4,7 +4,7 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.event.UncaughtExceptionEvent;
 import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.util.GlobalEventBus;
-import com.christophdietze.jack.client.view.MainView;
+import com.christophdietze.jack.client.view.MainPanel;
 import com.christophdietze.jack.shared.ChessServiceAsync;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -35,8 +35,8 @@ public class Main implements EntryPoint {
 				});
 			}
 		});
-		MainView mainView = injector.getMainView();
-		RootLayoutPanel.get().add(mainView);
+		MainPanel mainPanel = injector.getMainPanel();
+		RootLayoutPanel.get().add(mainPanel);
 
 		Log.info("GWT Module " + this.getClass().getName() + " initialized.");
 	}
