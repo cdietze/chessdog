@@ -41,11 +41,11 @@ public class Main implements EntryPoint {
 		Log.info("GWT Module " + this.getClass().getName() + " initialized.");
 	}
 
-	private static String buildErrorMessage(Throwable ex) {
+	private String buildErrorMessage(Throwable ex) {
 		return buildErrorMessage(new StringBuilder(), ex).toString();
 	}
 
-	private static StringBuilder buildErrorMessage(StringBuilder sb, Throwable ex) {
+	private StringBuilder buildErrorMessage(StringBuilder sb, Throwable ex) {
 		sb.append(ex.getClass().getName() + ": ");
 		sb.append(ex.getMessage());
 		if (ex.getCause() != null) {
