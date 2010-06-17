@@ -2,11 +2,11 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:com.christophdietze.jack.client.view">
 	<ui:style>
-		.commandView {
+		.commandPanel {
 			padding-left: 1em;
 		}
 		
-		.boardView {
+		.boardPanel {
 			float: left;
 		}
 		
@@ -30,7 +30,7 @@
 		<g:west size="18">
 			<g:LayoutPanel>
 				<g:layer>
-					<v:CommandView styleName="{style.commandView}" />
+					<v:CommandPanel styleName="{style.commandPanel}" />
 				</g:layer>
 				<g:layer top="145px" height="16.5em">
 					<v:MessagePanel styleName="{style.messagePanel}" />
@@ -39,7 +39,7 @@
 		</g:west>
 		<g:center>
 			<g:FlowPanel>
-				<v:BoardView addStyleNames="{style.boardView}" />
+				<v:BoardPanel addStyleNames="{style.boardPanel}" />
 				<v:PlayerNamePanel styleName="{style.playerNamePanel}" />
 			</g:FlowPanel>
 		</g:center>

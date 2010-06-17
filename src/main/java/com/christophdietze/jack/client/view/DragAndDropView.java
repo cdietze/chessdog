@@ -36,7 +36,7 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 
 	private DragAndDropPresenter model;
 
-	private BoardView boardView;
+	private BoardPanel boardPanel;
 
 	private Map<Image, Integer> imageMap = new HashMap<Image, Integer>();
 	private boolean[] draggablesBitSet = new boolean[64];
@@ -44,9 +44,9 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 	private MyDragController dragController;
 
 	@Inject
-	public DragAndDropView(DragAndDropPresenter model, BoardView boardView) {
+	public DragAndDropView(DragAndDropPresenter model, BoardPanel boardPanel) {
 		this.model = model;
-		this.boardView = boardView;
+		this.boardPanel = boardPanel;
 
 		init();
 		model.setView(this);
@@ -63,7 +63,7 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 
 	private void initImageMap() {
 		for (int index = 0; index < 64; ++index) {
-			Image image = boardView.getSquareImages()[index];
+			Image image = boardPanel.getSquareImages()[index];
 			imageMap.put(image, index);
 		}
 	}
@@ -79,12 +79,12 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 			int viewIndex = model.getGame().isWhiteAtBottom() ? index : 63 - index;
 			if (position.getPiece(index).isPiece() && !draggablesBitSet[viewIndex]) {
 				draggablesBitSet[viewIndex] = true;
-				Image image = boardView.getSquareImages()[viewIndex];
+				Image image = boardPanel.getSquareImages()[viewIndex];
 				dragController.makeDraggable(image);
 			}
 			if (!position.getPiece(index).isPiece() && draggablesBitSet[viewIndex]) {
 				draggablesBitSet[viewIndex] = false;
-				Image image = boardView.getSquareImages()[viewIndex];
+				Image image = boardPanel.getSquareImages()[viewIndex];
 				dragController.makeNotDraggable(image);
 			}
 		}
@@ -138,14 +138,14 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 		}
 
 		private int calcIndexOfMouse() {
-			int squareWidth = boardView.getSquareImages()[0].getWidth();
-			int leftMost = boardView.getSquareImages()[0].getAbsoluteLeft();
+			int squareWidth = boardPanel.getSquareImages()[0].getWidth();
+			int leftMost = boardPanel.getSquareImages()[0].getAbsoluteLeft();
 			int file = (context.mouseX - leftMost) / squareWidth;
 			if (context.mouseX < leftMost || file >= 8) {
 				return -1;
 			}
-			int squareHeight = boardView.getSquareImages()[0].getHeight();
-			int bottom = boardView.getSquareImages()[0].getAbsoluteTop() + squareHeight;
+			int squareHeight = boardPanel.getSquareImages()[0].getHeight();
+			int bottom = boardPanel.getSquareImages()[0].getAbsoluteTop() + squareHeight;
 			int rank = context.mouseY > bottom ? 100 : (bottom - context.mouseY) / squareHeight;
 			if (context.mouseY > bottom || rank >= 8) {
 				return -1;

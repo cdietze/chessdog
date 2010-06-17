@@ -31,13 +31,13 @@ public class PromotionView implements PromotionPresenter.View {
 	private static MyCss CSS = MyClientBundle.CSS;
 
 	private PromotionPresenter model;
-	private BoardView boardView;
+	private BoardPanel boardView;
 	private PopupPanel whitePopupPanel;
 	private PopupPanel blackPopupPanel;
 	private boolean pieceSelected = false;
 
 	@Inject
-	public PromotionView(PromotionPresenter model, BoardView boardView) {
+	public PromotionView(PromotionPresenter model, BoardPanel boardView) {
 		this.model = model;
 		this.boardView = boardView;
 

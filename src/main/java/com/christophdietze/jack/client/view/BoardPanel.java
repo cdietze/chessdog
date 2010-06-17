@@ -20,7 +20,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class BoardView extends Composite implements BoardPresenter.View {
+public class BoardPanel extends Composite implements BoardPresenter.View {
 
 	private static MyCss CSS = MyClientBundle.CSS;
 
@@ -35,7 +35,7 @@ public class BoardView extends Composite implements BoardPresenter.View {
 	private List<Label> rankLabels = Lists.newArrayList(); // 1-8
 
 	@Inject
-	public BoardView(BoardPresenter model) {
+	public BoardPanel(BoardPresenter model) {
 		super.initWidget(rootPanel);
 		this.model = model;
 		rootPanel.addStyleName(CSS.boardContainer());

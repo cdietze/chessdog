@@ -19,11 +19,11 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
-public class CommandView extends Composite implements CommandPresenter.View {
+public class CommandPanel extends Composite implements CommandPresenter.View {
 
 	private static MyUiBinder uiBinder = GWT.create(MyUiBinder.class);
 
-	interface MyUiBinder extends UiBinder<Widget, CommandView> {
+	interface MyUiBinder extends UiBinder<Widget, CommandPanel> {
 	}
 
 	private CommandPresenter presenter;
@@ -39,7 +39,7 @@ public class CommandView extends Composite implements CommandPresenter.View {
 	Button abortMatchLink;
 
 	@Inject
-	public CommandView(CommandPresenter presenter, GameManager gameManager, GlobalEventBus eventBus) {
+	public CommandPanel(CommandPresenter presenter, GameManager gameManager, GlobalEventBus eventBus) {
 		this.presenter = presenter;
 		this.gameManager = gameManager;
 		this.eventBus = eventBus;

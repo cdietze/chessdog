@@ -21,13 +21,13 @@ public class MainView extends Composite {
 		@Inject
 		private Provider<RemotePoller> remotePollerProvider;
 		@Inject
-		private Provider<BoardView> boardViewProvider;
+		private Provider<BoardPanel> boardPanelProvider;
 		@Inject
 		private Provider<DragAndDropView> dndViewProvider;
 		@Inject
 		private Provider<PromotionView> promotionViewProvider;
 		@Inject
-		private Provider<CommandView> commandPanelProvider;
+		private Provider<CommandPanel> commandPanelProvider;
 		@Inject
 		private Provider<PlayerNamePanel> playerNamePanelProvider;
 		@Inject
@@ -46,12 +46,12 @@ public class MainView extends Composite {
 	}
 
 	@UiFactory
-	CommandView makeCommandPanel() {
+	CommandPanel makeCommandPanel() {
 		return providerHelper.commandPanelProvider.get();
 	}
 	@UiFactory
-	BoardView makeBoardView() {
-		return providerHelper.boardViewProvider.get();
+	BoardPanel makeBoardPanel() {
+		return providerHelper.boardPanelProvider.get();
 	}
 	@UiFactory
 	PlayerNamePanel makePlayerNamePanel() {
