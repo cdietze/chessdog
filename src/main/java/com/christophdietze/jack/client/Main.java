@@ -40,6 +40,7 @@ public class Main implements EntryPoint {
 
 		Log.info("GWT Module " + this.getClass().getName() + " initialized.");
 	}
+
 	private static String buildErrorMessage(Throwable ex) {
 		return buildErrorMessage(new StringBuilder(), ex).toString();
 	}
