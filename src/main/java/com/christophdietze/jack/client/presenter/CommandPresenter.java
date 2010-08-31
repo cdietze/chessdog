@@ -1,6 +1,9 @@
 package com.christophdietze.jack.client.presenter;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.christophdietze.jack.client.channel.Channel;
+import com.christophdietze.jack.client.channel.ChannelFactory;
+import com.christophdietze.jack.client.channel.SocketListener;
 import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.SignedInEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
@@ -8,6 +11,7 @@ import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.shared.AbortResponse;
 import com.christophdietze.jack.shared.ChessServiceAsync;
+import com.christophdietze.jack.shared.LoginResponse;
 import com.christophdietze.jack.shared.PostSeekResponse;
 import com.google.inject.Inject;
 
@@ -42,21 +46,36 @@ public class CommandPresenter {
 
 	public void onSeekClick() {
 		if (!applicationContext.isSignedIn()) {
-			chessService.login(new MyAsyncCallback<Long>() {
+			chessService.login(new MyAsyncCallback<LoginResponse>() {
 				@Override
-				public void onSuccess(Long result) {
+				public void onSuccess(LoginResponse result) {
 					assert result != null;
-					Log.info("Logged in as user with id " + result);
-					applicationContext.setLocationId(result);
-					eventBus.fireEvent(new SignedInEvent(result));
-					postSeek();
+					final long locationId = result.getLocationId();
+
+					Log.debug("Opening Channel " + result.getChannelId());
+					Channel channel = ChannelFactory.createChannel(result.getChannelId());
+					channel.open(new SocketListener() {
+
+						@Override
+						public void onOpen() {
+							Log.debug("Channel opened");
+							Log.info("Logged in as user with id " + locationId);
+							applicationContext.setLocationId(locationId);
+							eventBus.fireEvent(new SignedInEvent(locationId));
+							postSeek();
+						}
+
+						@Override
+						public void onMessage(String message) {
+							Log.debug("Channel received message: " + message);
+						}
+					});
 				}
 			});
 		} else {
 			postSeek();
 		}
 	}
-
 	private void postSeek() {
 		chessService.postSeek(applicationContext.getLocationId(), new MyAsyncCallback<PostSeekResponse>() {
 			@Override

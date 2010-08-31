@@ -3,6 +3,7 @@ package com.christophdietze.jack.test.server;
 import junit.framework.TestCase;
 
 import com.christophdietze.jack.server.ChessServiceImpl;
+import com.christophdietze.jack.shared.LoginResponse;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.inject.Guice;
@@ -26,8 +27,8 @@ public class LoginTest extends TestCase {
 	public void testLogin1() {
 		Injector injector = Guice.createInjector();
 		ChessServiceImpl chessService = injector.getInstance(ChessServiceImpl.class);
-		long userId1 = chessService.login();
-		long userId2 = chessService.login();
-		assertNotSame(userId1, userId2);
+		LoginResponse userId1 = chessService.login();
+		LoginResponse userId2 = chessService.login();
+		assertNotSame(userId1.getLocationId(), userId2.getLocationId());
 	}
 }

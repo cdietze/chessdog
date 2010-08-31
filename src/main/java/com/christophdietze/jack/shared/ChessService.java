@@ -7,11 +7,10 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface ChessService extends RemoteService {
 	public static final String SERVLET_PATH = "chessService";
 
-	public long login();
+	public LoginResponse login();
 	public PostSeekResponse postSeek(long locationId);
 	public AbortResponse abortMatch(long locationId);
 	public MakeMoveResponse makeMove(long locationId, String algebraicMove);
-	public RemoteEvent poll(long locationId);
 
 	/**
 	 * The server will log the submitted message which can be used for analysis when an unexpected error occured on the

@@ -1,6 +1,5 @@
 package com.christophdietze.jack.client.view;
 
-import com.christophdietze.jack.client.remote.RemotePoller;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
@@ -18,8 +17,6 @@ public class MainPanel extends Composite {
 
 	// inner class must be public for injection to work
 	public static class ProviderHelper {
-		@Inject
-		private Provider<RemotePoller> remotePollerProvider;
 		@Inject
 		private Provider<BoardPanel> boardPanelProvider;
 		@Inject
@@ -42,7 +39,6 @@ public class MainPanel extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		providerHelper.dndViewProvider.get();
 		providerHelper.promotionViewProvider.get();
-		providerHelper.remotePollerProvider.get();
 	}
 
 	@UiFactory
