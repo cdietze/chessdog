@@ -8,12 +8,12 @@ public class Channel extends JavaScriptObject {
 
 	public final native Socket open(SocketListener listener) /*-{
 		var socket = this.open();
-		socket.onopen = function(event) {
+		socket.onopen = $entry(function(event) {
 		listener.@com.christophdietze.jack.client.channel.SocketListener::onOpen()();
-		};
-		socket.onmessage = function(event) {
+		});
+		socket.onmessage = $entry(function(event) {
 		listener.@com.christophdietze.jack.client.channel.SocketListener::onMessage(Ljava/lang/String;)(event.data);
-		};
+		});	
 		return socket;
 	}-*/;
 }

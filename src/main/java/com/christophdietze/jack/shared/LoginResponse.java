@@ -8,7 +8,7 @@ public class LoginResponse implements IsSerializable {
 	private String channelId;
 
 	/**
-	 * To make GWT-RPC happy
+	 * For serialization
 	 */
 	@SuppressWarnings("unused")
 	private LoginResponse() {
