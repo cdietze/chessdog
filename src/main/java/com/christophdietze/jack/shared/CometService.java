@@ -21,10 +21,7 @@ import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 public interface CometService extends RemoteService {
 	static final String SERVLET_PATH = "cometService";
 
-	CometMessage dummyReceiveCometMessage();
-
 	public static class App {
-
 		/**
 		 * The GWT.create() call returns a proxy instance for the async interface which is a subclass of
 		 * SerializationStreamFactory, thus it is ok to cast it to that.
@@ -36,4 +33,6 @@ public interface CometService extends RemoteService {
 			return streamFactory;
 		}
 	}
+
+	CometMessage dummyReceiveCometMessage();
 }

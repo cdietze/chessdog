@@ -7,7 +7,7 @@ import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.shared.CometMessage;
-import com.christophdietze.jack.shared.MatchAbortedRemoteEvent;
+import com.christophdietze.jack.shared.MatchAbortedChannelMessage;
 import com.christophdietze.jack.shared.MatchStartedCometMessage;
 import com.christophdietze.jack.shared.MoveMadeCometMessage;
 import com.christophdietze.jack.shared.board.ChessUtils;
@@ -29,16 +29,12 @@ public class CometMessageDispatcher {
 	private GlobalEventBus eventBus;
 
 	public void dispatch(CometMessage message) {
-		if (message instanceof MatchStartedCometMessage) {
-			onMatchStarted((MatchStartedCometMessage) message);
-		} else if (message instanceof MoveMadeCometMessage) {
+		if (message instanceof MoveMadeCometMessage) {
 			onMoveMade((MoveMadeCometMessage) message);
-			// if (event instanceof MatchStartedRemoteEvent) {
-			// onMatchStarted((MatchStartedRemoteEvent) event);
-			// } else if (event instanceof MoveMadeRemoteEvent) {
-			// onMove((MoveMadeRemoteEvent) event);
-			// } else if (event instanceof MatchAbortedRemoteEvent) {
-			// onMatchAborted((MatchAbortedRemoteEvent) event);
+		} else if (message instanceof MatchStartedCometMessage) {
+			onMatchStarted((MatchStartedCometMessage) message);
+		} else if (message instanceof MatchAbortedChannelMessage) {
+			onMatchAborted((MatchAbortedChannelMessage) message);
 		} else {
 			throw new AssertionError("unknown comet message: " + message);
 		}
@@ -74,7 +70,7 @@ public class CometMessageDispatcher {
 		}
 	}
 
-	private void onMatchAborted(MatchAbortedRemoteEvent event) {
+	private void onMatchAborted(MatchAbortedChannelMessage message) {
 		Log.info("The other player aborted the match");
 		gameManager.switchToAnalysisMode();
 		eventBus.fireEvent(new MatchEndedEvent(Reason.OPPONENT_ABORTED));
