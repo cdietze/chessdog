@@ -2,15 +2,18 @@ package com.christophdietze.jack.shared;
 
 import com.christophdietze.jack.shared.util.SimpleToStringBuilder;
 
-public class MatchStartedRemoteEvent extends RemoteEvent {
+public class MatchStartedCometMessage extends CometMessage {
 	private long whitePlayerId;
 	private long blackPlayerId;
 
+	/**
+	 * For serialization
+	 */
 	@SuppressWarnings("unused")
-	private MatchStartedRemoteEvent() {
+	private MatchStartedCometMessage() {
 	}
 
-	public MatchStartedRemoteEvent(long whitePlayerId, long blackPlayerId) {
+	public MatchStartedCometMessage(long whitePlayerId, long blackPlayerId) {
 		this.whitePlayerId = whitePlayerId;
 		this.blackPlayerId = blackPlayerId;
 	}

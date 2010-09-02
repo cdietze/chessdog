@@ -29,10 +29,12 @@ public class PlayGameTest extends TestCase {
 		Injector injector = Guice.createInjector();
 		ChessServiceImpl chessService = injector.getInstance(ChessServiceImpl.class);
 
-		long login1 = chessService.login();
+		long login1 = chessService.login().getLocationId();
+		chessService.loginComplete(login1);
 		chessService.postSeek(login1);
 
-		long login2 = chessService.login();
+		long login2 = chessService.login().getLocationId();
+		chessService.loginComplete(login2);
 		chessService.postSeek(login2);
 
 		chessService.makeMove(login2, "e2e4");

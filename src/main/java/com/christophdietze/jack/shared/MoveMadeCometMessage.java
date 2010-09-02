@@ -2,15 +2,18 @@ package com.christophdietze.jack.shared;
 
 import com.christophdietze.jack.shared.util.SimpleToStringBuilder;
 
-public class MoveMadeRemoteEvent extends RemoteEvent {
+public class MoveMadeCometMessage extends CometMessage {
 
 	private String algebraicMove;
 
+	/**
+	 * For serialization
+	 */
 	@SuppressWarnings("unused")
-	private MoveMadeRemoteEvent() {
+	private MoveMadeCometMessage() {
 	}
 
-	public MoveMadeRemoteEvent(String algebraicMove) {
+	public MoveMadeCometMessage(String algebraicMove) {
 		this.algebraicMove = algebraicMove;
 	}
 
