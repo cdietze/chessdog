@@ -51,47 +51,47 @@ public class CommandPresenter {
 		view.update();
 	}
 
-	public void onSeekClick() {
-		if (!applicationContext.isSignedIn()) {
-			chessService.login(new MyAsyncCallback<LoginResponse>() {
-				@Override
-				public void onSuccess(LoginResponse result) {
-					assert result != null;
-					final long locationId = result.getLocationId();
+	public void onSignInClick(String nick) {
+		chessService.login(nick, new MyAsyncCallback<LoginResponse>() {
+			@Override
+			public void onSuccess(LoginResponse result) {
+				assert result != null;
+				final long locationId = result.getLocationId();
 
-					Log.debug("Opening Channel " + result.getChannelId());
-					Channel channel = ChannelFactory.createChannel(result.getChannelId());
-					channel.open(new SocketListener() {
+				Log.debug("Opening Channel " + result.getChannelId());
+				Channel channel = ChannelFactory.createChannel(result.getChannelId());
+				channel.open(new SocketListener() {
 
-						@Override
-						public void onOpen() {
-							Log.debug("Channel opened, completing login");
-							completeLogin(locationId);
+					@Override
+					public void onOpen() {
+						Log.debug("Channel opened, completing login");
+						completeLogin(locationId);
+					}
+
+					@Override
+					public void onMessage(String encodedMessage) {
+						SerializationStreamFactory streamFactory = CometService.App.getSerializationStreamFactory();
+						CometMessage message;
+						try {
+							SerializationStreamReader reader = streamFactory.createStreamReader(encodedMessage);
+							message = (CometMessage) reader.readObject();
+							Log.info("received CometMessage " + message);
+						} catch (SerializationException ex) {
+							throw new RuntimeException("SerializationException while deserializing encoded message '"
+									+ encodedMessage + "'", ex);
+						} catch (Throwable ex) {
+							throw new RuntimeException("Unexpected error while deserializing encoded message '"
+									+ encodedMessage + "'", ex);
 						}
+						cometMessageDispatcher.dispatch(message);
+					}
+				});
+			}
+		});
+	}
 
-						@Override
-						public void onMessage(String encodedMessage) {
-							SerializationStreamFactory streamFactory = CometService.App.getSerializationStreamFactory();
-							CometMessage message;
-							try {
-								SerializationStreamReader reader = streamFactory.createStreamReader(encodedMessage);
-								message = (CometMessage) reader.readObject();
-								Log.info("received CometMessage " + message);
-							} catch (SerializationException ex) {
-								throw new RuntimeException("SerializationException while deserializing encoded message '"
-										+ encodedMessage + "'", ex);
-							} catch (Throwable ex) {
-								throw new RuntimeException("Unexpected error while deserializing encoded message '"
-										+ encodedMessage + "'", ex);
-							}
-							cometMessageDispatcher.dispatch(message);
-						}
-					});
-				}
-			});
-		} else {
-			postSeek();
-		}
+	public void onPostPublicChallenge() {
+		postSeek();
 	}
 
 	private void completeLogin(final long locationId) {

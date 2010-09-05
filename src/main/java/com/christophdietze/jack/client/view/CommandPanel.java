@@ -4,18 +4,24 @@ import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEventHandler;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.event.MatchStartedEventHandler;
+import com.christophdietze.jack.client.event.SignedInEvent;
+import com.christophdietze.jack.client.event.SignedInEventHandler;
 import com.christophdietze.jack.client.presenter.CommandPresenter;
 import com.christophdietze.jack.client.presenter.GameManager;
-import com.christophdietze.jack.client.presenter.GameMode;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
@@ -31,59 +37,104 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 	private GameManager gameManager;
 	private GlobalEventBus eventBus;
 
+	private PostChallengePopup postChallengePopup;
+
 	@UiField
-	Button seekLink;
+	HTMLPanel signInPanel;
 	@UiField
-	HTMLPanel seekRunningPanel;
+	TextBox nickTextBox;
+	@UiField
+	Button signInButton;
+	@UiField
+	HTMLPanel signInRunningPanel;
+
+	@UiField
+	HTMLPanel signOutPanel;
+	@UiField
+	Label signInStatusLabel;
+	@UiField
+	Button signOutButton;
+	@UiField
+	Button startMatchButton;
+
 	@UiField
 	Button abortMatchLink;
+	@UiField
+	HTMLPanel activeMatchPanel;
 
 	@Inject
-	public CommandPanel(CommandPresenter presenter, GameManager gameManager, GlobalEventBus eventBus) {
+	public CommandPanel(CommandPresenter presenter, GameManager gameManager, GlobalEventBus eventBus,
+			PostChallengePopup postChallengePopup) {
 		this.presenter = presenter;
 		this.gameManager = gameManager;
 		this.eventBus = eventBus;
+		this.postChallengePopup = postChallengePopup;
 		initWidget(uiBinder.createAndBindUi(this));
-		seekRunningPanel.setVisible(false);
+		// signInRunningPanel.setVisible(false);
 		presenter.bindView(this);
 		initListeners();
 	}
 
 	private void initListeners() {
-		seekLink.addClickHandler(new ClickHandler() {
+		signInButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				presenter.onSeekClick();
-				seekLink.setVisible(false);
-				seekRunningPanel.setVisible(true);
+				doSignIn();
 			}
 		});
-		abortMatchLink.addClickHandler(new ClickHandler() {
+		eventBus.addHandler(SignedInEvent.TYPE, new SignedInEventHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
-				presenter.onAbortMatchClick();
+			public void onSignIn(SignedInEvent event) {
+				signInPanel.setVisible(false);
+				signInRunningPanel.setVisible(false);
+				signInStatusLabel.setText("You are signed in at location " + event.getLocationId());
+				signOutPanel.setVisible(true);
+				startMatchButton.setVisible(true);
 			}
 		});
 		eventBus.addHandler(MatchStartedEvent.TYPE, new MatchStartedEventHandler() {
 			@Override
 			public void onMatchStarted(MatchStartedEvent event) {
-				seekLink.setVisible(false);
-				seekRunningPanel.setVisible(false);
+				startMatchButton.setVisible(false);
+				activeMatchPanel.setVisible(true);
 				update();
 			}
 		});
 		eventBus.addHandler(MatchEndedEvent.TYPE, new MatchEndedEventHandler() {
 			@Override
 			public void onMatchEnded(MatchEndedEvent event) {
-				seekLink.setVisible(true);
-				seekRunningPanel.setVisible(false);
+				activeMatchPanel.setVisible(false);
+				startMatchButton.setVisible(true);
 				update();
 			}
 		});
 	}
 
+	@UiHandler("nickTextBox")
+	void handleFocus(FocusEvent event) {
+		nickTextBox.setText("");
+	}
+
+	@UiHandler("nickTextBox")
+	void handleEnter(KeyPressEvent event) {
+		doSignIn();
+	}
+
+	@UiHandler("startMatchButton")
+	void handleStartGameClick(ClickEvent event) {
+		postChallengePopup.show();
+	}
+
+	private void doSignIn() {
+		String nick = nickTextBox.getText();
+		// TODO validate nick
+		presenter.onSignInClick(nick);
+		signInPanel.setVisible(false);
+		signInRunningPanel.setVisible(true);
+	}
+
 	@Override
 	public void update() {
-		abortMatchLink.setVisible(gameManager.getCurrentMode() == GameMode.MATCH_MODE);
+		// abortMatchLink.setVisible(gameManager.getCurrentMode() == GameMode.MATCH_MODE);
 	}
 }

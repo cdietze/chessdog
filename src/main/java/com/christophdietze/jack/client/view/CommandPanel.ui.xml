@@ -7,14 +7,26 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-
-		<g:Button ui:field="seekLink" text="Seek for Match" />
-
-		<g:HTMLPanel ui:field="seekRunningPanel">
-			Seek running...
+		<g:HTMLPanel ui:field="signInPanel">
+			<g:TextBox ui:field="nickTextBox" text="Your Nickname" />
+			<g:Button ui:field="signInButton" text="Sign in" />
 		</g:HTMLPanel>
 
-		<g:Button ui:field="abortMatchLink" text="Abort Match" />
-		
+		<g:HTMLPanel ui:field="signInRunningPanel" visible="false">
+			Signing in...
+		</g:HTMLPanel>
+
+		<g:HTMLPanel ui:field="signOutPanel" visible="false">
+			<g:Label ui:field="signInStatusLabel" />
+			<g:Button ui:field="signOutButton" text="Sign out" />
+		</g:HTMLPanel>
+
+		<g:Button ui:field="startMatchButton" text="Start a Match..."
+			visible="false" />
+
+		<g:HTMLPanel ui:field="activeMatchPanel" visible="false">
+			<g:Button ui:field="abortMatchLink" text="Abort Match" />
+		</g:HTMLPanel>
+
 	</g:HTMLPanel>
 </ui:UiBinder> 
