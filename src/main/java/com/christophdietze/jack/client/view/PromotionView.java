@@ -62,7 +62,7 @@ public class PromotionView implements PromotionPresenter.View {
 	}
 
 	private PopupPanel createPopupPanel(boolean isWhite) {
-		final PopupPanel popupPanel = UiUtils.createPopup(true);
+		final PopupPanel popupPanel = new PopupPanel(true);
 		popupPanel.setStylePrimaryName(CSS.promotionPopup());
 		FlowPanel flow = new FlowPanel();
 		popupPanel.setWidget(flow);

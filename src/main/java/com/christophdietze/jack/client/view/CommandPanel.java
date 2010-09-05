@@ -117,12 +117,14 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 
 	@UiHandler("nickTextBox")
 	void handleEnter(KeyPressEvent event) {
-		doSignIn();
+		if (event.getCharCode() == '\r') {
+			doSignIn();
+		}
 	}
 
 	@UiHandler("startMatchButton")
 	void handleStartGameClick(ClickEvent event) {
-		postChallengePopup.show();
+		postChallengePopup.showRelativeTo(startMatchButton);
 	}
 
 	private void doSignIn() {

@@ -27,8 +27,8 @@ public class LoginTest extends TestCase {
 	public void testLogin1() {
 		Injector injector = Guice.createInjector();
 		ChessServiceImpl chessService = injector.getInstance(ChessServiceImpl.class);
-		LoginResponse userId1 = chessService.login();
-		LoginResponse userId2 = chessService.login();
+		LoginResponse userId1 = chessService.login("Alice");
+		LoginResponse userId2 = chessService.login("Bob");
 		assertNotSame(userId1.getLocationId(), userId2.getLocationId());
 	}
 }

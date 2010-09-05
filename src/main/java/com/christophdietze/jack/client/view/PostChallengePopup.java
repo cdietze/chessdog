@@ -1,10 +1,14 @@
 package com.christophdietze.jack.client.view;
 
-import com.christophdietze.jack.client.presenter.CommandPresenter;
 import com.christophdietze.jack.client.presenter.GameManager;
+import com.christophdietze.jack.client.presenter.PostChallengePresenter;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -16,13 +20,18 @@ public class PostChallengePopup extends PopupPanel {
 	interface MyUiBinder extends UiBinder<Widget, PostChallengePopup> {
 	}
 
-	private CommandPresenter presenter;
+	private PostChallengePresenter presenter;
 
 	private GameManager gameManager;
 	private GlobalEventBus eventBus;
 
+	@UiField
+	Button postPlayerChallengeButton;
+	@UiField
+	Button postPublicChallengeButton;
+
 	@Inject
-	public PostChallengePopup(CommandPresenter presenter, GameManager gameManager, GlobalEventBus eventBus) {
+	public PostChallengePopup(PostChallengePresenter presenter, GameManager gameManager, GlobalEventBus eventBus) {
 		super(true);
 		this.presenter = presenter;
 		this.gameManager = gameManager;
@@ -30,5 +39,11 @@ public class PostChallengePopup extends PopupPanel {
 		setWidget(uiBinder.createAndBindUi(this));
 		// signInRunningPanel.setVisible(false);
 		// presenter.bindView(this);
+	}
+
+	@UiHandler("postPublicChallengeButton")
+	void handlePostPublicChallengeClick(ClickEvent event) {
+		presenter.onPostPublicChallenge();
+		hide();
 	}
 }

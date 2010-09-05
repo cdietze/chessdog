@@ -100,7 +100,6 @@ public class CommandPresenter {
 			@Override
 			public void onSuccess(Void result) {
 				eventBus.fireEvent(new SignedInEvent(locationId));
-				postSeek();
 			}
 		});
 	}
