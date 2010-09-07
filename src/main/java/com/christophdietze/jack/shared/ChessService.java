@@ -11,6 +11,8 @@ public interface ChessService extends RemoteService {
 	void loginComplete(long locationId);
 
 	PostSeekResponse postSeek(long locationId);
+	PostChallengeResponse postChallenge(long locationId, String opponentNick);
+
 	AbortResponse abortMatch(long locationId);
 	MakeMoveResponse makeMove(long locationId, String algebraicMove);
 

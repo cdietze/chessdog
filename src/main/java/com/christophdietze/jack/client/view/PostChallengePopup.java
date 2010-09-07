@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
@@ -26,9 +27,11 @@ public class PostChallengePopup extends PopupPanel {
 	private GlobalEventBus eventBus;
 
 	@UiField
-	Button postPlayerChallengeButton;
+	TextBox opponentNickTextBox;
 	@UiField
-	Button postPublicChallengeButton;
+	Button postPlayerChallengeButton;
+	// @UiField
+	// Button postPublicChallengeButton;
 
 	@Inject
 	public PostChallengePopup(PostChallengePresenter presenter, GameManager gameManager, GlobalEventBus eventBus) {
@@ -41,9 +44,11 @@ public class PostChallengePopup extends PopupPanel {
 		// presenter.bindView(this);
 	}
 
-	@UiHandler("postPublicChallengeButton")
+	@UiHandler("postPlayerChallengeButton")
 	void handlePostPublicChallengeClick(ClickEvent event) {
-		presenter.onPostPublicChallenge();
+		String opponentNick = opponentNickTextBox.getText();
+		presenter.onPostPersonalChallenge(opponentNick);
 		hide();
 	}
+
 }

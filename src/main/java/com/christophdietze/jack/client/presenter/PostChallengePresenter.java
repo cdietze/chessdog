@@ -4,7 +4,7 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.shared.ChessServiceAsync;
-import com.christophdietze.jack.shared.PostSeekResponse;
+import com.christophdietze.jack.shared.PostChallengeResponse;
 import com.google.inject.Inject;
 
 public class PostChallengePresenter {
@@ -25,28 +25,23 @@ public class PostChallengePresenter {
 		this.cometMessageDispatcher = cometMessageDispatcher;
 	}
 
-	public void onPostPublicChallenge() {
-		postSeek();
+	public void onPostPersonalChallenge(String opponentNick) {
+		chessService.postChallenge(applicationContext.getLocationId(), opponentNick,
+				new MyAsyncCallback<PostChallengeResponse>() {
+					@Override
+					public void onSuccess(PostChallengeResponse result) {
+						Log.debug("challenge posted. response: " + result);
+					}
+				});
 	}
 
-	private void postSeek() {
-		chessService.postSeek(applicationContext.getLocationId(), new MyAsyncCallback<PostSeekResponse>() {
-			@Override
-			public void onSuccess(PostSeekResponse result) {
-				switch (result) {
-				case OK:
-					Log.debug("You joined the seek list");
-					break;
-				case ALREADY_SEEKING:
-					Log.warn("You already have an active seek");
-					break;
-				case HAS_ACTIVE_MATCH:
-					Log.warn("You cannot seek while you have an active match");
-					break;
-				default:
-					throw new AssertionError();
-				}
-			}
-		});
-	}
+	/*
+	 * private void postSeek() { chessService.postSeek(applicationContext.getLocationId(), new
+	 * MyAsyncCallback<PostSeekResponse>() {
+	 * 
+	 * @Override public void onSuccess(PostSeekResponse result) { switch (result) { case OK:
+	 * Log.debug("You joined the seek list"); break; case ALREADY_SEEKING: Log.warn("You already have an active seek");
+	 * break; case HAS_ACTIVE_MATCH: Log.warn("You cannot seek while you have an active match"); break; default: throw
+	 * new AssertionError(); } } }); }
+	 */
 }
