@@ -4,6 +4,8 @@ import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEventHandler;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.event.MatchStartedEventHandler;
+import com.christophdietze.jack.client.event.SignInFailedEvent;
+import com.christophdietze.jack.client.event.SignInFailedEventHandler;
 import com.christophdietze.jack.client.event.SignedInEvent;
 import com.christophdietze.jack.client.event.SignedInEventHandler;
 import com.christophdietze.jack.client.presenter.CommandPresenter;
@@ -90,6 +92,13 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 				signInStatusLabel.setText("You are signed in at location " + event.getLocationId());
 				signOutPanel.setVisible(true);
 				startMatchButton.setVisible(true);
+			}
+		});
+		eventBus.addHandler(SignInFailedEvent.TYPE, new SignInFailedEventHandler() {
+			@Override
+			public void onSignInFailed(SignInFailedEvent event) {
+				signInRunningPanel.setVisible(false);
+				signInPanel.setVisible(true);
 			}
 		});
 		eventBus.addHandler(MatchStartedEvent.TYPE, new MatchStartedEventHandler() {

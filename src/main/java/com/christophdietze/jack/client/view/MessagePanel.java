@@ -6,6 +6,8 @@ import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEventHandler;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.event.MatchStartedEventHandler;
+import com.christophdietze.jack.client.event.SignInFailedEvent;
+import com.christophdietze.jack.client.event.SignInFailedEventHandler;
 import com.christophdietze.jack.client.event.SignedInEvent;
 import com.christophdietze.jack.client.event.SignedInEventHandler;
 import com.christophdietze.jack.client.event.UncaughtExceptionEvent;
@@ -95,6 +97,12 @@ public class MessagePanel extends Composite {
 			@Override
 			public void onSignIn(SignedInEvent event) {
 				addMessage("You are signed in as Guest" + event.getLocationId() + ".");
+			}
+		});
+		eventBus.addHandler(SignInFailedEvent.TYPE, new SignInFailedEventHandler() {
+			@Override
+			public void onSignInFailed(SignInFailedEvent event) {
+				addMessage("Sign in failed.");
 			}
 		});
 		eventBus.addHandler(GameUpdatedEvent.TYPE, new GameUpdatedEventHandler() {

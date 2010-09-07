@@ -5,7 +5,6 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import com.christophdietze.jack.server.dao.Location;
-import com.christophdietze.jack.server.dao.ObjectifyUtils;
 import com.christophdietze.jack.server.dao.SeekListDao;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -29,8 +28,8 @@ public class SeekListDaoTest extends TestCase {
 
 	@Test
 	public void testAddAndPop() {
-		Key<Location> userId1 = ObjectifyUtils.newKey(Location.class, 5);
-		Key<Location> userId2 = ObjectifyUtils.newKey(Location.class, 7);
+		Key<Location> userId1 = Location.newKey(5L);
+		Key<Location> userId2 = Location.newKey(7L);
 		Injector injector = Guice.createInjector();
 		SeekListDao dao = injector.getInstance(SeekListDao.class);
 		// first add some users

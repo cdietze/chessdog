@@ -7,7 +7,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface ChessService extends RemoteService {
 	static final String SERVLET_PATH = "chessService";
 
-	LoginResponse login(String nick);
+	LoginResponse login(String nickname);
 	void loginComplete(long locationId);
 
 	PostSeekResponse postSeek(long locationId);

@@ -4,7 +4,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface ChessServiceAsync {
 
-	void login(String nick, AsyncCallback<LoginResponse> callback);
+	void login(String nickname, AsyncCallback<LoginResponse> callback);
 	void loginComplete(long locationId, AsyncCallback<Void> callback);
 
 	void postSeek(long locationId, AsyncCallback<PostSeekResponse> callback);

@@ -108,7 +108,7 @@ public class GameManager {
 			@Override
 			public void onSuccess(MakeMoveResponse result) {
 				switch (result) {
-				case OK:
+				case SUCCESS:
 					break;
 				case NO_ACTIVE_MATCH:
 					Log.warn("Found no active match, probably the opponent has just aborted the match");

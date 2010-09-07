@@ -5,6 +5,7 @@ import com.christophdietze.jack.client.channel.Channel;
 import com.christophdietze.jack.client.channel.ChannelFactory;
 import com.christophdietze.jack.client.channel.SocketListener;
 import com.christophdietze.jack.client.event.MatchEndedEvent;
+import com.christophdietze.jack.client.event.SignInFailedEvent;
 import com.christophdietze.jack.client.event.SignedInEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.util.GlobalEventBus;
@@ -14,6 +15,7 @@ import com.christophdietze.jack.shared.ChessServiceAsync;
 import com.christophdietze.jack.shared.CometMessage;
 import com.christophdietze.jack.shared.CometService;
 import com.christophdietze.jack.shared.LoginResponse;
+import com.christophdietze.jack.shared.LoginResponse.State;
 import com.christophdietze.jack.shared.PostSeekResponse;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
@@ -56,6 +58,10 @@ public class CommandPresenter {
 			@Override
 			public void onSuccess(LoginResponse result) {
 				assert result != null;
+				if (result.getState() == State.NICKNAME_ALREADY_EXISTS) {
+					eventBus.fireEvent(new SignInFailedEvent());
+					return;
+				}
 				final long locationId = result.getLocationId();
 
 				Log.debug("Opening Channel " + result.getChannelId());
@@ -109,7 +115,7 @@ public class CommandPresenter {
 			@Override
 			public void onSuccess(PostSeekResponse result) {
 				switch (result) {
-				case OK:
+				case SUCCESS:
 					Log.debug("You joined the seek list");
 					break;
 				case ALREADY_SEEKING:
@@ -131,7 +137,7 @@ public class CommandPresenter {
 			@Override
 			public void onSuccess(AbortResponse result) {
 				switch (result) {
-				case OK:
+				case SUCCESS:
 					Log.debug("You aborted the game");
 					gameManager.switchToAnalysisMode();
 					eventBus.fireEvent(new MatchEndedEvent(Reason.YOU_ABORTED));
