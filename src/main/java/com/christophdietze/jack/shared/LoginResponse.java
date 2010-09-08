@@ -4,44 +4,58 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class LoginResponse implements IsSerializable {
 
-	public static enum State {
+	public static enum Type {
 		SUCCESS, NICKNAME_ALREADY_EXISTS;
 	}
 
-	public static LoginResponse newSuccessfulResponse(long locationId, String channelId) {
-		return new LoginResponse(State.SUCCESS, locationId, channelId);
+	public static LoginSuccessfulResponse newSuccessfulResponse(long locationId, String channelId) {
+		return new LoginSuccessfulResponse(locationId, channelId);
 	}
 	public static LoginResponse newNicknameAlreadyExistsResponse() {
-		return new LoginResponse(State.NICKNAME_ALREADY_EXISTS, -1, null);
+		return new LoginResponse(Type.NICKNAME_ALREADY_EXISTS);
 	}
 
-	private State state;
-	private long locationId;
-	private String channelId;
+	private Type type;
 
 	/**
 	 * For serialization
 	 */
-	@SuppressWarnings("unused")
 	private LoginResponse() {
-		this(null, -1, null);
+		this(null);
+		// this(null, -1, null);
 	}
 
-	private LoginResponse(State state, long locationId, String channelId) {
-		this.state = state;
-		this.locationId = locationId;
-		this.channelId = channelId;
+	private LoginResponse(Type type) {
+		this.type = type;
 	}
 
-	public State getState() {
-		return state;
+	public Type getType() {
+		return type;
 	}
 
-	public long getLocationId() {
-		return locationId;
+	public static class LoginSuccessfulResponse extends LoginResponse {
+		private long locationId;
+		private String channelId;
+
+		/**
+		 * For serialization
+		 */
+		private LoginSuccessfulResponse() {
+		}
+
+		private LoginSuccessfulResponse(long locationId, String channelId) {
+			super(Type.SUCCESS);
+			this.locationId = locationId;
+			this.channelId = channelId;
+		}
+
+		public long getLocationId() {
+			return locationId;
+		}
+
+		public String getChannelId() {
+			return channelId;
+		}
 	}
 
-	public String getChannelId() {
-		return channelId;
-	}
 }

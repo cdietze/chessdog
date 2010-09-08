@@ -102,7 +102,7 @@ public class MessagePanel extends Composite {
 		eventBus.addHandler(SignInFailedEvent.TYPE, new SignInFailedEventHandler() {
 			@Override
 			public void onSignInFailed(SignInFailedEvent event) {
-				addMessage("Sign in failed.");
+				addMessage(event.getMessage());
 			}
 		});
 		eventBus.addHandler(GameUpdatedEvent.TYPE, new GameUpdatedEventHandler() {

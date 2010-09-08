@@ -5,9 +5,9 @@ import com.christophdietze.jack.client.channel.Channel;
 import com.christophdietze.jack.client.channel.ChannelFactory;
 import com.christophdietze.jack.client.channel.SocketListener;
 import com.christophdietze.jack.client.event.MatchEndedEvent;
+import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.event.SignInFailedEvent;
 import com.christophdietze.jack.client.event.SignedInEvent;
-import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.shared.AbortResponse;
@@ -15,7 +15,7 @@ import com.christophdietze.jack.shared.ChessServiceAsync;
 import com.christophdietze.jack.shared.CometMessage;
 import com.christophdietze.jack.shared.CometService;
 import com.christophdietze.jack.shared.LoginResponse;
-import com.christophdietze.jack.shared.LoginResponse.State;
+import com.christophdietze.jack.shared.LoginResponse.LoginSuccessfulResponse;
 import com.christophdietze.jack.shared.PostSeekResponse;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
@@ -44,7 +44,6 @@ public class CommandPresenter {
 		this.gameManager = gameManager;
 		this.chessService = chessService;
 		this.cometMessageDispatcher = cometMessageDispatcher;
-		initListeners();
 	}
 
 	public void bindView(View view) {
@@ -53,64 +52,28 @@ public class CommandPresenter {
 		view.update();
 	}
 
-	public void onSignInClick(String nick) {
-		chessService.login(nick, new MyAsyncCallback<LoginResponse>() {
+	public void onSignInClick(final String nickname) {
+		chessService.login(nickname, new MyAsyncCallback<LoginResponse>() {
 			@Override
 			public void onSuccess(LoginResponse result) {
 				assert result != null;
-				if (result.getState() == State.NICKNAME_ALREADY_EXISTS) {
-					eventBus.fireEvent(new SignInFailedEvent());
-					return;
+				switch (result.getType()) {
+				case NICKNAME_ALREADY_EXISTS:
+					eventBus.fireEvent(new SignInFailedEvent("Sign in failed. The nickname '" + nickname
+							+ "' is already in use, please choose a different one."));
+					break;
+				case SUCCESS:
+					LoginSuccessfulResponse successfulResponse = (LoginSuccessfulResponse) result;
+					createChannelAndCompleteLogin(successfulResponse.getLocationId(), successfulResponse.getChannelId());
+					break;
+				default:
+					throw new AssertionError();
 				}
-				final long locationId = result.getLocationId();
-
-				Log.debug("Opening Channel " + result.getChannelId());
-				Channel channel = ChannelFactory.createChannel(result.getChannelId());
-				channel.open(new SocketListener() {
-
-					@Override
-					public void onOpen() {
-						Log.debug("Channel opened, completing login");
-						completeLogin(locationId);
-					}
-
-					@Override
-					public void onMessage(String encodedMessage) {
-						SerializationStreamFactory streamFactory = CometService.App.getSerializationStreamFactory();
-						CometMessage message;
-						try {
-							SerializationStreamReader reader = streamFactory.createStreamReader(encodedMessage);
-							message = (CometMessage) reader.readObject();
-							Log.info("received CometMessage " + message);
-						} catch (SerializationException ex) {
-							throw new RuntimeException("SerializationException while deserializing encoded message '"
-									+ encodedMessage + "'", ex);
-						} catch (Throwable ex) {
-							throw new RuntimeException("Unexpected error while deserializing encoded message '"
-									+ encodedMessage + "'", ex);
-						}
-						cometMessageDispatcher.dispatch(message);
-					}
-				});
 			}
 		});
 	}
 
 	public void onPostPublicChallenge() {
-		postSeek();
-	}
-
-	private void completeLogin(final long locationId) {
-		applicationContext.setLocationId(locationId);
-		chessService.loginComplete(locationId, new MyAsyncCallback<Void>() {
-			@Override
-			public void onSuccess(Void result) {
-				eventBus.fireEvent(new SignedInEvent(locationId));
-			}
-		});
-	}
-
-	private void postSeek() {
 		chessService.postSeek(applicationContext.getLocationId(), new MyAsyncCallback<PostSeekResponse>() {
 			@Override
 			public void onSuccess(PostSeekResponse result) {
@@ -152,6 +115,42 @@ public class CommandPresenter {
 		});
 	}
 
-	private void initListeners() {
+	private void completeLogin(final long locationId) {
+		applicationContext.setLocationId(locationId);
+		chessService.loginComplete(locationId, new MyAsyncCallback<Void>() {
+			@Override
+			public void onSuccess(Void result) {
+				eventBus.fireEvent(new SignedInEvent(locationId));
+			}
+		});
+	}
+
+	private void createChannelAndCompleteLogin(final long locationId, String channelId) {
+		Log.debug("Opening Channel " + channelId);
+		Channel channel = ChannelFactory.createChannel(channelId);
+		channel.open(new SocketListener() {
+			@Override
+			public void onOpen() {
+				Log.debug("Channel opened, completing login");
+				completeLogin(locationId);
+			}
+			@Override
+			public void onMessage(String encodedMessage) {
+				SerializationStreamFactory streamFactory = CometService.App.getSerializationStreamFactory();
+				CometMessage message;
+				try {
+					SerializationStreamReader reader = streamFactory.createStreamReader(encodedMessage);
+					message = (CometMessage) reader.readObject();
+					Log.info("received CometMessage " + message);
+				} catch (SerializationException ex) {
+					throw new RuntimeException("SerializationException while deserializing encoded message '"
+							+ encodedMessage + "'", ex);
+				} catch (Throwable ex) {
+					throw new RuntimeException("Unexpected error while deserializing encoded message '" + encodedMessage
+							+ "'", ex);
+				}
+				cometMessageDispatcher.dispatch(message);
+			}
+		});
 	}
 }

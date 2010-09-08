@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import com.christophdietze.jack.server.ChessServiceImpl;
+import com.christophdietze.jack.shared.LoginResponse.LoginSuccessfulResponse;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.inject.Guice;
@@ -29,11 +30,11 @@ public class PlayGameTest extends TestCase {
 		Injector injector = Guice.createInjector();
 		ChessServiceImpl chessService = injector.getInstance(ChessServiceImpl.class);
 
-		long login1 = chessService.login("Alice").getLocationId();
+		long login1 = ((LoginSuccessfulResponse) chessService.login("Alice")).getLocationId();
 		chessService.loginComplete(login1);
 		chessService.postSeek(login1);
 
-		long login2 = chessService.login("Bob").getLocationId();
+		long login2 = ((LoginSuccessfulResponse) chessService.login("Bob")).getLocationId();
 		chessService.loginComplete(login2);
 		chessService.postSeek(login2);
 

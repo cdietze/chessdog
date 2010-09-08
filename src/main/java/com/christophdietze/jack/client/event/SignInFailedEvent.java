@@ -6,9 +6,19 @@ public class SignInFailedEvent extends GwtEvent<SignInFailedEventHandler> {
 
 	public static final Type<SignInFailedEventHandler> TYPE = new Type<SignInFailedEventHandler>();
 
+	private final String message;
+
+	public SignInFailedEvent(String message) {
+		this.message = message;
+	}
+
 	@Override
 	public GwtEvent.Type<SignInFailedEventHandler> getAssociatedType() {
 		return TYPE;
+	}
+
+	public String getMessage() {
+		return message;
 	}
 
 	@Override
