@@ -1,7 +1,5 @@
 package com.christophdietze.jack.client.view;
 
-import org.apache.commons.lang.NotImplementedException;
-
 import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEventHandler;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
@@ -146,7 +144,7 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 	@UiHandler("abortMatchButton")
 	void handleAbortMatchClick(ClickEvent event) {
 		// TODO implement abort match button
-		throw new NotImplementedException();
+		throw new RuntimeException("not implemented");
 	}
 
 	private void doSignIn() {

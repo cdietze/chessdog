@@ -60,13 +60,14 @@ public class CometMessageDispatcher {
 		Log.info("Match received: " + message);
 		game.setupStartingPosition();
 		long myUserId = applicationContext.getLocationId();
-		if (!Lists.newArrayList(message.getWhitePlayerId(), message.getBlackPlayerId()).contains(myUserId)) {
+		if (!Lists.newArrayList(message.getWhitePlayer().getLocationId(), message.getBlackPlayer().getLocationId())
+				.contains(myUserId)) {
 			throw new RuntimeException("Received " + message + ", but I (User[" + myUserId
 					+ "]) am not playing in this match.");
 		}
-		boolean isPlayerWhite = applicationContext.getLocationId() == message.getWhitePlayerId();
+		boolean isPlayerWhite = applicationContext.getLocationId() == message.getWhitePlayer().getLocationId();
 		game.setWhiteAtBottom(isPlayerWhite);
-		MatchInfo matchInfo = new MatchInfo(message.getWhitePlayerId(), message.getBlackPlayerId(), isPlayerWhite);
+		MatchInfo matchInfo = new MatchInfo(message.getWhitePlayer(), message.getBlackPlayer(), isPlayerWhite);
 		gameManager.switchToMatchMode(matchInfo);
 		eventBus.fireEvent(new MatchStartedEvent(matchInfo));
 		// A GameUpdatedEvent is already sent when the starting position is set up, but the direction of the board might

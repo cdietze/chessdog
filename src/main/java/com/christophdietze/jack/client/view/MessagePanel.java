@@ -76,7 +76,7 @@ public class MessagePanel extends Composite {
 				StringBuilder sb = new StringBuilder();
 				sb.append("New Match: You play as ");
 				sb.append(matchInfo.isPlayerWhite() ? "white" : "black");
-				sb.append(" against Guest" + matchInfo.getOpponentId() + ".");
+				sb.append(" against Guest" + matchInfo.getOpponent().getNickname() + ".");
 				addMessage(sb.toString());
 			}
 		});

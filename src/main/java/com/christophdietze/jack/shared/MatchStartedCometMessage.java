@@ -3,8 +3,8 @@ package com.christophdietze.jack.shared;
 import com.christophdietze.jack.shared.util.SimpleToStringBuilder;
 
 public class MatchStartedCometMessage extends CometMessage {
-	private long whitePlayerId;
-	private long blackPlayerId;
+	private Player whitePlayer;
+	private Player blackPlayer;
 
 	/**
 	 * For serialization
@@ -13,21 +13,21 @@ public class MatchStartedCometMessage extends CometMessage {
 	private MatchStartedCometMessage() {
 	}
 
-	public MatchStartedCometMessage(long whitePlayerId, long blackPlayerId) {
-		this.whitePlayerId = whitePlayerId;
-		this.blackPlayerId = blackPlayerId;
+	public MatchStartedCometMessage(Player whitePlayer, Player blackPlayer) {
+		this.whitePlayer = whitePlayer;
+		this.blackPlayer = blackPlayer;
 	}
 
-	public long getWhitePlayerId() {
-		return whitePlayerId;
+	public Player getWhitePlayer() {
+		return whitePlayer;
 	}
-	public long getBlackPlayerId() {
-		return blackPlayerId;
+
+	public Player getBlackPlayer() {
+		return blackPlayer;
 	}
 
 	@Override
 	public String toString() {
-		return SimpleToStringBuilder.create(this).append("white", whitePlayerId).append("black", blackPlayerId)
-				.toString();
+		return SimpleToStringBuilder.create(this).append("white", whitePlayer).append("black", blackPlayer).toString();
 	}
 }

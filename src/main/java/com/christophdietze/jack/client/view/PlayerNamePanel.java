@@ -81,7 +81,7 @@ public class PlayerNamePanel extends Composite {
 			@Override
 			public void onMatchStarted(MatchStartedEvent event) {
 				MatchInfo matchInfo = event.getMatchInfo();
-				upperPlayerLabel.setText("Guest" + matchInfo.getOpponentId());
+				upperPlayerLabel.setText(matchInfo.getOpponent().getNickname());
 				lowerPlayerLabel.setText("You");
 				upperPlayerIcon.setResource(game.isWhiteAtBottom() ? myClientBundle.blackPlayerIcon() : myClientBundle
 						.whitePlayerIcon());
