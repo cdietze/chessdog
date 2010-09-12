@@ -1,30 +1,27 @@
 package com.christophdietze.jack.client.view;
 
-import com.christophdietze.jack.client.event.ChallengeReceivedEvent;
-import com.christophdietze.jack.client.event.ChallengeReceivedEventHandler;
-import com.christophdietze.jack.client.presenter.GameManager;
-import com.christophdietze.jack.client.util.GlobalEventBus;
+import com.christophdietze.jack.client.presenter.ChallengeReceivedPresenter;
+import com.christophdietze.jack.shared.Player;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
-public class ChallengeReceivedPopup extends PopupPanel {
+public class ChallengeReceivedPopup extends PopupPanel implements ChallengeReceivedPresenter.View {
 
 	private static ChallengeReceivedPopupUiBinder uiBinder = GWT.create(ChallengeReceivedPopupUiBinder.class);
 
 	interface ChallengeReceivedPopupUiBinder extends UiBinder<Widget, ChallengeReceivedPopup> {
 	}
 
-	private GameManager gameManager;
-	private GlobalEventBus eventBus;
+	private long challengeId;
+	private ChallengeReceivedPresenter presenter;
 
 	@UiField
 	Label challengeDescriptionLabel;
@@ -34,31 +31,30 @@ public class ChallengeReceivedPopup extends PopupPanel {
 	Button declineButton;
 
 	@Inject
-	public ChallengeReceivedPopup(GameManager gameManager, GlobalEventBus eventBus) {
-		super(false);
-		this.gameManager = gameManager;
-		this.eventBus = eventBus;
+	public ChallengeReceivedPopup(ChallengeReceivedPresenter presenter) {
+		super(false, true);
+		setGlassEnabled(true);
+		this.presenter = presenter;
 		setWidget(uiBinder.createAndBindUi(this));
-		initListeners();
+		presenter.bindView(this);
 	}
 
 	@UiHandler("acceptButton")
 	void onAcceptClick(ClickEvent e) {
-		Window.alert("Hello accept!");
-	}
-	@UiHandler("declineButton")
-	void onDeclineClick(ClickEvent e) {
-		Window.alert("Hello decline!");
+		presenter.onAcceptChallenge(challengeId);
+		hide();
 	}
 
-	private void initListeners() {
-		eventBus.addHandler(ChallengeReceivedEvent.TYPE, new ChallengeReceivedEventHandler() {
-			@Override
-			public void onChallengeReceived(ChallengeReceivedEvent event) {
-				challengeDescriptionLabel.setText("ChallengeId(" + event.getChallengeId() + "): Player "
-						+ event.getChallenger() + " challenged you for a match.");
-				show();
-			}
-		});
+	@UiHandler("declineButton")
+	void onDeclineClick(ClickEvent e) {
+		presenter.onDeclineChallenge(challengeId);
+		hide();
+	}
+
+	@Override
+	public void showPopup(long challengeId, Player challenger) {
+		this.challengeId = challengeId;
+		challengeDescriptionLabel.setText(challenger.getNickname() + " challenged you for a match.");
+		show();
 	}
 }

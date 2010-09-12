@@ -4,3 +4,9 @@
   padding: 3px;
   background: white;
 }
+
+.gwt-PopupPanelGlass {
+  background-color: #000;
+  opacity: 0.3;
+  filter: alpha(opacity=30);
+}

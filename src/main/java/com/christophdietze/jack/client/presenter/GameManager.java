@@ -113,7 +113,7 @@ public class GameManager {
 				case NO_ACTIVE_MATCH:
 					Log.warn("Found no active match, probably the opponent has just aborted the match");
 					switchToAnalysisMode();
-					eventBus.fireEvent(new MatchEndedEvent(Reason.OPPONENT_ABORTED));
+					eventBus.fireEvent(new MatchEndedEvent(Reason.UNEXPECTED_ERROR));
 					break;
 				case MOVE_FOR_OPPOSITE_PLAYER:
 					Log.error("Server says you tried to make a move for the opponent");

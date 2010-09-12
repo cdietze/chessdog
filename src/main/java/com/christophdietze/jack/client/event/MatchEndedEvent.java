@@ -7,7 +7,7 @@ public class MatchEndedEvent extends GwtEvent<MatchEndedEventHandler> {
 	public static final Type<MatchEndedEventHandler> TYPE = new Type<MatchEndedEventHandler>();
 
 	public enum Reason {
-		YOU_ABORTED, OPPONENT_ABORTED;
+		YOU_ABORTED, OPPONENT_ABORTED, UNEXPECTED_ERROR;
 	}
 
 	private Reason reason;

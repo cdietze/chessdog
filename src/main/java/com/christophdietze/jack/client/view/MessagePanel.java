@@ -90,6 +90,11 @@ public class MessagePanel extends Composite {
 				case OPPONENT_ABORTED:
 					addMessage("Your opponent aborted the match.");
 					break;
+				case UNEXPECTED_ERROR:
+					addMessage("The match was aborted due to an unexpected error.");
+					break;
+				default:
+					throw new AssertionError();
 				}
 			}
 		});

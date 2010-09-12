@@ -1,5 +1,7 @@
 package com.christophdietze.jack.client.view;
 
+import org.apache.commons.lang.NotImplementedException;
+
 import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEventHandler;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
@@ -62,7 +64,7 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 	Button startMatchButton;
 
 	@UiField
-	Button abortMatchLink;
+	Button abortMatchButton;
 	@UiField
 	HTMLPanel activeMatchPanel;
 
@@ -139,6 +141,12 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 	@UiHandler("startMatchButton")
 	void handleStartGameClick(ClickEvent event) {
 		postChallengePopup.showRelativeTo(startMatchButton);
+	}
+
+	@UiHandler("abortMatchButton")
+	void handleAbortMatchClick(ClickEvent event) {
+		// TODO implement abort match button
+		throw new NotImplementedException();
 	}
 
 	private void doSignIn() {
