@@ -70,7 +70,6 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 		this.eventBus = eventBus;
 		this.postChallengePopup = postChallengePopup;
 		initWidget(uiBinder.createAndBindUi(this));
-		// signInRunningPanel.setVisible(false);
 		presenter.bindView(this);
 		initListeners();
 	}
@@ -104,7 +103,6 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 			public void onMatchStarted(MatchStartedEvent event) {
 				startMatchButton.setVisible(false);
 				activeMatchPanel.setVisible(true);
-				update();
 			}
 		});
 		eventBus.addHandler(MatchEndedEvent.TYPE, new MatchEndedEventHandler() {
@@ -112,7 +110,6 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 			public void onMatchEnded(MatchEndedEvent event) {
 				activeMatchPanel.setVisible(false);
 				startMatchButton.setVisible(true);
-				update();
 			}
 		});
 	}
@@ -155,10 +152,5 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 		presenter.onSignInClick(nick);
 		signInPanel.setVisible(false);
 		signInRunningPanel.setVisible(true);
-	}
-
-	@Override
-	public void update() {
-		// abortMatchLink.setVisible(gameManager.getCurrentMode() == GameMode.MATCH_MODE);
 	}
 }

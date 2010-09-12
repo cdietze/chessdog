@@ -25,7 +25,6 @@ import com.google.inject.Inject;
 public class CommandPresenter {
 
 	public interface View {
-		void update();
 	}
 
 	private GlobalEventBus eventBus;
@@ -49,7 +48,6 @@ public class CommandPresenter {
 	public void bindView(View view) {
 		assert this.view == null;
 		this.view = view;
-		view.update();
 	}
 
 	public void onSignInClick(final String nickname) {
