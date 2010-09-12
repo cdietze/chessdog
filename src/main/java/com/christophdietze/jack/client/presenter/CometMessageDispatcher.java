@@ -1,11 +1,13 @@
 package com.christophdietze.jack.client.presenter;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.christophdietze.jack.client.event.ChallengeReceivedEvent;
 import com.christophdietze.jack.client.event.GameUpdatedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.util.GlobalEventBus;
+import com.christophdietze.jack.shared.ChallengeReceivedCometMessage;
 import com.christophdietze.jack.shared.CometMessage;
 import com.christophdietze.jack.shared.MatchAbortedChannelMessage;
 import com.christophdietze.jack.shared.MatchStartedCometMessage;
@@ -35,8 +37,21 @@ public class CometMessageDispatcher {
 			onMatchStarted((MatchStartedCometMessage) message);
 		} else if (message instanceof MatchAbortedChannelMessage) {
 			onMatchAborted((MatchAbortedChannelMessage) message);
+		} else if (message instanceof ChallengeReceivedCometMessage) {
+			onChallengeReceived((ChallengeReceivedCometMessage) message);
 		} else {
 			throw new AssertionError("unknown comet message: " + message);
+		}
+	}
+
+	private void onMoveMade(MoveMadeCometMessage message) {
+		Log.info("received move: " + message);
+		Move move = ChessUtils.toMoveFromAlgebraic(message.getAlgebraicMove());
+		try {
+			game.makeMoveVerified(move);
+		} catch (IllegalMoveException ex) {
+			// TODO act more fault tolerant ...
+			throw new RuntimeException(ex);
 		}
 	}
 
@@ -59,20 +74,13 @@ public class CometMessageDispatcher {
 		eventBus.fireEvent(new GameUpdatedEvent());
 	}
 
-	private void onMoveMade(MoveMadeCometMessage message) {
-		Log.info("received move: " + message);
-		Move move = ChessUtils.toMoveFromAlgebraic(message.getAlgebraicMove());
-		try {
-			game.makeMoveVerified(move);
-		} catch (IllegalMoveException ex) {
-			// TODO act more fault tolerant ...
-			throw new RuntimeException(ex);
-		}
-	}
-
 	private void onMatchAborted(MatchAbortedChannelMessage message) {
 		Log.info("The other player aborted the match");
 		gameManager.switchToAnalysisMode();
 		eventBus.fireEvent(new MatchEndedEvent(Reason.OPPONENT_ABORTED));
+	}
+
+	private void onChallengeReceived(ChallengeReceivedCometMessage message) {
+		eventBus.fireEvent(new ChallengeReceivedEvent(message.getChallengeId(), message.getChallengerId()));
 	}
 }

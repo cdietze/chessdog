@@ -29,6 +29,8 @@ public class MainPanel extends Composite {
 		private Provider<PlayerNamePanel> playerNamePanelProvider;
 		@Inject
 		private Provider<MessagePanel> messagePanelProvider;
+		@Inject
+		private Provider<ChallengeReceivedPopup> challengeReceivedPopupProvider;
 	}
 
 	private ProviderHelper providerHelper;
@@ -39,6 +41,7 @@ public class MainPanel extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		providerHelper.dndViewProvider.get();
 		providerHelper.promotionViewProvider.get();
+		providerHelper.challengeReceivedPopupProvider.get();
 	}
 
 	@UiFactory

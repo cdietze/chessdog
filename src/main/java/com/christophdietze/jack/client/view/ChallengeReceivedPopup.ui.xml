@@ -1,0 +1,15 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+	</ui:style>
+	<g:HTMLPanel>
+		Hello,
+		<g:Label ui:field="challengeDescriptionLabel"/>
+		<g:Button ui:field="acceptButton" />
+		<g:Button ui:field="declineButton" />
+	</g:HTMLPanel>
+</ui:UiBinder> 

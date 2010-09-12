@@ -73,27 +73,15 @@ public class CommandPresenter {
 		});
 	}
 
-	public void onPostPublicChallenge() {
-		chessService.postSeek(applicationContext.getLocationId(), new MyAsyncCallback<PostSeekResponse>() {
-			@Override
-			public void onSuccess(PostSeekResponse result) {
-				switch (result) {
-				case SUCCESS:
-					Log.debug("You joined the seek list");
-					break;
-				case ALREADY_SEEKING:
-					Log.warn("You already have an active seek");
-					break;
-				case HAS_ACTIVE_MATCH:
-					Log.warn("You cannot seek while you have an active match");
-					break;
-				default:
-					throw new AssertionError();
-				}
-				view.update();
-			}
-		});
-	}
+	/*
+	 * public void onPostPublicChallenge() { chessService.postSeek(applicationContext.getLocationId(), new
+	 * MyAsyncCallback<PostSeekResponse>() {
+	 * 
+	 * @Override public void onSuccess(PostSeekResponse result) { switch (result) { case SUCCESS:
+	 * Log.debug("You joined the seek list"); break; case ALREADY_SEEKING: Log.warn("You already have an active seek");
+	 * break; case HAS_ACTIVE_MATCH: Log.warn("You cannot seek while you have an active match"); break; default: throw
+	 * new AssertionError(); } view.update(); } }); }
+	 */
 
 	public void onAbortMatchClick() {
 		chessService.abortMatch(applicationContext.getLocationId(), new MyAsyncCallback<AbortResponse>() {
