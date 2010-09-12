@@ -30,16 +30,16 @@ public class PlayGameTest extends TestCase {
 		Injector injector = Guice.createInjector();
 		ChessServiceImpl chessService = injector.getInstance(ChessServiceImpl.class);
 
-		long login1 = ((LoginSuccessfulResponse) chessService.login("Alice")).getLocationId();
-		chessService.loginComplete(login1);
-		chessService.postSeek(login1);
+		long locationId1 = ((LoginSuccessfulResponse) chessService.login("Alice")).getLocationId();
+		chessService.loginComplete(locationId1);
+		long locationId2 = ((LoginSuccessfulResponse) chessService.login("Bob")).getLocationId();
+		chessService.loginComplete(locationId2);
 
-		long login2 = ((LoginSuccessfulResponse) chessService.login("Bob")).getLocationId();
-		chessService.loginComplete(login2);
-		chessService.postSeek(login2);
+		chessService.postChallenge(locationId1, "Bob");
 
-		chessService.makeMove(login2, "e2e4");
-		chessService.makeMove(login1, "e7e5");
+		// TODO i need to receive the comet message here to know the challenge id
+		// chessService.makeMove(locationId2, "e2e4");
+		// chessService.makeMove(locationId1, "e7e5");
 	}
 
 }

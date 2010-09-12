@@ -54,8 +54,7 @@ public class AutoRefreshJob {
 					// we were turned inactive while the timer was running
 					return;
 				}
-				pendingAsyncCalls = 2;
-				refreshSeekList();
+				pendingAsyncCalls = 1;
 				refreshMatchList();
 			}
 		};
@@ -69,20 +68,6 @@ public class AutoRefreshJob {
 		if (pendingAsyncCalls <= 0 && isActive) {
 			timer.schedule(POLL_INTERVAL);
 		}
-	}
-
-	private void refreshSeekList() {
-		adminService.getSeekingUsers(new MyAsyncCallback<ArrayList<Long>>() {
-			@Override
-			public void onSuccess(ArrayList<Long> result) {
-				ListBox seekBox = adminView.seekBox;
-				seekBox.clear();
-				for (Long item : result) {
-					seekBox.addItem("User[" + item.toString() + "]");
-				}
-				onAsyncCallReturned();
-			}
-		});
 	}
 
 	private void refreshMatchList() {

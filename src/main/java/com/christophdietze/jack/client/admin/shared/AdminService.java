@@ -9,7 +9,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface AdminService extends RemoteService {
 	public static final String SERVLET_PATH = "adminService";
 
-	public ArrayList<Long> getSeekingUsers();
-
 	public ArrayList<MatchDto> getMatches();
 }

@@ -9,7 +9,6 @@ import com.christophdietze.jack.client.event.SignInFailedEventHandler;
 import com.christophdietze.jack.client.event.SignedInEvent;
 import com.christophdietze.jack.client.event.SignedInEventHandler;
 import com.christophdietze.jack.client.presenter.CommandPresenter;
-import com.christophdietze.jack.client.presenter.GameManager;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -36,7 +35,6 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 
 	private CommandPresenter presenter;
 
-	private GameManager gameManager;
 	private GlobalEventBus eventBus;
 
 	private PostChallengePopup postChallengePopup;
@@ -67,10 +65,8 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 	HTMLPanel activeMatchPanel;
 
 	@Inject
-	public CommandPanel(CommandPresenter presenter, GameManager gameManager, GlobalEventBus eventBus,
-			PostChallengePopup postChallengePopup) {
+	public CommandPanel(CommandPresenter presenter, GlobalEventBus eventBus, PostChallengePopup postChallengePopup) {
 		this.presenter = presenter;
-		this.gameManager = gameManager;
 		this.eventBus = eventBus;
 		this.postChallengePopup = postChallengePopup;
 		initWidget(uiBinder.createAndBindUi(this));

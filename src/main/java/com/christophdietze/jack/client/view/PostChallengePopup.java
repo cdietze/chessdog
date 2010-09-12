@@ -1,8 +1,6 @@
 package com.christophdietze.jack.client.view;
 
-import com.christophdietze.jack.client.presenter.GameManager;
 import com.christophdietze.jack.client.presenter.PostChallengePresenter;
-import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -24,9 +22,6 @@ public class PostChallengePopup extends PopupPanel {
 
 	private PostChallengePresenter presenter;
 
-	private GameManager gameManager;
-	private GlobalEventBus eventBus;
-
 	// flag to prevent clearing the text box again when the user has already entered some text
 	private boolean opponentNicknameTextBoxAlreadyCleared;
 
@@ -38,15 +33,10 @@ public class PostChallengePopup extends PopupPanel {
 	// Button postPublicChallengeButton;
 
 	@Inject
-	public PostChallengePopup(PostChallengePresenter presenter, GameManager gameManager, GlobalEventBus eventBus) {
+	public PostChallengePopup(PostChallengePresenter presenter) {
 		super(true);
 		this.presenter = presenter;
-		this.gameManager = gameManager;
-		this.eventBus = eventBus;
 		setWidget(uiBinder.createAndBindUi(this));
-
-		// signInRunningPanel.setVisible(false);
-		// presenter.bindView(this);
 	}
 
 	@UiHandler("postPlayerChallengeButton")
