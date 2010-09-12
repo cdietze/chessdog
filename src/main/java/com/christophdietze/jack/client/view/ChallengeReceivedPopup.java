@@ -54,7 +54,7 @@ public class ChallengeReceivedPopup extends PopupPanel implements ChallengeRecei
 	@Override
 	public void showPopup(long challengeId, Player challenger) {
 		this.challengeId = challengeId;
-		challengeDescriptionLabel.setText(challenger.getNickname() + " challenged you for a match.");
+		challengeDescriptionLabel.setText(challenger.getNickname() + " challenged you for a match");
 		show();
 	}
 }

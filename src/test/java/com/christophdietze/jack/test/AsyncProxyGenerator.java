@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class AsyncProxyGenerator {
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <T> T newProxy(Class<T> asyncInterface, final Object impl) {
 		InvocationHandler handler = new InvocationHandler() {
 			@Override

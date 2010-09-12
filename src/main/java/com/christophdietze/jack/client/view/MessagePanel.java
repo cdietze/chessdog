@@ -2,6 +2,8 @@ package com.christophdietze.jack.client.view;
 
 import com.christophdietze.jack.client.event.GameUpdatedEvent;
 import com.christophdietze.jack.client.event.GameUpdatedEventHandler;
+import com.christophdietze.jack.client.event.LogMessageEvent;
+import com.christophdietze.jack.client.event.LogMessageEventHandler;
 import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEventHandler;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
@@ -76,7 +78,7 @@ public class MessagePanel extends Composite {
 				StringBuilder sb = new StringBuilder();
 				sb.append("New Match: You play as ");
 				sb.append(matchInfo.isPlayerWhite() ? "white" : "black");
-				sb.append(" against Guest" + matchInfo.getOpponent().getNickname() + ".");
+				sb.append(" against " + matchInfo.getOpponent().getNickname() + ".");
 				addMessage(sb.toString());
 			}
 		});
@@ -124,6 +126,12 @@ public class MessagePanel extends Composite {
 					addMessage("Stalemate, the match ends in a draw");
 					break;
 				}
+			}
+		});
+		eventBus.addHandler(LogMessageEvent.TYPE, new LogMessageEventHandler() {
+			@Override
+			public void onMessage(LogMessageEvent event) {
+				addMessage(event.getMessage());
 			}
 		});
 		eventBus.addHandler(UncaughtExceptionEvent.TYPE, new UncaughtExceptionEventHandler() {

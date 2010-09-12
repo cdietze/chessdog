@@ -132,6 +132,12 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 		}
 	}
 
+	@UiHandler("signOutButton")
+	void handleSignOutClick(ClickEvent event) {
+		// TODO implement sign out button
+		throw new RuntimeException("not implemented");
+	}
+
 	@UiHandler("startMatchButton")
 	void handleStartGameClick(ClickEvent event) {
 		postChallengePopup.showRelativeTo(startMatchButton);
