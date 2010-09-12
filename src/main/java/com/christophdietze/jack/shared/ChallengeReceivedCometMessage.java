@@ -3,7 +3,7 @@ package com.christophdietze.jack.shared;
 public class ChallengeReceivedCometMessage extends CometMessage {
 
 	private long challengeId;
-	private long challengerId;
+	private Player challenger;
 
 	/**
 	 * For serialization
@@ -12,16 +12,16 @@ public class ChallengeReceivedCometMessage extends CometMessage {
 	private ChallengeReceivedCometMessage() {
 	}
 
-	public ChallengeReceivedCometMessage(long challengeId, long challengerId) {
+	public ChallengeReceivedCometMessage(long challengeId, Player challenger) {
 		this.challengeId = challengeId;
-		this.challengerId = challengerId;
+		this.challenger = challenger;
 	}
 
 	public long getChallengeId() {
 		return challengeId;
 	}
 
-	public long getChallengerId() {
-		return challengerId;
+	public Player getChallenger() {
+		return challenger;
 	}
 }

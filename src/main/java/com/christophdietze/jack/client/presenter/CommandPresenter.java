@@ -16,7 +16,7 @@ import com.christophdietze.jack.shared.CometMessage;
 import com.christophdietze.jack.shared.CometService;
 import com.christophdietze.jack.shared.LoginResponse;
 import com.christophdietze.jack.shared.LoginResponse.LoginSuccessfulResponse;
-import com.christophdietze.jack.shared.PostSeekResponse;
+import com.christophdietze.jack.shared.Player;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
@@ -53,24 +53,7 @@ public class CommandPresenter {
 	}
 
 	public void onSignInClick(final String nickname) {
-		chessService.login(nickname, new MyAsyncCallback<LoginResponse>() {
-			@Override
-			public void onSuccess(LoginResponse result) {
-				assert result != null;
-				switch (result.getType()) {
-				case NICKNAME_ALREADY_EXISTS:
-					eventBus.fireEvent(new SignInFailedEvent("Sign in failed. The nickname '" + nickname
-							+ "' is already in use, please choose a different one."));
-					break;
-				case SUCCESS:
-					LoginSuccessfulResponse successfulResponse = (LoginSuccessfulResponse) result;
-					createChannelAndCompleteLogin(successfulResponse.getLocationId(), successfulResponse.getChannelId());
-					break;
-				default:
-					throw new AssertionError();
-				}
-			}
-		});
+		login(nickname);
 	}
 
 	/*
@@ -103,24 +86,37 @@ public class CommandPresenter {
 		});
 	}
 
-	private void completeLogin(final long locationId) {
-		applicationContext.setLocationId(locationId);
-		chessService.loginComplete(locationId, new MyAsyncCallback<Void>() {
+	private void login(final String nickname) {
+		chessService.login(nickname, new MyAsyncCallback<LoginResponse>() {
 			@Override
-			public void onSuccess(Void result) {
-				eventBus.fireEvent(new SignedInEvent(locationId));
+			public void onSuccess(LoginResponse result) {
+				assert result != null;
+				switch (result.getType()) {
+				case NICKNAME_ALREADY_EXISTS:
+					eventBus.fireEvent(new SignInFailedEvent("Sign in failed. The nickname '" + nickname
+							+ "' is already in use, please choose a different one."));
+					break;
+				case SUCCESS:
+					LoginSuccessfulResponse successfulResponse = (LoginSuccessfulResponse) result;
+					Player myPlayer = new Player(successfulResponse.getLocationId(), nickname);
+					applicationContext.setMyPlayer(myPlayer);
+					createChannelAndCompleteLogin(myPlayer, successfulResponse.getChannelId());
+					break;
+				default:
+					throw new AssertionError();
+				}
 			}
 		});
 	}
 
-	private void createChannelAndCompleteLogin(final long locationId, String channelId) {
+	private void createChannelAndCompleteLogin(final Player myPlayer, String channelId) {
 		Log.debug("Opening Channel " + channelId);
 		Channel channel = ChannelFactory.createChannel(channelId);
 		channel.open(new SocketListener() {
 			@Override
 			public void onOpen() {
 				Log.debug("Channel opened, completing login");
-				completeLogin(locationId);
+				completeLogin(myPlayer);
 			}
 			@Override
 			public void onMessage(String encodedMessage) {
@@ -138,6 +134,15 @@ public class CommandPresenter {
 							+ "'", ex);
 				}
 				cometMessageDispatcher.dispatch(message);
+			}
+		});
+	}
+
+	private void completeLogin(final Player myPlayer) {
+		chessService.loginComplete(myPlayer.getLocationId(), new MyAsyncCallback<Void>() {
+			@Override
+			public void onSuccess(Void result) {
+				eventBus.fireEvent(new SignedInEvent(myPlayer));
 			}
 		});
 	}

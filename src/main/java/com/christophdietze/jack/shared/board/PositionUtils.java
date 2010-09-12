@@ -190,6 +190,7 @@ public class PositionUtils {
 		}
 		return builder;
 	}
+
 	public static String toDiagramString(Position pos) {
 		StringBuilder sb = new StringBuilder();
 		for (int y = 7; y >= 0; --y) {

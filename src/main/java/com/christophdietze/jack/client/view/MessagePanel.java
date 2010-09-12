@@ -96,7 +96,7 @@ public class MessagePanel extends Composite {
 		eventBus.addHandler(SignedInEvent.TYPE, new SignedInEventHandler() {
 			@Override
 			public void onSignIn(SignedInEvent event) {
-				addMessage("You are signed in as Guest" + event.getLocationId() + ".");
+				addMessage("You are signed in as " + event.getMyPlayer().getNickname() + ".");
 			}
 		});
 		eventBus.addHandler(SignInFailedEvent.TYPE, new SignInFailedEventHandler() {

@@ -1,19 +1,20 @@
 package com.christophdietze.jack.client.event;
 
+import com.christophdietze.jack.shared.Player;
 import com.google.gwt.event.shared.GwtEvent;
 
 public class SignedInEvent extends GwtEvent<SignedInEventHandler> {
 
 	public static final Type<SignedInEventHandler> TYPE = new Type<SignedInEventHandler>();
 
-	private final long locationId;
+	private final Player myPlayer;
 
-	public SignedInEvent(long locationId) {
-		this.locationId = locationId;
+	public SignedInEvent(Player myPlayer) {
+		this.myPlayer = myPlayer;
 	}
 
-	public long getLocationId() {
-		return locationId;
+	public Player getMyPlayer() {
+		return myPlayer;
 	}
 
 	@Override

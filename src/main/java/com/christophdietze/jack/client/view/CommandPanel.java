@@ -91,7 +91,7 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 			public void onSignIn(SignedInEvent event) {
 				signInPanel.setVisible(false);
 				signInRunningPanel.setVisible(false);
-				signInStatusLabel.setText("You are signed in at location " + event.getLocationId());
+				signInStatusLabel.setText("You are signed in as " + event.getMyPlayer().getNickname());
 				signOutPanel.setVisible(true);
 				startMatchButton.setVisible(true);
 			}

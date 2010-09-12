@@ -81,6 +81,6 @@ public class CometMessageDispatcher {
 	}
 
 	private void onChallengeReceived(ChallengeReceivedCometMessage message) {
-		eventBus.fireEvent(new ChallengeReceivedEvent(message.getChallengeId(), message.getChallengerId()));
+		eventBus.fireEvent(new ChallengeReceivedEvent(message.getChallengeId(), message.getChallenger()));
 	}
 }

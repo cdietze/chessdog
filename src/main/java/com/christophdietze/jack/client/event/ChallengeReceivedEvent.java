@@ -1,5 +1,6 @@
 package com.christophdietze.jack.client.event;
 
+import com.christophdietze.jack.shared.Player;
 import com.google.gwt.event.shared.GwtEvent;
 
 public class ChallengeReceivedEvent extends GwtEvent<ChallengeReceivedEventHandler> {
@@ -7,19 +8,19 @@ public class ChallengeReceivedEvent extends GwtEvent<ChallengeReceivedEventHandl
 	public static final Type<ChallengeReceivedEventHandler> TYPE = new Type<ChallengeReceivedEventHandler>();
 
 	private long challengeId;
-	private long challengerId;
+	private Player challenger;
 
-	public ChallengeReceivedEvent(long challengeId, long challengerId) {
+	public ChallengeReceivedEvent(long challengeId, Player challenger) {
 		this.challengeId = challengeId;
-		this.challengerId = challengerId;
+		this.challenger = challenger;
 	}
 
 	public long getChallengeId() {
 		return challengeId;
 	}
 
-	public long getChallengerId() {
-		return challengerId;
+	public Player getChallenger() {
+		return challenger;
 	}
 
 	@Override

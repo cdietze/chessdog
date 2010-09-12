@@ -80,8 +80,8 @@ public class SimpleToStringBuilder {
 	@Override
 	public String toString() {
 		if (!stringClosed) {
-			stringClosed = true;
 			sb.append("]");
+			stringClosed = true;
 		}
 		return sb.toString();
 	}

@@ -8,7 +8,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 /**
- * A immutable Position.
+ * An immutable Position.
  * 
  * <pre>
  *   |-----------------------|
@@ -253,14 +253,14 @@ public class Position implements Serializable {
 	private static Position buildStartingPosition() {
 		Builder b = new Builder();
 		b.piece(0, Piece.WHITE_ROOK).piece(1, Piece.WHITE_KNIGHT).piece(2, Piece.WHITE_BISHOP)
-				.piece(3, Piece.WHITE_QUEEN).piece(4, Piece.WHITE_KING).piece(5, Piece.WHITE_BISHOP).piece(6,
-						Piece.WHITE_KNIGHT).piece(7, Piece.WHITE_ROOK);
+				.piece(3, Piece.WHITE_QUEEN).piece(4, Piece.WHITE_KING).piece(5, Piece.WHITE_BISHOP)
+				.piece(6, Piece.WHITE_KNIGHT).piece(7, Piece.WHITE_ROOK);
 		for (int i = 8; i < 16; ++i) {
 			b.piece(i, Piece.WHITE_PAWN);
 		}
-		b.piece(56, Piece.BLACK_ROOK).piece(57, Piece.BLACK_KNIGHT).piece(58, Piece.BLACK_BISHOP).piece(59,
-				Piece.BLACK_QUEEN).piece(60, Piece.BLACK_KING).piece(61, Piece.BLACK_BISHOP).piece(62, Piece.BLACK_KNIGHT)
-				.piece(63, Piece.BLACK_ROOK);
+		b.piece(56, Piece.BLACK_ROOK).piece(57, Piece.BLACK_KNIGHT).piece(58, Piece.BLACK_BISHOP)
+				.piece(59, Piece.BLACK_QUEEN).piece(60, Piece.BLACK_KING).piece(61, Piece.BLACK_BISHOP)
+				.piece(62, Piece.BLACK_KNIGHT).piece(63, Piece.BLACK_ROOK);
 		for (int i = 48; i < 56; ++i) {
 			b.piece(i, Piece.BLACK_PAWN);
 		}

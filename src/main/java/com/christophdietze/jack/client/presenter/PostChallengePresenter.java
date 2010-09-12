@@ -31,6 +31,14 @@ public class PostChallengePresenter {
 					@Override
 					public void onSuccess(PostChallengeResponse result) {
 						Log.debug("challenge posted. response: " + result);
+						switch (result) {
+						case SUCCESS:
+							break;
+						case NO_PLAYER_WITH_OPPONENT_NICK_FOUND:
+							break;
+						default:
+							throw new AssertionError("unexpected PostChallengeResponse type");
+						}
 					}
 				});
 	}
