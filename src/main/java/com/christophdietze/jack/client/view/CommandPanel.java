@@ -40,11 +40,13 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 	private GlobalEventBus eventBus;
 
 	private PostChallengePopup postChallengePopup;
+	// flag to prevent clearing the nickname textbox again when the user has already entered some text
+	private boolean nicknameTextBoxAlreadyCleared = false;
 
 	@UiField
 	HTMLPanel signInPanel;
 	@UiField
-	TextBox nickTextBox;
+	TextBox nicknameTextBox;
 	@UiField
 	Button signInButton;
 	@UiField
@@ -119,12 +121,15 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 		});
 	}
 
-	@UiHandler("nickTextBox")
+	@UiHandler("nicknameTextBox")
 	void handleFocus(FocusEvent event) {
-		nickTextBox.setText("");
+		if (!nicknameTextBoxAlreadyCleared) {
+			nicknameTextBox.setText("");
+			nicknameTextBoxAlreadyCleared = true;
+		}
 	}
 
-	@UiHandler("nickTextBox")
+	@UiHandler("nicknameTextBox")
 	void handleEnter(KeyPressEvent event) {
 		if (event.getCharCode() == '\r') {
 			doSignIn();
@@ -137,7 +142,7 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 	}
 
 	private void doSignIn() {
-		String nick = nickTextBox.getText();
+		String nick = nicknameTextBox.getText();
 		// TODO validate nick
 		presenter.onSignInClick(nick);
 		signInPanel.setVisible(false);

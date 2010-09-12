@@ -5,7 +5,7 @@
 		
 	</ui:style>
 	<g:HTMLPanel>
-		<g:TextBox ui:field="opponentNickTextBox" text="Opponent's Nickname" />
+		<g:TextBox ui:field="opponentNicknameTextBox" text="Opponent's Nickname" />
 		<g:Button ui:field="postPlayerChallengeButton" text="Challenge this Player" />
 		<!-- <hr /> <g:Button ui:field="postPublicChallengeButton" text="Post public 
 			Challenge" /> -->

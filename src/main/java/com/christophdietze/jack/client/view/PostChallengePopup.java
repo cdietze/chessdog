@@ -5,6 +5,7 @@ import com.christophdietze.jack.client.presenter.PostChallengePresenter;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -26,8 +27,11 @@ public class PostChallengePopup extends PopupPanel {
 	private GameManager gameManager;
 	private GlobalEventBus eventBus;
 
+	// flag to prevent clearing the text box again when the user has already entered some text
+	private boolean opponentNicknameTextBoxAlreadyCleared;
+
 	@UiField
-	TextBox opponentNickTextBox;
+	TextBox opponentNicknameTextBox;
 	@UiField
 	Button postPlayerChallengeButton;
 	// @UiField
@@ -40,15 +44,23 @@ public class PostChallengePopup extends PopupPanel {
 		this.gameManager = gameManager;
 		this.eventBus = eventBus;
 		setWidget(uiBinder.createAndBindUi(this));
+
 		// signInRunningPanel.setVisible(false);
 		// presenter.bindView(this);
 	}
 
 	@UiHandler("postPlayerChallengeButton")
 	void handlePostPublicChallengeClick(ClickEvent event) {
-		String opponentNick = opponentNickTextBox.getText();
+		String opponentNick = opponentNicknameTextBox.getText();
 		presenter.onPostPersonalChallenge(opponentNick);
 		hide();
 	}
 
+	@UiHandler("opponentNicknameTextBox")
+	void handleFocus(FocusEvent event) {
+		if (!opponentNicknameTextBoxAlreadyCleared) {
+			opponentNicknameTextBox.setText("");
+			opponentNicknameTextBoxAlreadyCleared = true;
+		}
+	}
 }
