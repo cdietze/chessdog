@@ -25,7 +25,7 @@ public class LoginTest extends TestCase {
 	}
 
 	public void testLogin1() {
-		Injector injector = Guice.createInjector();
+		Injector injector = Guice.createInjector(new GuiceModuleForTest());
 		ChessServiceImpl chessService = injector.getInstance(ChessServiceImpl.class);
 		LoginSuccessfulResponse userId1 = (LoginSuccessfulResponse) chessService.login("Alice");
 		LoginSuccessfulResponse userId2 = (LoginSuccessfulResponse) chessService.login("Bob");

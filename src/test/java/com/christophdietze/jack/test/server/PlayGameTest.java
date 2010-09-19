@@ -5,7 +5,9 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import com.christophdietze.jack.server.ChessServiceImpl;
+import com.christophdietze.jack.shared.ChallengeReceivedCometMessage;
 import com.christophdietze.jack.shared.LoginResponse.LoginSuccessfulResponse;
+import com.christophdietze.jack.shared.MakeMoveResponse;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.inject.Guice;
@@ -27,8 +29,9 @@ public class PlayGameTest extends TestCase {
 
 	@Test
 	public void test1() {
-		Injector injector = Guice.createInjector();
+		Injector injector = Guice.createInjector(new GuiceModuleForTest());
 		ChessServiceImpl chessService = injector.getInstance(ChessServiceImpl.class);
+		CometServerMock cometServerMock = injector.getInstance(CometServerMock.class);
 
 		long locationId1 = ((LoginSuccessfulResponse) chessService.login("Alice")).getLocationId();
 		chessService.loginComplete(locationId1);
@@ -36,10 +39,11 @@ public class PlayGameTest extends TestCase {
 		chessService.loginComplete(locationId2);
 
 		chessService.postChallenge(locationId1, "Bob");
+		long challengeId = cometServerMock.getNextMessageOfType(locationId2, ChallengeReceivedCometMessage.class)
+				.getChallengeId();
+		chessService.acceptChallenge(locationId2, challengeId);
 
-		// TODO i need to receive the comet message here to know the challenge id
-		// chessService.makeMove(locationId2, "e2e4");
-		// chessService.makeMove(locationId1, "e7e5");
+		assertEquals(MakeMoveResponse.SUCCESS, chessService.makeMove(locationId1, "e2e4"));
+		assertEquals(MakeMoveResponse.SUCCESS, chessService.makeMove(locationId2, "e7e5"));
 	}
-
 }
