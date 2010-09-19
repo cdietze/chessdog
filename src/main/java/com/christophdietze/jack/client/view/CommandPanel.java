@@ -142,8 +142,7 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 
 	@UiHandler("abortMatchButton")
 	void handleAbortMatchClick(ClickEvent event) {
-		// TODO implement abort match button
-		throw new RuntimeException("not implemented");
+		presenter.onAbortMatchClick();
 	}
 
 	private void doSignIn() {
