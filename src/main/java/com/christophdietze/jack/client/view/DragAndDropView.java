@@ -18,6 +18,8 @@ import com.christophdietze.jack.shared.board.ChessUtils;
 import com.christophdietze.jack.shared.board.Piece;
 import com.christophdietze.jack.shared.board.Position;
 import com.google.gwt.dom.client.StyleInjector;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -39,7 +41,10 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 	private BoardPanel boardPanel;
 
 	private Map<Image, Integer> imageMap = new HashMap<Image, Integer>();
+	/** java.util.BitSet is not available in GWT */
 	private boolean[] draggablesBitSet = new boolean[64];
+
+	private int selectedSquareIndex = -1; // -1 means that no square is selected
 
 	private MyDragController dragController;
 
@@ -47,16 +52,17 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 	public DragAndDropView(DragAndDropPresenter model, BoardPanel boardPanel) {
 		this.model = model;
 		this.boardPanel = boardPanel;
-
 		init();
 		model.setView(this);
 	}
 
 	private void init() {
 		dragController = new MyDragController();
+		dragController.setBehaviorDragStartSensitivity(3);
 
 		initImageMap();
 		updateDraggables();
+		initSelectionMove();
 
 		Log.debug("DragNDrop initialized");
 	}
@@ -65,6 +71,28 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 		for (int index = 0; index < 64; ++index) {
 			Image image = boardPanel.getSquareImages()[index];
 			imageMap.put(image, index);
+		}
+	}
+
+	private void initSelectionMove() {
+		for (int i = 0; i < 64; ++i) {
+			final int index = i;
+			final Image image = boardPanel.getSquareImages()[index];
+			image.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					if (selectedSquareIndex < 0) {
+						selectedSquareIndex = index;
+						image.addStyleName(CSS.selectedSquare());
+					} else {
+						int fromIndex = selectedSquareIndex;
+						int toIndex = index;
+						boardPanel.getSquareImages()[selectedSquareIndex].removeStyleName(CSS.selectedSquare());
+						selectedSquareIndex = -1;
+						model.makeMove(fromIndex, toIndex);
+					}
+				}
+			});
 		}
 	}
 
@@ -125,7 +153,7 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 						fromIndex = 63 - fromIndex;
 						toIndex = 63 - toIndex;
 					}
-					model.movePiece(fromIndex, toIndex);
+					model.makeMove(fromIndex, toIndex);
 				}
 
 			});
@@ -138,13 +166,13 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 		}
 
 		private int calcIndexOfMouse() {
-			int squareWidth = boardPanel.getSquareImages()[0].getWidth();
+			int squareWidth = boardPanel.getSquareImages()[0].getOffsetWidth();
 			int leftMost = boardPanel.getSquareImages()[0].getAbsoluteLeft();
 			int file = (context.mouseX - leftMost) / squareWidth;
 			if (context.mouseX < leftMost || file >= 8) {
 				return -1;
 			}
-			int squareHeight = boardPanel.getSquareImages()[0].getHeight();
+			int squareHeight = boardPanel.getSquareImages()[0].getOffsetHeight();
 			int bottom = boardPanel.getSquareImages()[0].getAbsoluteTop() + squareHeight;
 			int rank = context.mouseY > bottom ? 100 : (bottom - context.mouseY) / squareHeight;
 			if (context.mouseY > bottom || rank >= 8) {

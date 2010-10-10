@@ -37,7 +37,7 @@ public class DragAndDropPresenter {
 		return game;
 	}
 
-	public void movePiece(int fromIndex, int toIndex) {
+	public void makeMove(int fromIndex, int toIndex) {
 		gameManager.makeMove(fromIndex, toIndex);
 	}
 

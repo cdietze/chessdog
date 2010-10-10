@@ -9,13 +9,9 @@ public interface MyCss extends CssResource {
 	String boardContainer();
 	String whiteSquare();
 	String blackSquare();
+	String selectedSquare();
 	String rankLabel();
 	String fileLabel();
-
-	String whiteSquare2();
-	String blackSquare2();
-	String rankLabel2();
-	String fileLabel2();
 	String fileLabelPlaceHolder();
 
 	String promotionPieceImage();

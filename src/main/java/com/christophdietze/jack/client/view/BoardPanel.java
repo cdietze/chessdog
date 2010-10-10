@@ -55,12 +55,12 @@ public class BoardPanel extends Composite implements BoardPresenter.View {
 				if (file == 0) {
 					Label rankLabel = new Label(Character.toString((char) ('1' + rank)));
 					rankLabels.add(rankLabel);
-					rankLabel.addStyleName(CSS.rankLabel2());
+					rankLabel.addStyleName(CSS.rankLabel());
 					rootPanel.add(rankLabel);
 				}
 
 				Image pieceImage = new Image(PieceImageBundle.INSTANCE.empty());
-				pieceImage.addStyleName(isWhite ? CSS.whiteSquare2() : CSS.blackSquare2());
+				pieceImage.setStylePrimaryName(isWhite ? CSS.whiteSquare() : CSS.blackSquare());
 				squareImages[index] = pieceImage;
 				rootPanel.add(pieceImage);
 			}
@@ -71,7 +71,7 @@ public class BoardPanel extends Composite implements BoardPresenter.View {
 		for (int file = 0; file < 8; ++file) {
 			Label fileLabel = new Label(Character.toString((char) ('a' + file)));
 			fileLabels.add(fileLabel);
-			fileLabel.addStyleName(CSS.fileLabel2());
+			fileLabel.addStyleName(CSS.fileLabel());
 			rootPanel.add(fileLabel);
 		}
 	}
@@ -90,6 +90,7 @@ public class BoardPanel extends Composite implements BoardPresenter.View {
 			squareImages[viewIndex].setResource(PieceImageProvider.getImageResource(square));
 		}
 	}
+
 	@Override
 	public void showPromotionPawn(int from, int to) {
 		int rank = ChessUtils.toRank(to);

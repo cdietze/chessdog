@@ -39,6 +39,10 @@ public class MainPanel extends Composite {
 	public MainPanel(ProviderHelper providerHelper) {
 		this.providerHelper = providerHelper;
 		initWidget(uiBinder.createAndBindUi(this));
+		initializeDetachedViews();
+	}
+
+	private void initializeDetachedViews() {
 		providerHelper.dndViewProvider.get();
 		providerHelper.promotionViewProvider.get();
 		providerHelper.challengeReceivedPopupProvider.get();

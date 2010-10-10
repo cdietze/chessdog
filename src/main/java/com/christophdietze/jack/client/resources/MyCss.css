@@ -3,9 +3,9 @@
 @def linkColor #027AC6;
 @def whiteColor #ffce9e;
 @def blackColor #d18b47;
-@def squareSize 45px;
+@def squareSize 49px;
 @def rankLabelWidth 12px;
-@def boardWidth 372px;
+@def boardWidth 404px;
 	
 html,body { /* required for dragNdrop */
 	height: 100%;
@@ -37,30 +37,28 @@ body {
 
 .whiteSquare {
 	background-color: whiteColor !important;
+	float: left;
+	border: 2px solid whiteColor;
 }
 
 .blackSquare {
 	background-color: blackColor !important;
-}
-
-.whiteSquare2 {
-	background-color: whiteColor !important;
 	float: left;
+	border: 2px solid blackColor;
 }
 
-.blackSquare2 {
-	background-color: blackColor !important;
-	float: left;
+.selectedSquare {
+	border: 2px solid blue;
 }
 
-.rankLabel2 {
+.rankLabel {
 	width: rankLabelWidth;
 	padding-top: 15px;
 	float: left;
 	clear: both;
 }
 
-.fileLabel2 {
+.fileLabel {
 	padding-top: 3px;
 	float: left;
 	width: squareSize;
@@ -72,14 +70,6 @@ body {
 	height: 1px;
 	float: left;
 	clear: both;
-}
-
-.rankLabel {
-	padding-right: 0.3em;
-}
-
-.fileLabel {
-	padding-top: 0.3em;
 }
 
 .promotionPieceImage {
