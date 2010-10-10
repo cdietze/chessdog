@@ -17,6 +17,9 @@ import com.christophdietze.jack.shared.CometService;
 import com.christophdietze.jack.shared.LoginResponse;
 import com.christophdietze.jack.shared.LoginResponse.LoginSuccessfulResponse;
 import com.christophdietze.jack.shared.Player;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.ClosingEvent;
+import com.google.gwt.user.client.Window.ClosingHandler;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
@@ -108,6 +111,16 @@ public class CommandPresenter {
 	}
 
 	private void createChannelAndCompleteLogin(final Player myPlayer, String channelId) {
+		Window.addWindowClosingHandler(new ClosingHandler() {
+			@Override
+			public void onWindowClosing(ClosingEvent event) {
+				if (applicationContext.isLoggedIn()) {
+					chessService.logout(myPlayer.getLocationId(), MyAsyncCallback.<Void> doNothing());
+					applicationContext.setMyPlayer(null);
+					Log.debug("Automatic logout of Player, due to closing window complete");
+				}
+			}
+		});
 		Log.debug("Opening Channel " + channelId);
 		Channel channel = ChannelFactory.createChannel(channelId);
 		channel.open(new SocketListener() {
@@ -135,7 +148,6 @@ public class CommandPresenter {
 			}
 		});
 	}
-
 	private void completeLogin(final Player myPlayer) {
 		chessService.loginComplete(myPlayer.getLocationId(), new MyAsyncCallback<Void>() {
 			@Override

@@ -10,6 +10,10 @@ public class ApplicationContext {
 
 	private Player myPlayer;
 
+	public boolean isLoggedIn() {
+		return myPlayer != null;
+	}
+
 	public Player getMyPlayer() {
 		return myPlayer;
 	}
