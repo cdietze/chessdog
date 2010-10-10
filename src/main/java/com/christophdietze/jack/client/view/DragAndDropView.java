@@ -87,6 +87,10 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 					} else {
 						int fromIndex = selectedSquareIndex;
 						int toIndex = index;
+						if (!model.getGame().isWhiteAtBottom()) {
+							fromIndex = 63 - fromIndex;
+							toIndex = 63 - toIndex;
+						}
 						boardPanel.getSquareImages()[selectedSquareIndex].removeStyleName(CSS.selectedSquare());
 						selectedSquareIndex = -1;
 						model.makeMove(fromIndex, toIndex);
