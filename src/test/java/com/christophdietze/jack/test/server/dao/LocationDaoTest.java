@@ -43,7 +43,7 @@ public class LocationDaoTest extends TestCase {
 		Location location = locationDao.createLocation(nick);
 		Location location2 = locationDao.getById(location.getId());
 		assertEquals(location.getId(), location2.getId());
-		locationDao.delete(location.getId());
+		locationDao.delete(location);
 		Location location3 = locationDao.findById(location.getId());
 		assertNull(location3);
 	}
