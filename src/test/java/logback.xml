@@ -1,0 +1,17 @@
+<configuration debug="true">
+
+	<!-- see also https://thunderklaus.fogbugz.com/default.asp?W2 -->
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
+			by default -->
+		<encoder>
+			<pattern>[%thread] %d{HH:mm:ss.SSS} [%thread] %-5level %X{location}
+				%logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<root level="debug">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>
