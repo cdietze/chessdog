@@ -1,8 +1,13 @@
 package com.christophdietze.jack.test.server.dao;
 
+import java.util.List;
+
 import junit.framework.TestCase;
 
 import org.junit.Test;
+import org.mortbay.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.christophdietze.jack.server.dao.Location;
 import com.christophdietze.jack.server.dao.LocationDao;
@@ -14,6 +19,8 @@ import com.google.inject.Injector;
 public class LocationDaoTest extends TestCase {
 
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
+
+	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Override
 	protected void setUp() throws Exception {
@@ -46,5 +53,31 @@ public class LocationDaoTest extends TestCase {
 		locationDao.delete(location);
 		Location location3 = locationDao.findById(location.getId());
 		assertNull(location3);
+	}
+
+	@Test
+	public void testFindByPingTimestamp1() throws Exception {
+		Injector injector = Guice.createInjector();
+		LocationDao locationDao = injector.getInstance(LocationDao.class);
+		assertEquals(0, locationDao.findLocationsWithPingTimestampBefore(100, 10).size());
+
+		locationDao.createLocation(new Location("grete", 1000));
+		assertEquals(0, locationDao.findLocationsWithPingTimestampBefore(100, 10).size());
+		assertEquals(1, locationDao.findLocationsWithPingTimestampBefore(2000, 10).size());
+	}
+
+	@Test
+	public void testFindByPingTimestamp_Limit() throws Exception {
+		Injector injector = Guice.createInjector();
+		LocationDao locationDao = injector.getInstance(LocationDao.class);
+
+		for (int i = 0; i < 20; ++i) {
+			locationDao.createLocation(new Location("grete" + i, 1000 + i));
+		}
+		assertEquals(1, locationDao.findLocationsWithPingTimestampBefore(5000, 1).size());
+		assertEquals(10, locationDao.findLocationsWithPingTimestampBefore(5000, 10).size());
+		assertEquals(20, locationDao.findLocationsWithPingTimestampBefore(5000, 100).size());
+
+		log.info(": " + locationDao.findLocationsWithPingTimestampBefore(5000, 1).get(0));
 	}
 }

@@ -7,11 +7,14 @@ import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.util.GlobalEventBus;
+import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.shared.ChallengeReceivedCometMessage;
+import com.christophdietze.jack.shared.ChessServiceAsync;
 import com.christophdietze.jack.shared.CometMessage;
 import com.christophdietze.jack.shared.MatchAbortedChannelMessage;
 import com.christophdietze.jack.shared.MatchStartedCometMessage;
 import com.christophdietze.jack.shared.MoveMadeCometMessage;
+import com.christophdietze.jack.shared.PingCometMessage;
 import com.christophdietze.jack.shared.board.ChessUtils;
 import com.christophdietze.jack.shared.board.Game;
 import com.christophdietze.jack.shared.board.IllegalMoveException;
@@ -29,6 +32,8 @@ public class CometMessageDispatcher {
 	private GameManager gameManager;
 	@Inject
 	private GlobalEventBus eventBus;
+	@Inject
+	private ChessServiceAsync chessService;
 
 	public void dispatch(CometMessage message) {
 		if (message instanceof MoveMadeCometMessage) {
@@ -39,11 +44,12 @@ public class CometMessageDispatcher {
 			onMatchAborted((MatchAbortedChannelMessage) message);
 		} else if (message instanceof ChallengeReceivedCometMessage) {
 			onChallengeReceived((ChallengeReceivedCometMessage) message);
+		} else if (message instanceof PingCometMessage) {
+			onPing((PingCometMessage) message);
 		} else {
 			throw new AssertionError("unknown comet message: " + message);
 		}
 	}
-
 	private void onMoveMade(MoveMadeCometMessage message) {
 		Log.info("received move: " + message);
 		Move move = ChessUtils.toMoveFromAlgebraic(message.getAlgebraicMove());
@@ -83,5 +89,9 @@ public class CometMessageDispatcher {
 
 	private void onChallengeReceived(ChallengeReceivedCometMessage message) {
 		eventBus.fireEvent(new ChallengeReceivedEvent(message.getChallengeId(), message.getChallenger()));
+	}
+
+	private void onPing(PingCometMessage message) {
+		chessService.ping(applicationContext.getLocationId(), MyAsyncCallback.<Void> doNothing());
 	}
 }

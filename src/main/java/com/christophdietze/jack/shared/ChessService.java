@@ -17,6 +17,8 @@ public interface ChessService extends RemoteService {
 	AbortResponse abortMatch(long locationId);
 	MakeMoveResponse makeMove(long locationId, String algebraicMove);
 
+	void ping(long locationId);
+
 	/**
 	 * The server will log the submitted message which can be used for analysis when an unexpected error occured on the
 	 * client.

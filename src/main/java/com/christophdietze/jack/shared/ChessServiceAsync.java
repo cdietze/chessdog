@@ -13,6 +13,8 @@ public interface ChessServiceAsync {
 
 	void abortMatch(long locationId, AsyncCallback<AbortResponse> callback);
 	void makeMove(long locationId, String algebraicMove, AsyncCallback<MakeMoveResponse> callback);
+
+	void ping(long locationId, AsyncCallback<Void> callback);
 	void sendErrorReport(long locationId, String message, AsyncCallback<Void> callback);
 	void induceError(String message, AsyncCallback<Void> callback);
 }
