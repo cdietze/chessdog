@@ -64,7 +64,7 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 		updateDraggables();
 		initSelectionMove();
 
-		Log.debug("DragNDrop initialized");
+		Log.debug(this.getClass().getName() + " initialized");
 	}
 
 	private void initImageMap() {

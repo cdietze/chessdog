@@ -1,5 +1,6 @@
 package com.christophdietze.jack.client.view;
 
+import com.christophdietze.jack.client.presenter.KeepAlivePresenter;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
@@ -31,6 +32,8 @@ public class MainPanel extends Composite {
 		private Provider<MessagePanel> messagePanelProvider;
 		@Inject
 		private Provider<ChallengeReceivedPopup> challengeReceivedPopupProvider;
+		@Inject
+		private Provider<KeepAlivePresenter> keepAliveProvider;
 	}
 
 	private ProviderHelper providerHelper;
@@ -46,6 +49,7 @@ public class MainPanel extends Composite {
 		providerHelper.dndViewProvider.get();
 		providerHelper.promotionViewProvider.get();
 		providerHelper.challengeReceivedPopupProvider.get();
+		providerHelper.keepAliveProvider.get();
 	}
 
 	@UiFactory

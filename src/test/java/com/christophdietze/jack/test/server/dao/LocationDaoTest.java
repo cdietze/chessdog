@@ -1,11 +1,10 @@
 package com.christophdietze.jack.test.server.dao;
 
-import java.util.List;
+import java.util.Date;
 
 import junit.framework.TestCase;
 
 import org.junit.Test;
-import org.mortbay.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,11 +58,11 @@ public class LocationDaoTest extends TestCase {
 	public void testFindByPingTimestamp1() throws Exception {
 		Injector injector = Guice.createInjector();
 		LocationDao locationDao = injector.getInstance(LocationDao.class);
-		assertEquals(0, locationDao.findLocationsWithPingTimestampBefore(100, 10).size());
+		assertEquals(0, locationDao.findLocationsWithKeepAliveBefore(new Date(100), 10).size());
 
-		locationDao.createLocation(new Location("grete", 1000));
-		assertEquals(0, locationDao.findLocationsWithPingTimestampBefore(100, 10).size());
-		assertEquals(1, locationDao.findLocationsWithPingTimestampBefore(2000, 10).size());
+		locationDao.createLocation(new Location("grete", new Date(1000)));
+		assertEquals(0, locationDao.findLocationsWithKeepAliveBefore(new Date(100), 10).size());
+		assertEquals(1, locationDao.findLocationsWithKeepAliveBefore(new Date(2000), 10).size());
 	}
 
 	@Test
@@ -72,12 +71,12 @@ public class LocationDaoTest extends TestCase {
 		LocationDao locationDao = injector.getInstance(LocationDao.class);
 
 		for (int i = 0; i < 20; ++i) {
-			locationDao.createLocation(new Location("grete" + i, 1000 + i));
+			locationDao.createLocation(new Location("grete" + i, new Date(1000 + i)));
 		}
-		assertEquals(1, locationDao.findLocationsWithPingTimestampBefore(5000, 1).size());
-		assertEquals(10, locationDao.findLocationsWithPingTimestampBefore(5000, 10).size());
-		assertEquals(20, locationDao.findLocationsWithPingTimestampBefore(5000, 100).size());
+		assertEquals(1, locationDao.findLocationsWithKeepAliveBefore(new Date(5000), 1).size());
+		assertEquals(10, locationDao.findLocationsWithKeepAliveBefore(new Date(5000), 10).size());
+		assertEquals(20, locationDao.findLocationsWithKeepAliveBefore(new Date(5000), 100).size());
 
-		log.info(": " + locationDao.findLocationsWithPingTimestampBefore(5000, 1).get(0));
+		log.info(": " + locationDao.findLocationsWithKeepAliveBefore(new Date(5000), 1).get(0));
 	}
 }
