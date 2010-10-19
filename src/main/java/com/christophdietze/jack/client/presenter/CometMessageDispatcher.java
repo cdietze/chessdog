@@ -7,6 +7,7 @@ import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.util.GlobalEventBus;
+import com.christophdietze.jack.shared.ChallengeCancelledCometMessage;
 import com.christophdietze.jack.shared.ChallengeReceivedCometMessage;
 import com.christophdietze.jack.shared.CometMessage;
 import com.christophdietze.jack.shared.MatchAbortedChannelMessage;
@@ -39,6 +40,8 @@ public class CometMessageDispatcher {
 			onMatchAborted((MatchAbortedChannelMessage) message);
 		} else if (message instanceof ChallengeReceivedCometMessage) {
 			onChallengeReceived((ChallengeReceivedCometMessage) message);
+		} else if (message instanceof ChallengeCancelledCometMessage) {
+			onChallengeAborted((ChallengeCancelledCometMessage) message);
 		} else {
 			throw new AssertionError("unknown comet message: " + message);
 		}
@@ -83,5 +86,10 @@ public class CometMessageDispatcher {
 
 	private void onChallengeReceived(ChallengeReceivedCometMessage message) {
 		eventBus.fireEvent(new ChallengeReceivedEvent(message.getChallengeId(), message.getChallenger()));
+	}
+
+	private void onChallengeAborted(ChallengeCancelledCometMessage message) {
+		// FIXME !!
+		throw new RuntimeException("not implemented");
 	}
 }
