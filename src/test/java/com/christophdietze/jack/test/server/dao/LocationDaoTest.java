@@ -55,7 +55,7 @@ public class LocationDaoTest extends TestCase {
 	}
 
 	@Test
-	public void testFindByPingTimestamp1() throws Exception {
+	public void testFindByKeepAliveDate1() throws Exception {
 		Injector injector = Guice.createInjector();
 		LocationDao locationDao = injector.getInstance(LocationDao.class);
 		assertEquals(0, locationDao.findLocationsWithKeepAliveBefore(new Date(100), 10).size());
@@ -66,7 +66,7 @@ public class LocationDaoTest extends TestCase {
 	}
 
 	@Test
-	public void testFindByPingTimestamp_Limit() throws Exception {
+	public void testFindByKeepAliveDate_Limit() throws Exception {
 		Injector injector = Guice.createInjector();
 		LocationDao locationDao = injector.getInstance(LocationDao.class);
 

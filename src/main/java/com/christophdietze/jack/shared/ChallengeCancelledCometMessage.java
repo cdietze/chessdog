@@ -1,8 +1,10 @@
 package com.christophdietze.jack.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 public class ChallengeCancelledCometMessage extends CometMessage {
 
-	public static enum Reason {
+	public static enum Reason implements IsSerializable {
 		DECLINED, ABORTED;
 	}
 
