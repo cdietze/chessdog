@@ -66,7 +66,7 @@ public class ChallengeReceivedPresenter {
 			public void onChallengeReceived(ChallengeReceivedEvent event) {
 				assert applicationContext.isAvailableForChallenges() == true;
 				applicationContext.setAvailableForChallenges(false);
-				assert challengeId < 0;
+				assert challengeId < 0 : "only one challenge supported - I should have been marked as busy!";
 				challengeId = event.getChallengeId();
 				view.showPopup(event.getChallenger());
 			}
