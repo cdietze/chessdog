@@ -1,9 +1,13 @@
 package com.christophdietze.jack.client.presenter;
 
+import com.allen_sauer.gwt.log.client.Log;
+import com.christophdietze.jack.client.event.ChallengeRevokedEvent;
+import com.christophdietze.jack.client.event.ChallengeRevokedEventHandler;
 import com.christophdietze.jack.client.event.ChallengeReceivedEvent;
 import com.christophdietze.jack.client.event.ChallengeReceivedEventHandler;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
+import com.christophdietze.jack.shared.ChessService.ChallengeCancellationReason;
 import com.christophdietze.jack.shared.ChessServiceAsync;
 import com.christophdietze.jack.shared.Player;
 import com.google.inject.Inject;
@@ -11,13 +15,16 @@ import com.google.inject.Inject;
 public class ChallengeReceivedPresenter {
 
 	public interface View {
-		void showPopup(long challengeId, Player challenger);
+		void showPopup(Player challenger);
+		void hidePopup();
 	}
 
 	private GlobalEventBus eventBus;
 	private ApplicationContext applicationContext;
 	private ChessServiceAsync chessService;
 	private View view;
+
+	private long challengeId = -1;
 
 	@Inject
 	public ChallengeReceivedPresenter(GlobalEventBus eventBus, ApplicationContext applicationContext,
@@ -33,23 +40,46 @@ public class ChallengeReceivedPresenter {
 		this.view = view;
 	}
 
-	public void onAcceptChallenge(long challengeId) {
+	public void onAcceptChallenge() {
 		chessService.acceptChallenge(applicationContext.getLocationId(), challengeId, new MyAsyncCallback<Void>() {
 			@Override
 			public void onSuccess(Void result) {
 			}
+			@Override
+			public void onFailure(Throwable ex) {
+				applicationContext.setAvailableForChallenges(true);
+				super.onFailure(ex);
+			}
 		});
 	}
 
-	public void onDeclineChallenge(long challengeId) {
-		throw new RuntimeException("not implemented");
+	public void onDeclineChallenge() {
+		applicationContext.setAvailableForChallenges(true);
+		challengeId = -1;
+		chessService.declineChallenge(applicationContext.getLocationId(), challengeId,
+				ChallengeCancellationReason.DECLINED, MyAsyncCallback.<Void> doNothing());
 	}
 
 	private void initListeners() {
 		eventBus.addHandler(ChallengeReceivedEvent.TYPE, new ChallengeReceivedEventHandler() {
 			@Override
 			public void onChallengeReceived(ChallengeReceivedEvent event) {
-				view.showPopup(event.getChallengeId(), event.getChallenger());
+				assert applicationContext.isAvailableForChallenges() == true;
+				applicationContext.setAvailableForChallenges(false);
+				assert challengeId < 0;
+				challengeId = event.getChallengeId();
+				view.showPopup(event.getChallenger());
+			}
+		});
+		eventBus.addHandler(ChallengeRevokedEvent.TYPE, new ChallengeRevokedEventHandler() {
+			@Override
+			public void onChallengeCancelled(ChallengeRevokedEvent event) {
+				if (event.getChallengeId() == challengeId) {
+					challengeId = -1;
+					view.hidePopup();
+				} else {
+					Log.warn("Received ChallengeCancellation for unknown challenge: " + event.getChallengeId());
+				}
 			}
 		});
 	}

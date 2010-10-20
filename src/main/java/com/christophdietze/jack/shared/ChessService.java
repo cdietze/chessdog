@@ -1,5 +1,6 @@
 package com.christophdietze.jack.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -12,7 +13,9 @@ public interface ChessService extends RemoteService {
 	void logout(long locationId);
 
 	PostChallengeResponse postChallenge(long locationId, String opponentNickname);
+	void revokeChallenge(long locationId, long challengeId);
 	void acceptChallenge(long locationId, long challengeId);
+	void declineChallenge(long locationId, long challengeId, ChallengeCancellationReason reason);
 
 	AbortResponse abortMatch(long locationId);
 	MakeMoveResponse makeMove(long locationId, String algebraicMove);
@@ -29,4 +32,8 @@ public interface ChessService extends RemoteService {
 	 * Raises an Exception on the server having the specified message. Only intended for debugging purposes.
 	 */
 	void induceError(String message);
+
+	enum ChallengeCancellationReason implements IsSerializable {
+		BUSY, DECLINED;
+	}
 }

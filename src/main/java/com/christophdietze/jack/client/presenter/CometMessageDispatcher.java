@@ -1,14 +1,20 @@
 package com.christophdietze.jack.client.presenter;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.christophdietze.jack.client.event.ChallengeRevokedEvent;
 import com.christophdietze.jack.client.event.ChallengeReceivedEvent;
 import com.christophdietze.jack.client.event.GameUpdatedEvent;
+import com.christophdietze.jack.client.event.LogMessageEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.util.GlobalEventBus;
-import com.christophdietze.jack.shared.ChallengeCancelledCometMessage;
+import com.christophdietze.jack.client.util.MyAsyncCallback;
+import com.christophdietze.jack.shared.ChallengeDeclinedCometMessage;
 import com.christophdietze.jack.shared.ChallengeReceivedCometMessage;
+import com.christophdietze.jack.shared.ChallengeRevokedCometMessage;
+import com.christophdietze.jack.shared.ChessService.ChallengeCancellationReason;
+import com.christophdietze.jack.shared.ChessServiceAsync;
 import com.christophdietze.jack.shared.CometMessage;
 import com.christophdietze.jack.shared.MatchAbortedChannelMessage;
 import com.christophdietze.jack.shared.MatchStartedCometMessage;
@@ -30,6 +36,8 @@ public class CometMessageDispatcher {
 	private GameManager gameManager;
 	@Inject
 	private GlobalEventBus eventBus;
+	@Inject
+	private ChessServiceAsync chessService;
 
 	public void dispatch(CometMessage message) {
 		if (message instanceof MoveMadeCometMessage) {
@@ -40,8 +48,10 @@ public class CometMessageDispatcher {
 			onMatchAborted((MatchAbortedChannelMessage) message);
 		} else if (message instanceof ChallengeReceivedCometMessage) {
 			onChallengeReceived((ChallengeReceivedCometMessage) message);
-		} else if (message instanceof ChallengeCancelledCometMessage) {
-			onChallengeAborted((ChallengeCancelledCometMessage) message);
+		} else if (message instanceof ChallengeDeclinedCometMessage) {
+			onChallengeDeclined((ChallengeDeclinedCometMessage) message);
+		} else if (message instanceof ChallengeRevokedCometMessage) {
+			onChallengeRevoked((ChallengeRevokedCometMessage) message);
 		} else {
 			throw new AssertionError("unknown comet message: " + message);
 		}
@@ -68,6 +78,7 @@ public class CometMessageDispatcher {
 			throw new RuntimeException("Received " + message + ", but I (User[" + myUserId
 					+ "]) am not playing in this match.");
 		}
+		applicationContext.setAvailableForChallenges(false);
 		boolean isPlayerWhite = applicationContext.getLocationId() == message.getWhitePlayer().getLocationId();
 		game.setWhiteAtBottom(isPlayerWhite);
 		MatchInfo matchInfo = new MatchInfo(message.getWhitePlayer(), message.getBlackPlayer(), isPlayerWhite);
@@ -80,16 +91,26 @@ public class CometMessageDispatcher {
 
 	private void onMatchAborted(MatchAbortedChannelMessage message) {
 		Log.info("The other player aborted the match");
+		applicationContext.setAvailableForChallenges(true);
 		gameManager.switchToAnalysisMode();
 		eventBus.fireEvent(new MatchEndedEvent(Reason.OPPONENT_ABORTED));
 	}
 
 	private void onChallengeReceived(ChallengeReceivedCometMessage message) {
-		eventBus.fireEvent(new ChallengeReceivedEvent(message.getChallengeId(), message.getChallenger()));
+		if (applicationContext.isAvailableForChallenges()) {
+			eventBus.fireEvent(new ChallengeReceivedEvent(message.getChallengeId(), message.getChallenger()));
+		} else {
+			chessService.declineChallenge(applicationContext.getLocationId(), message.getChallengeId(),
+					ChallengeCancellationReason.BUSY, MyAsyncCallback.<Void> doNothing());
+		}
 	}
 
-	private void onChallengeAborted(ChallengeCancelledCometMessage message) {
-		// FIXME !!
-		throw new RuntimeException("not implemented");
+	private void onChallengeDeclined(ChallengeDeclinedCometMessage message) {
+		// TODO store the posted challenges so that i can find out the name of the opponent
+		eventBus.fireEvent(new LogMessageEvent("Challenge declined by opponent ???, reason is " + message.getReason()));
+	}
+
+	private void onChallengeRevoked(ChallengeRevokedCometMessage message) {
+		eventBus.fireEvent(new ChallengeRevokedEvent(message.getChallengeId()));
 	}
 }

@@ -10,6 +10,8 @@ public class ApplicationContext {
 
 	private Player myPlayer;
 
+	private boolean availableForChallenges = true;
+
 	public boolean isLoggedIn() {
 		return myPlayer != null;
 	}
@@ -27,6 +29,18 @@ public class ApplicationContext {
 	 */
 	public long getLocationId() {
 		return myPlayer.getLocationId();
+	}
+
+	/**
+	 * Returns true if the player is available to receive challenges. This is true if the player is not in a Match and
+	 * has no open Challenge.
+	 */
+	public boolean isAvailableForChallenges() {
+		return availableForChallenges;
+	}
+
+	public void setAvailableForChallenges(boolean availableForChallenges) {
+		this.availableForChallenges = availableForChallenges;
 	}
 
 	// private long locationId = NOT_SIGNED_IN_ID;

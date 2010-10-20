@@ -20,7 +20,6 @@ public class ChallengeReceivedPopup extends PopupPanel implements ChallengeRecei
 	interface ChallengeReceivedPopupUiBinder extends UiBinder<Widget, ChallengeReceivedPopup> {
 	}
 
-	private long challengeId;
 	private ChallengeReceivedPresenter presenter;
 
 	@UiField
@@ -41,20 +40,24 @@ public class ChallengeReceivedPopup extends PopupPanel implements ChallengeRecei
 
 	@UiHandler("acceptButton")
 	void onAcceptClick(ClickEvent e) {
-		presenter.onAcceptChallenge(challengeId);
+		presenter.onAcceptChallenge();
 		hide();
 	}
 
 	@UiHandler("declineButton")
 	void onDeclineClick(ClickEvent e) {
-		presenter.onDeclineChallenge(challengeId);
+		presenter.onDeclineChallenge();
 		hide();
 	}
 
 	@Override
-	public void showPopup(long challengeId, Player challenger) {
-		this.challengeId = challengeId;
+	public void showPopup(Player challenger) {
 		challengeDescriptionLabel.setText(challenger.getNickname() + " challenged you for a match");
 		show();
+	}
+
+	@Override
+	public void hidePopup() {
+		hide();
 	}
 }
