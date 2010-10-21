@@ -3,13 +3,13 @@ package com.christophdietze.jack.test.server;
 import junit.framework.TestCase;
 
 import com.christophdietze.jack.server.ChessServiceImpl;
-import com.christophdietze.jack.shared.LoginResponse.LoginSuccessfulResponse;
+import com.christophdietze.jack.shared.SignInResponse.SignInSuccessfulResponse;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-public class LoginTest extends TestCase {
+public class SignInTest extends TestCase {
 
 	private final LocalServiceTestHelper appengineHelper = new LocalServiceTestHelper(
 			new LocalDatastoreServiceTestConfig());
@@ -27,8 +27,8 @@ public class LoginTest extends TestCase {
 	public void testLogin1() {
 		Injector injector = Guice.createInjector(new GuiceModuleForTest());
 		ChessServiceImpl chessService = injector.getInstance(ChessServiceImpl.class);
-		LoginSuccessfulResponse userId1 = (LoginSuccessfulResponse) chessService.login("Alice");
-		LoginSuccessfulResponse userId2 = (LoginSuccessfulResponse) chessService.login("Bob");
+		SignInSuccessfulResponse userId1 = (SignInSuccessfulResponse) chessService.signIn("Alice");
+		SignInSuccessfulResponse userId2 = (SignInSuccessfulResponse) chessService.signIn("Bob");
 		assertNotSame(userId1.getLocationId(), userId2.getLocationId());
 	}
 }

@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.christophdietze.jack.server.ChessServiceImpl;
 import com.christophdietze.jack.shared.ChallengeReceivedCometMessage;
-import com.christophdietze.jack.shared.LoginResponse.LoginSuccessfulResponse;
+import com.christophdietze.jack.shared.SignInResponse.SignInSuccessfulResponse;
 import com.christophdietze.jack.shared.MakeMoveResponse;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -33,10 +33,10 @@ public class PlayGameTest extends TestCase {
 		ChessServiceImpl chessService = injector.getInstance(ChessServiceImpl.class);
 		CometServerMock cometServerMock = injector.getInstance(CometServerMock.class);
 
-		long locationId1 = ((LoginSuccessfulResponse) chessService.login("Alice")).getLocationId();
-		chessService.loginComplete(locationId1);
-		long locationId2 = ((LoginSuccessfulResponse) chessService.login("Bob")).getLocationId();
-		chessService.loginComplete(locationId2);
+		long locationId1 = ((SignInSuccessfulResponse) chessService.signIn("Alice")).getLocationId();
+		chessService.completeSignIn(locationId1);
+		long locationId2 = ((SignInSuccessfulResponse) chessService.signIn("Bob")).getLocationId();
+		chessService.completeSignIn(locationId2);
 
 		chessService.postChallenge(locationId1, "Bob");
 		long challengeId = cometServerMock.getNextMessageOfType(locationId2, ChallengeReceivedCometMessage.class)

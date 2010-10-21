@@ -14,8 +14,8 @@ import com.christophdietze.jack.shared.AbortResponse;
 import com.christophdietze.jack.shared.ChessServiceAsync;
 import com.christophdietze.jack.shared.CometMessage;
 import com.christophdietze.jack.shared.CometService;
-import com.christophdietze.jack.shared.LoginResponse;
-import com.christophdietze.jack.shared.LoginResponse.LoginSuccessfulResponse;
+import com.christophdietze.jack.shared.SignInResponse;
+import com.christophdietze.jack.shared.SignInResponse.SignInSuccessfulResponse;
 import com.christophdietze.jack.shared.Player;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
@@ -54,7 +54,7 @@ public class CommandPresenter {
 	}
 
 	public void onSignInClick(final String nickname) {
-		login(nickname);
+		signIn(nickname);
 	}
 
 	/*
@@ -87,10 +87,10 @@ public class CommandPresenter {
 		});
 	}
 
-	private void login(final String nickname) {
-		chessService.login(nickname, new MyAsyncCallback<LoginResponse>() {
+	private void signIn(final String nickname) {
+		chessService.signIn(nickname, new MyAsyncCallback<SignInResponse>() {
 			@Override
-			public void onSuccess(LoginResponse result) {
+			public void onSuccess(SignInResponse result) {
 				assert result != null;
 				switch (result.getType()) {
 				case NICKNAME_ALREADY_EXISTS:
@@ -98,10 +98,10 @@ public class CommandPresenter {
 							+ "' is already in use, please choose a different one."));
 					break;
 				case SUCCESS:
-					LoginSuccessfulResponse successfulResponse = (LoginSuccessfulResponse) result;
+					SignInSuccessfulResponse successfulResponse = (SignInSuccessfulResponse) result;
 					Player myPlayer = new Player(successfulResponse.getLocationId(), nickname);
 					applicationContext.setMyPlayer(myPlayer);
-					createChannelAndCompleteLogin(myPlayer, successfulResponse.getChannelId());
+					createChannelAndCompleteSignIn(myPlayer, successfulResponse.getChannelId());
 					break;
 				default:
 					throw new AssertionError();
@@ -110,11 +110,11 @@ public class CommandPresenter {
 		});
 	}
 
-	private void createChannelAndCompleteLogin(final Player myPlayer, String channelId) {
+	private void createChannelAndCompleteSignIn(final Player myPlayer, String channelId) {
 		Window.addWindowClosingHandler(new ClosingHandler() {
 			@Override
 			public void onWindowClosing(ClosingEvent event) {
-				if (applicationContext.isLoggedIn()) {
+				if (applicationContext.isSignedIn()) {
 					chessService.logout(myPlayer.getLocationId(), MyAsyncCallback.<Void> doNothing());
 					applicationContext.setMyPlayer(null);
 					Log.debug("Automatic logout of Player, due to closing window complete");
@@ -126,8 +126,8 @@ public class CommandPresenter {
 		channel.open(new SocketListener() {
 			@Override
 			public void onOpen() {
-				Log.debug("Channel opened, completing login");
-				completeLogin(myPlayer);
+				Log.debug("Channel opened, completing sign in");
+				completeSignIn(myPlayer);
 			}
 			@Override
 			public void onMessage(String encodedMessage) {
@@ -148,8 +148,9 @@ public class CommandPresenter {
 			}
 		});
 	}
-	private void completeLogin(final Player myPlayer) {
-		chessService.loginComplete(myPlayer.getLocationId(), new MyAsyncCallback<Void>() {
+
+	private void completeSignIn(final Player myPlayer) {
+		chessService.completeSignIn(myPlayer.getLocationId(), new MyAsyncCallback<Void>() {
 			@Override
 			public void onSuccess(Void result) {
 				eventBus.fireEvent(new SignedInEvent(myPlayer));

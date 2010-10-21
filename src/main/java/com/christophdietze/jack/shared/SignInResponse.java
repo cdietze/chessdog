@@ -2,17 +2,17 @@ package com.christophdietze.jack.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-public class LoginResponse implements IsSerializable {
+public class SignInResponse implements IsSerializable {
 
 	public static enum Type {
 		SUCCESS, NICKNAME_ALREADY_EXISTS;
 	}
 
-	public static LoginSuccessfulResponse newSuccessfulResponse(long locationId, String channelId) {
-		return new LoginSuccessfulResponse(locationId, channelId);
+	public static SignInSuccessfulResponse newSuccessfulResponse(long locationId, String channelId) {
+		return new SignInSuccessfulResponse(locationId, channelId);
 	}
-	public static LoginResponse newNicknameAlreadyExistsResponse() {
-		return new LoginResponse(Type.NICKNAME_ALREADY_EXISTS);
+	public static SignInResponse newNicknameAlreadyExistsResponse() {
+		return new SignInResponse(Type.NICKNAME_ALREADY_EXISTS);
 	}
 
 	private Type type;
@@ -20,12 +20,12 @@ public class LoginResponse implements IsSerializable {
 	/**
 	 * For serialization
 	 */
-	private LoginResponse() {
+	private SignInResponse() {
 		this(null);
 		// this(null, -1, null);
 	}
 
-	private LoginResponse(Type type) {
+	private SignInResponse(Type type) {
 		this.type = type;
 	}
 
@@ -33,17 +33,17 @@ public class LoginResponse implements IsSerializable {
 		return type;
 	}
 
-	public static class LoginSuccessfulResponse extends LoginResponse {
+	public static class SignInSuccessfulResponse extends SignInResponse {
 		private long locationId;
 		private String channelId;
 
 		/**
 		 * For serialization
 		 */
-		private LoginSuccessfulResponse() {
+		private SignInSuccessfulResponse() {
 		}
 
-		private LoginSuccessfulResponse(long locationId, String channelId) {
+		private SignInSuccessfulResponse(long locationId, String channelId) {
 			super(Type.SUCCESS);
 			this.locationId = locationId;
 			this.channelId = channelId;

@@ -32,7 +32,7 @@ public class KeepAlivePresenter {
 		final Timer t = new Timer() {
 			@Override
 			public void run() {
-				if (applicationContext.isLoggedIn()) {
+				if (applicationContext.isSignedIn()) {
 					chessService.keepAlive(applicationContext.getLocationId(), MyAsyncCallback.<Void> doNothing());
 				}
 			}

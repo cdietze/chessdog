@@ -12,7 +12,7 @@ public class ApplicationContext {
 
 	private boolean availableForChallenges = true;
 
-	public boolean isLoggedIn() {
+	public boolean isSignedIn() {
 		return myPlayer != null;
 	}
 
