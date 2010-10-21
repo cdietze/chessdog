@@ -10,7 +10,7 @@ public interface ChessService extends RemoteService {
 
 	SignInResponse signIn(String nickname);
 	void completeSignIn(long locationId);
-	void logout(long locationId);
+	void signOut(long locationId);
 
 	PostChallengeResponse postChallenge(long locationId, String opponentNickname);
 	void revokeChallenge(long locationId, long challengeId);

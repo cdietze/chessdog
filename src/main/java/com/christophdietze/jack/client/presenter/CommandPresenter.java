@@ -115,9 +115,9 @@ public class CommandPresenter {
 			@Override
 			public void onWindowClosing(ClosingEvent event) {
 				if (applicationContext.isSignedIn()) {
-					chessService.logout(myPlayer.getLocationId(), MyAsyncCallback.<Void> doNothing());
+					chessService.signOut(myPlayer.getLocationId(), MyAsyncCallback.<Void> doNothing());
 					applicationContext.setMyPlayer(null);
-					Log.debug("Automatic logout of Player, due to closing window complete");
+					Log.debug("Automatically signing player out, because of closing window");
 				}
 			}
 		});
