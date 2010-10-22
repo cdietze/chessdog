@@ -12,6 +12,8 @@ import com.christophdietze.jack.client.event.SignInFailedEvent;
 import com.christophdietze.jack.client.event.SignInFailedEventHandler;
 import com.christophdietze.jack.client.event.SignedInEvent;
 import com.christophdietze.jack.client.event.SignedInEventHandler;
+import com.christophdietze.jack.client.event.SignedOutEvent;
+import com.christophdietze.jack.client.event.SignedOutEventHandler;
 import com.christophdietze.jack.client.event.UncaughtExceptionEvent;
 import com.christophdietze.jack.client.event.UncaughtExceptionEventHandler;
 import com.christophdietze.jack.client.presenter.MatchInfo;
@@ -103,7 +105,13 @@ public class MessagePanel extends Composite {
 		eventBus.addHandler(SignedInEvent.TYPE, new SignedInEventHandler() {
 			@Override
 			public void onSignIn(SignedInEvent event) {
-				addMessage("You are signed in as " + event.getMyPlayer().getNickname() + ".");
+				addMessage("You signed in as " + event.getMyPlayer().getNickname() + ".");
+			}
+		});
+		eventBus.addHandler(SignedOutEvent.TYPE, new SignedOutEventHandler() {
+			@Override
+			public void onSignOut(SignedOutEvent event) {
+				addMessage("You signed out.");
 			}
 		});
 		eventBus.addHandler(SignInFailedEvent.TYPE, new SignInFailedEventHandler() {

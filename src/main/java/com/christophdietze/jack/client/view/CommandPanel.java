@@ -8,11 +8,12 @@ import com.christophdietze.jack.client.event.SignInFailedEvent;
 import com.christophdietze.jack.client.event.SignInFailedEventHandler;
 import com.christophdietze.jack.client.event.SignedInEvent;
 import com.christophdietze.jack.client.event.SignedInEventHandler;
+import com.christophdietze.jack.client.event.SignedOutEvent;
+import com.christophdietze.jack.client.event.SignedOutEventHandler;
 import com.christophdietze.jack.client.presenter.CommandPresenter;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -75,12 +76,6 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 	}
 
 	private void initListeners() {
-		signInButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				doSignIn();
-			}
-		});
 		eventBus.addHandler(SignedInEvent.TYPE, new SignedInEventHandler() {
 			@Override
 			public void onSignIn(SignedInEvent event) {
@@ -89,6 +84,14 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 				signInStatusLabel.setText("You are signed in as " + event.getMyPlayer().getNickname());
 				signOutPanel.setVisible(true);
 				startMatchButton.setVisible(true);
+			}
+		});
+		eventBus.addHandler(SignedOutEvent.TYPE, new SignedOutEventHandler() {
+			@Override
+			public void onSignOut(SignedOutEvent event) {
+				signInPanel.setVisible(true);
+				signOutPanel.setVisible(false);
+				startMatchButton.setVisible(false);
 			}
 		});
 		eventBus.addHandler(SignInFailedEvent.TYPE, new SignInFailedEventHandler() {
@@ -129,10 +132,14 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 		}
 	}
 
+	@UiHandler("signInButton")
+	void handleSignInClick(ClickEvent event) {
+		doSignIn();
+	}
+
 	@UiHandler("signOutButton")
 	void handleSignOutClick(ClickEvent event) {
-		// TODO implement sign out button
-		throw new RuntimeException("not implemented");
+		presenter.onSignOutClick();
 	}
 
 	@UiHandler("startMatchButton")

@@ -8,6 +8,7 @@ import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.event.SignInFailedEvent;
 import com.christophdietze.jack.client.event.SignedInEvent;
+import com.christophdietze.jack.client.event.SignedOutEvent;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.shared.AbortResponse;
@@ -54,40 +55,6 @@ public class CommandPresenter {
 	}
 
 	public void onSignInClick(final String nickname) {
-		signIn(nickname);
-	}
-
-	/*
-	 * public void onPostPublicChallenge() { chessService.postSeek(applicationContext.getLocationId(), new
-	 * MyAsyncCallback<PostSeekResponse>() {
-	 * 
-	 * @Override public void onSuccess(PostSeekResponse result) { switch (result) { case SUCCESS:
-	 * Log.debug("You joined the seek list"); break; case ALREADY_SEEKING: Log.warn("You already have an active seek");
-	 * break; case HAS_ACTIVE_MATCH: Log.warn("You cannot seek while you have an active match"); break; default: throw
-	 * new AssertionError(); } view.update(); } }); }
-	 */
-
-	public void onAbortMatchClick() {
-		chessService.abortMatch(applicationContext.getLocationId(), new MyAsyncCallback<AbortResponse>() {
-			@Override
-			public void onSuccess(AbortResponse result) {
-				switch (result) {
-				case SUCCESS:
-					Log.debug("You aborted the game");
-					gameManager.switchToAnalysisMode();
-					eventBus.fireEvent(new MatchEndedEvent(Reason.YOU_ABORTED));
-					break;
-				case NO_ACTIVE_MATCH:
-					Log.warn("You have no active match");
-					break;
-				default:
-					throw new AssertionError();
-				}
-			}
-		});
-	}
-
-	private void signIn(final String nickname) {
 		chessService.signIn(nickname, new MyAsyncCallback<SignInResponse>() {
 			@Override
 			public void onSuccess(SignInResponse result) {
@@ -102,6 +69,35 @@ public class CommandPresenter {
 					Player myPlayer = new Player(successfulResponse.getLocationId(), nickname);
 					applicationContext.setMyPlayer(myPlayer);
 					createChannelAndCompleteSignIn(myPlayer, successfulResponse.getChannelId());
+					break;
+				default:
+					throw new AssertionError();
+				}
+			}
+		});
+	}
+
+	public void onSignOutClick() {
+		chessService.signOut(applicationContext.getLocationId(), new MyAsyncCallback<Void>() {
+			@Override
+			public void onSuccess(Void result) {
+				eventBus.fireEvent(new SignedOutEvent());
+			}
+		});
+	}
+
+	public void onAbortMatchClick() {
+		chessService.abortMatch(applicationContext.getLocationId(), new MyAsyncCallback<AbortResponse>() {
+			@Override
+			public void onSuccess(AbortResponse result) {
+				switch (result) {
+				case SUCCESS:
+					Log.debug("You aborted the game");
+					gameManager.switchToAnalysisMode();
+					eventBus.fireEvent(new MatchEndedEvent(Reason.YOU_ABORTED));
+					break;
+				case NO_ACTIVE_MATCH:
+					Log.warn("You have no active match");
 					break;
 				default:
 					throw new AssertionError();
