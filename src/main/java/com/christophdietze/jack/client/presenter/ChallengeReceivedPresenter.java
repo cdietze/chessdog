@@ -5,6 +5,8 @@ import com.christophdietze.jack.client.event.ChallengeRevokedEvent;
 import com.christophdietze.jack.client.event.ChallengeRevokedEventHandler;
 import com.christophdietze.jack.client.event.ChallengeReceivedEvent;
 import com.christophdietze.jack.client.event.ChallengeReceivedEventHandler;
+import com.christophdietze.jack.client.event.MatchStartedEvent;
+import com.christophdietze.jack.client.event.MatchStartedEventHandler;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.shared.ChessService.ChallengeCancellationReason;
@@ -80,6 +82,13 @@ public class ChallengeReceivedPresenter {
 				} else {
 					Log.warn("Received ChallengeCancellation for unknown challenge: " + event.getChallengeId());
 				}
+			}
+		});
+		eventBus.addHandler(MatchStartedEvent.TYPE, new MatchStartedEventHandler() {
+			@Override
+			public void onMatchStarted(MatchStartedEvent event) {
+				challengeId = -1;
+				view.hidePopup();
 			}
 		});
 	}
