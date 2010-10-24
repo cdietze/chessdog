@@ -147,13 +147,19 @@ public class BoardPanel extends Composite implements BoardPresenter.View {
 			moveFromImage.setVisible(false);
 			moveToImage.setVisible(false);
 		} else {
-			Widget fromSquare = squares[lastMove.getFrom()];
+			int fromIndex = lastMove.getFrom();
+			int toIndex = lastMove.getTo();
+			if (!model.getGame().isWhiteAtBottom()) {
+				fromIndex = 63 - fromIndex;
+				toIndex = 63 - toIndex;
+			}
+			Widget fromSquare = squares[fromIndex];
 			moveFromImage.getElement().getStyle()
 					.setLeft(fromSquare.getAbsoluteLeft() - rootPanel.getAbsoluteLeft(), Unit.PX);
 			moveFromImage.getElement().getStyle()
 					.setTop(fromSquare.getAbsoluteTop() - rootPanel.getAbsoluteTop(), Unit.PX);
 			moveFromImage.setVisible(true);
-			Widget toSquare = squares[lastMove.getTo()];
+			Widget toSquare = squares[toIndex];
 			moveToImage.getElement().getStyle().setLeft(toSquare.getAbsoluteLeft() - rootPanel.getAbsoluteLeft(), Unit.PX);
 			moveToImage.getElement().getStyle().setTop(toSquare.getAbsoluteTop() - rootPanel.getAbsoluteTop(), Unit.PX);
 			moveToImage.setVisible(true);
