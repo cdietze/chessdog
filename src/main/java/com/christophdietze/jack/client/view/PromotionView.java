@@ -53,7 +53,7 @@ public class PromotionView implements PromotionPresenter.View {
 		int rank = ChessUtils.toRank(toIndex);
 		assert rank == 0 || rank == 7;
 		final PopupPanel popup = rank == 0 ? blackPopupPanel : whitePopupPanel;
-		final Widget reference = boardView.getSquareImages()[toIndex];
+		final Widget reference = boardView.getSquares()[toIndex];
 		popup.setPopupPositionAndShow(new PositionCallback() {
 			public void setPosition(int offsetWidth, int offsetHeight) {
 				UiUtils.setPopupPositionAtTopLeft(popup, reference);

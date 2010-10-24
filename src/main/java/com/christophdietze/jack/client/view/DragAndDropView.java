@@ -18,8 +18,6 @@ import com.christophdietze.jack.shared.board.ChessUtils;
 import com.christophdietze.jack.shared.board.Piece;
 import com.christophdietze.jack.shared.board.Position;
 import com.google.gwt.dom.client.StyleInjector;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -44,59 +42,27 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 	/** java.util.BitSet is not available in GWT */
 	private boolean[] draggablesBitSet = new boolean[64];
 
-	private int selectedSquareIndex = -1; // -1 means that no square is selected
-
 	private MyDragController dragController;
 
 	@Inject
 	public DragAndDropView(DragAndDropPresenter model, BoardPanel boardPanel) {
 		this.model = model;
 		this.boardPanel = boardPanel;
-		init();
-		model.setView(this);
-	}
-
-	private void init() {
 		dragController = new MyDragController();
 		dragController.setBehaviorDragStartSensitivity(3);
 
 		initImageMap();
 		updateDraggables();
-		initSelectionMove();
+		// initSelectionMove();
 
+		model.setView(this);
 		Log.debug(this.getClass().getName() + " initialized");
 	}
 
 	private void initImageMap() {
 		for (int index = 0; index < 64; ++index) {
-			Image image = boardPanel.getSquareImages()[index];
+			Image image = boardPanel.getSquares()[index].getImage();
 			imageMap.put(image, index);
-		}
-	}
-
-	private void initSelectionMove() {
-		for (int i = 0; i < 64; ++i) {
-			final int index = i;
-			final Image image = boardPanel.getSquareImages()[index];
-			image.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					if (selectedSquareIndex < 0) {
-						selectedSquareIndex = index;
-						image.addStyleName(CSS.selectedSquare());
-					} else {
-						int fromIndex = selectedSquareIndex;
-						int toIndex = index;
-						if (!model.getGame().isWhiteAtBottom()) {
-							fromIndex = 63 - fromIndex;
-							toIndex = 63 - toIndex;
-						}
-						boardPanel.getSquareImages()[selectedSquareIndex].removeStyleName(CSS.selectedSquare());
-						selectedSquareIndex = -1;
-						model.makeMove(fromIndex, toIndex);
-					}
-				}
-			});
 		}
 	}
 
@@ -111,12 +77,12 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 			int viewIndex = model.getGame().isWhiteAtBottom() ? index : 63 - index;
 			if (position.getPiece(index).isPiece() && !draggablesBitSet[viewIndex]) {
 				draggablesBitSet[viewIndex] = true;
-				Image image = boardPanel.getSquareImages()[viewIndex];
+				Image image = boardPanel.getSquares()[viewIndex].getImage();
 				dragController.makeDraggable(image);
 			}
 			if (!position.getPiece(index).isPiece() && draggablesBitSet[viewIndex]) {
 				draggablesBitSet[viewIndex] = false;
-				Image image = boardPanel.getSquareImages()[viewIndex];
+				Image image = boardPanel.getSquares()[viewIndex].getImage();
 				dragController.makeNotDraggable(image);
 			}
 		}
@@ -162,6 +128,7 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 
 			});
 		}
+
 		@Override
 		public void dragMove() {
 			int desiredLeft = context.desiredDraggableX;
@@ -170,14 +137,14 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 		}
 
 		private int calcIndexOfMouse() {
-			int squareWidth = boardPanel.getSquareImages()[0].getOffsetWidth();
-			int leftMost = boardPanel.getSquareImages()[0].getAbsoluteLeft();
+			int squareWidth = boardPanel.getSquares()[0].getOffsetWidth();
+			int leftMost = boardPanel.getSquares()[0].getAbsoluteLeft();
 			int file = (context.mouseX - leftMost) / squareWidth;
 			if (context.mouseX < leftMost || file >= 8) {
 				return -1;
 			}
-			int squareHeight = boardPanel.getSquareImages()[0].getOffsetHeight();
-			int bottom = boardPanel.getSquareImages()[0].getAbsoluteTop() + squareHeight;
+			int squareHeight = boardPanel.getSquares()[0].getOffsetHeight();
+			int bottom = boardPanel.getSquares()[0].getAbsoluteTop() + squareHeight;
 			int rank = context.mouseY > bottom ? 100 : (bottom - context.mouseY) / squareHeight;
 			if (context.mouseY > bottom || rank >= 8) {
 				return -1;

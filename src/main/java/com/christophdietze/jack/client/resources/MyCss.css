@@ -3,10 +3,9 @@
 @def linkColor #027AC6;
 @def whiteColor #ffce9e;
 @def blackColor #d18b47;
-@def squareSize 49px;
+@def squareSize 45px;
 @def rankLabelWidth 12px;
 @def boardWidth 404px;
-	
 html,body { /* required for dragNdrop */
 	height: 100%;
 }
@@ -38,17 +37,29 @@ body {
 .whiteSquare {
 	background-color: whiteColor !important;
 	float: left;
-	border: 2px solid whiteColor;
+	width: squareSize;
+	height: squareSize;
 }
 
 .blackSquare {
 	background-color: blackColor !important;
 	float: left;
-	border: 2px solid blackColor;
+	width: squareSize;
+	height: squareSize;
 }
 
-.selectedSquare {
-	border: 2px solid blue;
+.squareImage {
+	position: relative;
+	z-Index: 20;
+}
+
+.squareSelection {
+	position: absolute;
+	z-Index: 10;
+}
+
+.moveMarker {
+	position: absolute;
 }
 
 .rankLabel {
@@ -82,6 +93,7 @@ body {
 	background: none repeat scroll 0 0 #FFFFFF;
 	border: 1px solid #888888;
 	height: squareSize;
+	z-Index: 30;
 }
 
 .draggingImage { /*position: absolute; */

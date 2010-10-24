@@ -9,13 +9,19 @@ import com.christophdietze.jack.client.resources.MyCss;
 import com.christophdietze.jack.client.resources.PieceImageBundle;
 import com.christophdietze.jack.client.resources.PieceImageProvider;
 import com.christophdietze.jack.shared.board.ChessUtils;
+import com.christophdietze.jack.shared.board.Move;
 import com.christophdietze.jack.shared.board.Piece;
 import com.christophdietze.jack.shared.board.PieceType;
 import com.google.common.collect.Lists;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -30,17 +36,31 @@ public class BoardPanel extends Composite implements BoardPresenter.View {
 
 	private BoardPresenter model;
 	private FlowPanel rootPanel = new FlowPanel();
-	private final Image[] squareImages = new Image[64];
+	private final BoardSquare[] squares = new BoardSquare[64];
 	private List<Label> fileLabels = Lists.newArrayList(); // a-h
 	private List<Label> rankLabels = Lists.newArrayList(); // 1-8
+	private Image moveFromImage = new Image(MyClientBundle.INSTANCE.moveMarker());
+	private Image moveToImage = new Image(MyClientBundle.INSTANCE.moveMarker());
+	private Image squareSelection = new Image(MyClientBundle.INSTANCE.squareSelection());
+	private int selectedSquareIndex = -1; // -1 means that no square is selected
 
 	@Inject
 	public BoardPanel(BoardPresenter model) {
 		super.initWidget(rootPanel);
 		this.model = model;
-		rootPanel.addStyleName(CSS.boardContainer());
+		squareSelection.unsinkEvents(Event.MOUSEEVENTS);
+		rootPanel.add(squareSelection);
 		initGrid();
-
+		rootPanel.addStyleName(CSS.boardContainer());
+		moveFromImage.addStyleName(CSS.moveMarker());
+		moveFromImage.setVisible(false);
+		rootPanel.add(moveFromImage);
+		moveToImage.addStyleName(CSS.moveMarker());
+		moveToImage.setVisible(false);
+		rootPanel.add(moveToImage);
+		squareSelection.addStyleName(CSS.squareSelection());
+		squareSelection.setVisible(false);
+		initSquareSelection();
 		update();
 		model.setView(this);
 		Log.debug("BoardView initialized");
@@ -59,10 +79,11 @@ public class BoardPanel extends Composite implements BoardPresenter.View {
 					rootPanel.add(rankLabel);
 				}
 
-				Image pieceImage = new Image(PieceImageBundle.INSTANCE.empty());
-				pieceImage.setStylePrimaryName(isWhite ? CSS.whiteSquare() : CSS.blackSquare());
-				squareImages[index] = pieceImage;
-				rootPanel.add(pieceImage);
+				BoardSquare square = new BoardSquare(new Image(PieceImageBundle.INSTANCE.empty()));
+				square.getImage().setStylePrimaryName(CSS.squareImage());
+				squares[index] = square;
+				square.setStylePrimaryName(isWhite ? CSS.whiteSquare() : CSS.blackSquare());
+				rootPanel.add(squares[index]);
 			}
 		}
 		Label fileLabelPlaceholder = new Label();
@@ -73,6 +94,37 @@ public class BoardPanel extends Composite implements BoardPresenter.View {
 			fileLabels.add(fileLabel);
 			fileLabel.addStyleName(CSS.fileLabel());
 			rootPanel.add(fileLabel);
+		}
+	}
+
+	private void initSquareSelection() {
+		for (int i = 0; i < 64; ++i) {
+			final int index = i;
+			final BoardSquare square = squares[index];
+			square.getImage().addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					Log.info("onclick " + index);
+					if (selectedSquareIndex < 0) {
+						selectedSquareIndex = index;
+						squareSelection.getElement().getStyle()
+								.setLeft(square.getAbsoluteLeft() - rootPanel.getAbsoluteLeft(), Unit.PX);
+						squareSelection.getElement().getStyle()
+								.setTop(square.getAbsoluteTop() - rootPanel.getAbsoluteTop(), Unit.PX);
+						squareSelection.setVisible(true);
+					} else {
+						int fromIndex = selectedSquareIndex;
+						int toIndex = index;
+						if (!model.getGame().isWhiteAtBottom()) {
+							fromIndex = 63 - fromIndex;
+							toIndex = 63 - toIndex;
+						}
+						selectedSquareIndex = -1;
+						squareSelection.setVisible(false);
+						model.makeMove(fromIndex, toIndex);
+					}
+				}
+			});
 		}
 	}
 
@@ -87,8 +139,31 @@ public class BoardPanel extends Composite implements BoardPresenter.View {
 		for (int index = 0; index < 64; ++index) {
 			int viewIndex = model.getGame().isWhiteAtBottom() ? index : 63 - index;
 			Piece square = model.getGame().getPosition().getPiece(index);
-			squareImages[viewIndex].setResource(PieceImageProvider.getImageResource(square));
+			squares[viewIndex].getImage().setResource(PieceImageProvider.getImageResource(square));
 		}
+
+		Move lastMove = model.getGame().getCurrentMoveNode().getMove();
+		if (lastMove == null) {
+			moveFromImage.setVisible(false);
+			moveToImage.setVisible(false);
+		} else {
+			Widget fromSquare = squares[lastMove.getFrom()];
+			moveFromImage.getElement().getStyle()
+					.setLeft(fromSquare.getAbsoluteLeft() - rootPanel.getAbsoluteLeft(), Unit.PX);
+			moveFromImage.getElement().getStyle()
+					.setTop(fromSquare.getAbsoluteTop() - rootPanel.getAbsoluteTop(), Unit.PX);
+			moveFromImage.setVisible(true);
+			Widget toSquare = squares[lastMove.getTo()];
+			moveToImage.getElement().getStyle().setLeft(toSquare.getAbsoluteLeft() - rootPanel.getAbsoluteLeft(), Unit.PX);
+			moveToImage.getElement().getStyle().setTop(toSquare.getAbsoluteTop() - rootPanel.getAbsoluteTop(), Unit.PX);
+			moveToImage.setVisible(true);
+		}
+	}
+
+	@Override
+	public void clearSelection() {
+		selectedSquareIndex = -1;
+		squareSelection.setVisible(false);
 	}
 
 	@Override
@@ -96,11 +171,11 @@ public class BoardPanel extends Composite implements BoardPresenter.View {
 		int rank = ChessUtils.toRank(to);
 		assert rank == 0 || rank == 7;
 		Piece pawn = Piece.getFromColorAndPieceType(rank == 7, PieceType.PAWN);
-		squareImages[to].setResource(PieceImageProvider.getImageResource(pawn));
-		squareImages[from].setResource(PieceImageBundle.INSTANCE.empty());
+		squares[to].getImage().setResource(PieceImageProvider.getImageResource(pawn));
+		squares[from].getImage().setResource(PieceImageBundle.INSTANCE.empty());
 	}
 
-	public Image[] getSquareImages() {
-		return squareImages;
+	public BoardSquare[] getSquares() {
+		return squares;
 	}
 }

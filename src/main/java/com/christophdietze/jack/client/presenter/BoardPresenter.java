@@ -18,17 +18,20 @@ public class BoardPresenter {
 	public static interface View {
 		public void update();
 		public void showPromotionPawn(int from, int to);
+		public void clearSelection();
 	}
 
 	private View view;
 	private Game game;
 	private GlobalEventBus eventBus;
+	private GameManager gameManager;
 	private Move promotionMove;
 
 	@Inject
-	public BoardPresenter(GlobalEventBus eventBus, Game game) {
+	public BoardPresenter(GlobalEventBus eventBus, Game game, GameManager gameManager) {
 		this.eventBus = eventBus;
 		this.game = game;
+		this.gameManager = gameManager;
 		initListeners();
 	}
 
@@ -45,10 +48,15 @@ public class BoardPresenter {
 		return promotionMove;
 	}
 
+	public void makeMove(int fromIndex, int toIndex) {
+		gameManager.makeMove(fromIndex, toIndex);
+	}
+
 	private void initListeners() {
 		eventBus.addHandler(GameUpdatedEvent.TYPE, new GameUpdatedEventHandler() {
 			@Override
 			public void onUpdate(GameUpdatedEvent event) {
+				view.clearSelection();
 				view.update();
 			}
 		});

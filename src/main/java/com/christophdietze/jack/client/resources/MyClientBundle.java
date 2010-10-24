@@ -19,4 +19,6 @@ public interface MyClientBundle extends ClientBundle {
 
 	ImageResource whitePlayerIcon();
 
+	ImageResource squareSelection();
+	ImageResource moveMarker();
 }
