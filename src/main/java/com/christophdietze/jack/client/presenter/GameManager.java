@@ -2,6 +2,7 @@ package com.christophdietze.jack.client.presenter;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.event.MatchEndedEvent;
+import com.christophdietze.jack.client.event.MatchEndedEventHandler;
 import com.christophdietze.jack.client.event.PromotionMoveInitiatedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
 import com.christophdietze.jack.client.util.GlobalEventBus;
@@ -37,6 +38,7 @@ public class GameManager {
 		this.game = game;
 		this.chessService = chessService;
 		this.applicationContext = applicationContext;
+		initListeners();
 	}
 
 	public GameMode getCurrentMode() {
@@ -124,6 +126,15 @@ public class GameManager {
 				default:
 					throw new AssertionError();
 				}
+			}
+		});
+	}
+
+	private void initListeners() {
+		eventBus.addHandler(MatchEndedEvent.TYPE, new MatchEndedEventHandler() {
+			@Override
+			public void onMatchEnded(MatchEndedEvent event) {
+				applicationContext.setAvailableForChallenges(true);
 			}
 		});
 	}

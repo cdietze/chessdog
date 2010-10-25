@@ -91,7 +91,6 @@ public class CometMessageDispatcher {
 
 	private void onMatchAborted(MatchAbortedChannelMessage message) {
 		Log.info("The other player aborted the match");
-		applicationContext.setAvailableForChallenges(true);
 		gameManager.switchToAnalysisMode();
 		eventBus.fireEvent(new MatchEndedEvent(Reason.OPPONENT_ABORTED));
 	}
