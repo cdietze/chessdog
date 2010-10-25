@@ -41,13 +41,11 @@ public class ChallengeReceivedPopup extends PopupPanel implements ChallengeRecei
 	@UiHandler("acceptButton")
 	void onAcceptClick(ClickEvent e) {
 		presenter.onAcceptChallenge();
-		hide();
 	}
 
 	@UiHandler("declineButton")
 	void onDeclineClick(ClickEvent e) {
 		presenter.onDeclineChallenge();
-		hide();
 	}
 
 	@Override

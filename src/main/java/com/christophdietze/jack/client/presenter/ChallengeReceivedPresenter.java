@@ -53,13 +53,16 @@ public class ChallengeReceivedPresenter {
 				super.onFailure(ex);
 			}
 		});
+		challengeId = -1;
+		view.hidePopup();
 	}
 
 	public void onDeclineChallenge() {
-		applicationContext.setAvailableForChallenges(true);
-		challengeId = -1;
 		chessService.declineChallenge(applicationContext.getLocationId(), challengeId,
 				ChallengeCancellationReason.DECLINED, MyAsyncCallback.<Void> doNothing());
+		challengeId = -1;
+		applicationContext.setAvailableForChallenges(true);
+		view.hidePopup();
 	}
 
 	private void initListeners() {
