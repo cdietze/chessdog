@@ -21,6 +21,13 @@
 			<g:Button ui:field="signOutButton" text="Sign out" />
 		</g:HTMLPanel>
 
+		<br />
+
+		<g:HTMLPanel ui:field="newGamePanel">
+			<g:Button ui:field="newGameButton" text="New Game" />
+			<br />
+		</g:HTMLPanel>
+
 		<g:Button ui:field="startMatchButton" text="Start a Match..."
 			visible="false" />
 

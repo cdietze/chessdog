@@ -57,9 +57,14 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 	Label signInStatusLabel;
 	@UiField
 	Button signOutButton;
+
+	@UiField
+	HTMLPanel newGamePanel;
+	@UiField
+	Button newGameButton;
+
 	@UiField
 	Button startMatchButton;
-
 	@UiField
 	Button abortMatchButton;
 	@UiField
@@ -104,6 +109,7 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 		eventBus.addHandler(MatchStartedEvent.TYPE, new MatchStartedEventHandler() {
 			@Override
 			public void onMatchStarted(MatchStartedEvent event) {
+				newGamePanel.setVisible(false);
 				startMatchButton.setVisible(false);
 				activeMatchPanel.setVisible(true);
 			}
@@ -111,8 +117,9 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 		eventBus.addHandler(MatchEndedEvent.TYPE, new MatchEndedEventHandler() {
 			@Override
 			public void onMatchEnded(MatchEndedEvent event) {
-				activeMatchPanel.setVisible(false);
+				newGamePanel.setVisible(true);
 				startMatchButton.setVisible(true);
+				activeMatchPanel.setVisible(false);
 			}
 		});
 	}
@@ -140,6 +147,11 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 	@UiHandler("signOutButton")
 	void handleSignOutClick(ClickEvent event) {
 		presenter.onSignOutClick();
+	}
+
+	@UiHandler("newGameButton")
+	void handleNewGameClick(ClickEvent event) {
+		presenter.onNewGameClick();
 	}
 
 	@UiHandler("startMatchButton")

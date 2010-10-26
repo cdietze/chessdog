@@ -18,6 +18,7 @@ import com.christophdietze.jack.shared.CometService;
 import com.christophdietze.jack.shared.SignInResponse;
 import com.christophdietze.jack.shared.SignInResponse.SignInSuccessfulResponse;
 import com.christophdietze.jack.shared.Player;
+import com.christophdietze.jack.shared.board.Game;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.Window.ClosingHandler;
@@ -36,17 +37,19 @@ public class CommandPresenter {
 	private GameManager gameManager;
 	private ChessServiceAsync chessService;
 	private CometMessageDispatcher cometMessageDispatcher;
+	private Game game;
 
 	private View view;
 
 	@Inject
 	public CommandPresenter(GlobalEventBus eventBus, ApplicationContext applicationContext, GameManager gameManager,
-			ChessServiceAsync chessService, CometMessageDispatcher cometMessageDispatcher) {
+			ChessServiceAsync chessService, CometMessageDispatcher cometMessageDispatcher, Game game) {
 		this.eventBus = eventBus;
 		this.applicationContext = applicationContext;
 		this.gameManager = gameManager;
 		this.chessService = chessService;
 		this.cometMessageDispatcher = cometMessageDispatcher;
+		this.game = game;
 	}
 
 	public void bindView(View view) {
@@ -86,6 +89,10 @@ public class CommandPresenter {
 		});
 	}
 
+	public void onNewGameClick() {
+		game.setupStartingPosition();
+	}
+
 	public void onAbortMatchClick() {
 		chessService.abortMatch(applicationContext.getLocationId(), new MyAsyncCallback<AbortResponse>() {
 			@Override
@@ -117,7 +124,7 @@ public class CommandPresenter {
 				}
 			}
 		});
-		Log.debug("Opening Channel " + channelId);
+		Log.debug("Opening Channel '" + channelId + "'");
 		Channel channel = ChannelFactory.createChannel(channelId);
 		channel.open(new SocketListener() {
 			@Override
