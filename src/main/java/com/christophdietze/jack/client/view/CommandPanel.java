@@ -14,7 +14,6 @@ import com.christophdietze.jack.client.presenter.CommandPresenter;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -39,13 +38,12 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 	private GlobalEventBus eventBus;
 
 	private PostChallengePopup postChallengePopup;
-	// flag to prevent clearing the nickname textbox again when the user has already entered some text
-	private boolean nicknameTextBoxAlreadyCleared = false;
 
 	@UiField
 	HTMLPanel signInPanel;
 	@UiField
 	TextBox nicknameTextBox;
+	TextBoxWithPlaceholder nicknameTextBoxWithPlaceHolder;
 	@UiField
 	Button signInButton;
 	@UiField
@@ -76,6 +74,7 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 		this.eventBus = eventBus;
 		this.postChallengePopup = postChallengePopup;
 		initWidget(uiBinder.createAndBindUi(this));
+		this.nicknameTextBoxWithPlaceHolder = TextBoxWithPlaceholder.attachTo(nicknameTextBox, "Your Nickname");
 		presenter.bindView(this);
 		initListeners();
 	}
@@ -125,14 +124,6 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 	}
 
 	@UiHandler("nicknameTextBox")
-	void handleFocus(FocusEvent event) {
-		if (!nicknameTextBoxAlreadyCleared) {
-			nicknameTextBox.setText("");
-			nicknameTextBoxAlreadyCleared = true;
-		}
-	}
-
-	@UiHandler("nicknameTextBox")
 	void handleEnter(KeyPressEvent event) {
 		if (event.getCharCode() == '\r') {
 			doSignIn();
@@ -165,7 +156,7 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 	}
 
 	private void doSignIn() {
-		String nick = nicknameTextBox.getText();
+		String nick = nicknameTextBoxWithPlaceHolder.getText();
 		// TODO validate nick
 		presenter.onSignInClick(nick);
 		signInPanel.setVisible(false);

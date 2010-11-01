@@ -18,4 +18,6 @@ public interface MyCss extends CssResource {
 	String promotionPopup();
 
 	String draggingImage();
+
+	String textBoxPlaceholder();
 }

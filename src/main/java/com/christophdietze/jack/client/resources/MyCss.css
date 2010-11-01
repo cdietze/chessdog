@@ -91,3 +91,7 @@ body {
 .draggingImage { /*position: absolute; */
 	z-index: 100;
 }
+
+.textBoxPlaceholder {
+	color: #666;	
+}
