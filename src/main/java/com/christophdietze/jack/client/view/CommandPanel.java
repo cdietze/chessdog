@@ -20,6 +20,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -46,6 +47,8 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 	TextBoxWithPlaceholder nicknameTextBoxWithPlaceHolder;
 	@UiField
 	Button signInButton;
+	@UiField
+	HTML nicknameValidationLabel;
 	@UiField
 	HTMLPanel signInRunningPanel;
 
@@ -79,30 +82,52 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 		initListeners();
 	}
 
+	public void setSignInStatusToSignedOut() {
+		signInPanel.setVisible(true);
+		signOutPanel.setVisible(false);
+		startMatchButton.setVisible(false);
+	}
+
+	public void setSignInStatusToSigningIn() {
+		signInPanel.setVisible(false);
+		signInRunningPanel.setVisible(true);
+	}
+
+	public void setSignInStatusToSignedIn(String nickname) {
+		signInPanel.setVisible(false);
+		signInRunningPanel.setVisible(false);
+		signInStatusLabel.setText("You are signed in as " + nickname);
+		signOutPanel.setVisible(true);
+		startMatchButton.setVisible(true);
+	}
+
+	@Override
+	public void showNicknameValidationError(String msg) {
+		nicknameValidationLabel.setHTML(msg);
+	}
+
+	@Override
+	public void hideNicknameValidationError() {
+		nicknameValidationLabel.setHTML("");
+	}
+
 	private void initListeners() {
 		eventBus.addHandler(SignedInEvent.TYPE, new SignedInEventHandler() {
 			@Override
 			public void onSignIn(SignedInEvent event) {
-				signInPanel.setVisible(false);
-				signInRunningPanel.setVisible(false);
-				signInStatusLabel.setText("You are signed in as " + event.getMyPlayer().getNickname());
-				signOutPanel.setVisible(true);
-				startMatchButton.setVisible(true);
+				setSignInStatusToSignedIn(event.getMyPlayer().getNickname());
 			}
 		});
 		eventBus.addHandler(SignedOutEvent.TYPE, new SignedOutEventHandler() {
 			@Override
 			public void onSignOut(SignedOutEvent event) {
-				signInPanel.setVisible(true);
-				signOutPanel.setVisible(false);
-				startMatchButton.setVisible(false);
+				setSignInStatusToSignedOut();
 			}
 		});
 		eventBus.addHandler(SignInFailedEvent.TYPE, new SignInFailedEventHandler() {
 			@Override
 			public void onSignInFailed(SignInFailedEvent event) {
-				signInRunningPanel.setVisible(false);
-				signInPanel.setVisible(true);
+				setSignInStatusToSignedOut();
 			}
 		});
 		eventBus.addHandler(MatchStartedEvent.TYPE, new MatchStartedEventHandler() {
@@ -159,7 +184,5 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 		String nick = nicknameTextBoxWithPlaceHolder.getText();
 		// TODO validate nick
 		presenter.onSignInClick(nick);
-		signInPanel.setVisible(false);
-		signInRunningPanel.setVisible(true);
 	}
 }

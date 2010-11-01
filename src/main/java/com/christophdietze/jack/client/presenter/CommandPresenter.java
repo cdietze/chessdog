@@ -1,5 +1,7 @@
 package com.christophdietze.jack.client.presenter;
 
+import java.util.Set;
+
 import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.channel.Channel;
 import com.christophdietze.jack.client.channel.ChannelFactory;
@@ -11,6 +13,7 @@ import com.christophdietze.jack.client.event.SignedInEvent;
 import com.christophdietze.jack.client.event.SignedOutEvent;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
+import com.christophdietze.jack.client.util.MyValidators;
 import com.christophdietze.jack.shared.AbortResponse;
 import com.christophdietze.jack.shared.ChessServiceAsync;
 import com.christophdietze.jack.shared.CometMessage;
@@ -18,6 +21,7 @@ import com.christophdietze.jack.shared.CometService;
 import com.christophdietze.jack.shared.SignInResponse;
 import com.christophdietze.jack.shared.SignInResponse.SignInSuccessfulResponse;
 import com.christophdietze.jack.shared.Player;
+import com.christophdietze.jack.shared.ValidatableNickname;
 import com.christophdietze.jack.shared.board.Game;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
@@ -25,11 +29,17 @@ import com.google.gwt.user.client.Window.ClosingHandler;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
+import com.google.gwt.validation.client.InvalidConstraint;
 import com.google.inject.Inject;
 
 public class CommandPresenter {
 
 	public interface View {
+		void setSignInStatusToSignedOut();
+		void setSignInStatusToSigningIn();
+		void setSignInStatusToSignedIn(String nickname);
+		void showNicknameValidationError(String msg);
+		void hideNicknameValidationError();
 	}
 
 	private GlobalEventBus eventBus;
@@ -58,6 +68,17 @@ public class CommandPresenter {
 	}
 
 	public void onSignInClick(final String nickname) {
+
+		String validationMsg = validateNickname(nickname);
+		if (validationMsg != null) {
+			view.showNicknameValidationError(validationMsg);
+			return;
+		} else {
+			view.hideNicknameValidationError();
+		}
+
+		view.setSignInStatusToSigningIn();
+
 		chessService.signIn(nickname, new MyAsyncCallback<SignInResponse>() {
 			@Override
 			public void onSuccess(SignInResponse result) {
@@ -78,6 +99,24 @@ public class CommandPresenter {
 				}
 			}
 		});
+	}
+
+	private String validateNickname(final String nickname) {
+		ValidatableNickname val = new ValidatableNickname(nickname);
+		Set<InvalidConstraint<ValidatableNickname>> result = MyValidators.nicknameValidator().validate(val);
+		if (result.isEmpty()) {
+			return null;
+		}
+		boolean firstItem = true;
+		StringBuilder sb = new StringBuilder();
+		for (InvalidConstraint<ValidatableNickname> constraint : result) {
+			if (!firstItem) {
+				sb.append("<br/>");
+			}
+			sb.append(constraint.getMessage());
+			firstItem = false;
+		}
+		return sb.toString();
 	}
 
 	public void onSignOutClick() {

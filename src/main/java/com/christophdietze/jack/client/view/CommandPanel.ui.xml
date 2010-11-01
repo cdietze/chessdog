@@ -1,6 +1,8 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:com.christophdietze.jack.client.view">
+	<ui:with type="com.christophdietze.jack.client.resources.MyClientBundle"
+		field="bundle" />
 	<ui:style>
 		.inline {
 			display: inline;
@@ -8,9 +10,11 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<g:HTMLPanel ui:field="signInPanel">
-			<g:TextBox ui:field="nicknameTextBox"  />
+			<g:TextBox ui:field="nicknameTextBox" />
 			<g:Button ui:field="signInButton" text="Sign in" />
 		</g:HTMLPanel>
+
+		<g:HTML ui:field="nicknameValidationLabel" styleName="{bundle.myCss.validationMessage}" />
 
 		<g:HTMLPanel ui:field="signInRunningPanel" visible="false">
 			Signing in...

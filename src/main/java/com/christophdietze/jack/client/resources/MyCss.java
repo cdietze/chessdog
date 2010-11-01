@@ -20,4 +20,5 @@ public interface MyCss extends CssResource {
 	String draggingImage();
 
 	String textBoxPlaceholder();
+	String validationMessage();
 }

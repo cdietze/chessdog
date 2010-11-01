@@ -18,6 +18,8 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/logback-classic-0.9.24.jar"/>
 	<classpathentry kind="lib" path="lib/logback-core-0.9.24.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-validation-1.1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/gwt-dnd-r1019.jar"/>

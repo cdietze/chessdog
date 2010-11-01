@@ -95,3 +95,7 @@ body {
 .textBoxPlaceholder {
 	color: #666;	
 }
+
+.validationMessage {
+	color: #d00;
+}
