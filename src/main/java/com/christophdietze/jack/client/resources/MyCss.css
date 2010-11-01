@@ -22,10 +22,6 @@ body {
 	padding: 0;
 }
 
-.myLink:hover {
-	text-decoration: underline;
-}
-
 .boardContainer {
 	width: boardWidth;
 }
