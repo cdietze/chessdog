@@ -53,6 +53,12 @@ public class TextBoxWithPlaceholder {
 		return textBox.getText();
 	}
 
+	public void update() {
+		if (!textBox.isAttached() && textBox.getText().isEmpty()) {
+			showPlaceholder();
+		}
+	}
+
 	private void showPlaceholder() {
 		placeholderVisible = true;
 		textBox.setText(placeholderText);

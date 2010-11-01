@@ -3,7 +3,8 @@ package com.christophdietze.jack.client.view;
 import com.christophdietze.jack.client.presenter.PostChallengePresenter;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -22,35 +23,33 @@ public class PostChallengePopup extends PopupPanel {
 
 	private PostChallengePresenter presenter;
 
-	// flag to prevent clearing the text box again when the user has already entered some text
-	private boolean opponentNicknameTextBoxAlreadyCleared;
-
 	@UiField
 	TextBox opponentNicknameTextBox;
+	TextBoxWithPlaceholder opponentNicknameTextBoxWithPlaceholder;
 	@UiField
 	Button postPlayerChallengeButton;
-	// @UiField
-	// Button postPublicChallengeButton;
 
 	@Inject
 	public PostChallengePopup(PostChallengePresenter presenter) {
 		super(true);
 		this.presenter = presenter;
 		setWidget(uiBinder.createAndBindUi(this));
+		this.opponentNicknameTextBoxWithPlaceholder = TextBoxWithPlaceholder.attachTo(opponentNicknameTextBox,
+				"Opponent's Nickname");
+		// The onBlur Handler does not get called on the TextBox when the popup hides, so give it an extra chance to show
+		// the placeholder
+		this.addCloseHandler(new CloseHandler<PopupPanel>() {
+			@Override
+			public void onClose(CloseEvent<PopupPanel> event) {
+				opponentNicknameTextBoxWithPlaceholder.update();
+			}
+		});
 	}
 
 	@UiHandler("postPlayerChallengeButton")
 	void handlePostPublicChallengeClick(ClickEvent event) {
-		String opponentNick = opponentNicknameTextBox.getText();
+		String opponentNick = opponentNicknameTextBoxWithPlaceholder.getText();
 		presenter.onPostPersonalChallenge(opponentNick);
 		hide();
-	}
-
-	@UiHandler("opponentNicknameTextBox")
-	void handleFocus(FocusEvent event) {
-		if (!opponentNicknameTextBoxAlreadyCleared) {
-			opponentNicknameTextBox.setText("");
-			opponentNicknameTextBoxAlreadyCleared = true;
-		}
 	}
 }
