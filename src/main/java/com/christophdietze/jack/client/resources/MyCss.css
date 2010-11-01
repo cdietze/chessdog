@@ -22,11 +22,6 @@ body {
 	padding: 0;
 }
 
-.myLink,.myLink:hover,.myLink:visited {
-	color: linkColor;
-	/*	display: block; */
-}
-
 .myLink:hover {
 	text-decoration: underline;
 }

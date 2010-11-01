@@ -4,8 +4,6 @@ import com.google.gwt.resources.client.CssResource;
 
 public interface MyCss extends CssResource {
 
-	String myLink();
-
 	String boardContainer();
 	String whiteSquare();
 	String blackSquare();
