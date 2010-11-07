@@ -84,6 +84,7 @@ public class CommandPanel extends Composite implements CommandPresenter.View {
 
 	public void setSignInStatusToSignedOut() {
 		signInPanel.setVisible(true);
+		signInRunningPanel.setVisible(false);
 		signOutPanel.setVisible(false);
 		startMatchButton.setVisible(false);
 	}
