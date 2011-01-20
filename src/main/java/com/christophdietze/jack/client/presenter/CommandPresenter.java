@@ -5,6 +5,7 @@ import java.util.Set;
 import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.channel.Channel;
 import com.christophdietze.jack.client.channel.ChannelFactory;
+import com.christophdietze.jack.client.channel.Socket;
 import com.christophdietze.jack.client.channel.SocketListener;
 import com.christophdietze.jack.client.event.MatchEndedEvent;
 import com.christophdietze.jack.client.event.MatchEndedEvent.Reason;
@@ -18,9 +19,9 @@ import com.christophdietze.jack.shared.AbortResponse;
 import com.christophdietze.jack.shared.ChessServiceAsync;
 import com.christophdietze.jack.shared.CometMessage;
 import com.christophdietze.jack.shared.CometService;
+import com.christophdietze.jack.shared.Player;
 import com.christophdietze.jack.shared.SignInResponse;
 import com.christophdietze.jack.shared.SignInResponse.SignInSuccessfulResponse;
-import com.christophdietze.jack.shared.Player;
 import com.christophdietze.jack.shared.ValidatableNickname;
 import com.christophdietze.jack.shared.board.Game;
 import com.google.gwt.user.client.Window;
@@ -51,6 +52,8 @@ public class CommandPresenter {
 
 	private View view;
 
+	private Socket socket;
+
 	@Inject
 	public CommandPresenter(GlobalEventBus eventBus, ApplicationContext applicationContext, GameManager gameManager,
 			ChessServiceAsync chessService, CometMessageDispatcher cometMessageDispatcher, Game game) {
@@ -60,6 +63,8 @@ public class CommandPresenter {
 		this.chessService = chessService;
 		this.cometMessageDispatcher = cometMessageDispatcher;
 		this.game = game;
+
+		initWindowCloseListener();
 	}
 
 	public void bindView(View view) {
@@ -79,6 +84,8 @@ public class CommandPresenter {
 
 		view.setSignInStatusToSigningIn();
 
+		maybeCloseSocket();
+
 		chessService.signIn(nickname, new MyAsyncCallback<SignInResponse>() {
 			@Override
 			public void onSuccess(SignInResponse result) {
@@ -90,6 +97,8 @@ public class CommandPresenter {
 					break;
 				case SUCCESS:
 					SignInSuccessfulResponse successfulResponse = (SignInSuccessfulResponse) result;
+					Log.debug("Signin successful with locationId " + successfulResponse.getLocationId() + ", channelId "
+							+ successfulResponse.getChannelId());
 					Player myPlayer = new Player(successfulResponse.getLocationId(), nickname);
 					applicationContext.setMyPlayer(myPlayer);
 					createChannelAndCompleteSignIn(myPlayer, successfulResponse.getChannelId());
@@ -99,6 +108,14 @@ public class CommandPresenter {
 				}
 			}
 		});
+	}
+
+	private void maybeCloseSocket() {
+		if (socket != null) {
+			Log.debug("closing channel socket");
+			socket.close();
+			socket = null;
+		}
 	}
 
 	private String validateNickname(final String nickname) {
@@ -119,10 +136,24 @@ public class CommandPresenter {
 		return sb.toString();
 	}
 
+	private void initWindowCloseListener() {
+		Window.addWindowClosingHandler(new ClosingHandler() {
+			@Override
+			public void onWindowClosing(ClosingEvent event) {
+				if (applicationContext.isSignedIn()) {
+					chessService.signOut(applicationContext.getLocationId(), MyAsyncCallback.<Void> doNothing());
+					applicationContext.setMyPlayer(null);
+					Log.debug("Automatically signing player out, because of closing window");
+				}
+			}
+		});
+	}
+
 	public void onSignOutClick() {
 		chessService.signOut(applicationContext.getLocationId(), new MyAsyncCallback<Void>() {
 			@Override
 			public void onSuccess(Void result) {
+				maybeCloseSocket();
 				eventBus.fireEvent(new SignedOutEvent());
 			}
 		});
@@ -153,23 +184,18 @@ public class CommandPresenter {
 	}
 
 	private void createChannelAndCompleteSignIn(final Player myPlayer, String channelId) {
-		Window.addWindowClosingHandler(new ClosingHandler() {
-			@Override
-			public void onWindowClosing(ClosingEvent event) {
-				if (applicationContext.isSignedIn()) {
-					chessService.signOut(myPlayer.getLocationId(), MyAsyncCallback.<Void> doNothing());
-					applicationContext.setMyPlayer(null);
-					Log.debug("Automatically signing player out, because of closing window");
-				}
-			}
-		});
 		Log.debug("Opening Channel '" + channelId + "'");
 		Channel channel = ChannelFactory.createChannel(channelId);
-		channel.open(new SocketListener() {
-			@Override
+		Log.debug("Channel created: " + channel);
+		assert socket == null;
+		socket = channel.open(new SocketListener() {
 			public void onOpen() {
 				Log.debug("Channel opened, completing sign in");
 				completeSignIn(myPlayer);
+			}
+			@Override
+			public void onClose() {
+				Log.info("channel.onClose");
 			}
 			@Override
 			public void onMessage(String encodedMessage) {
@@ -188,7 +214,13 @@ public class CommandPresenter {
 				}
 				cometMessageDispatcher.dispatch(message);
 			}
+
+			@Override
+			public void onError(String description, int code) {
+				Log.info("channel.onError " + code + ", " + description);
+			}
 		});
+		Log.debug("Socket opened: " + socket);
 	}
 
 	private void completeSignIn(final Player myPlayer) {
