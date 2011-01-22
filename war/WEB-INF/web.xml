@@ -19,6 +19,11 @@
 		<listener-class>com.christophdietze.jack.server.MyGuiceServletConfig</listener-class>
 	</listener>
 
+	<mime-mapping>
+		<extension>number</extension>
+		<mime-type>text/plain</mime-type>
+	</mime-mapping>
+
 	<welcome-file-list>
 		<welcome-file>Jack.html</welcome-file>
 	</welcome-file-list>
