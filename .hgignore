@@ -15,3 +15,5 @@ syntax: regexp
 ^tomcat$
 syntax: regexp
 ^extras$
+syntax: regexp
+^war/WEB-INF/classes$

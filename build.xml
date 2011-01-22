@@ -145,7 +145,7 @@
 		<echo message="Build number is ${build.number}, Hudson build number is ${hudson.build.number}" />
 	</target>
 	
-	<target name="deploy" depends="build" description="Deploy the application to App Engine">
+	<target name="deploy" description="Deploy the application to App Engine">
 		<appcfg action="update" war="war" />
 	</target>
 

@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry excluding="com/christophdietze/jack/super/|com/christophdietze/jack/super/" kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/test/java"/>
-	<classpathentry excluding="com/google/common/super/|com/google/common/super/|com/google/common/super/" kind="src" path="src/google-collect-gwt-snapshot"/>
 	<classpathentry kind="src" path="src/jsr305"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/aopalliance.jar"/>
@@ -20,6 +19,7 @@
 	<classpathentry kind="lib" path="lib/logback-core-0.9.24.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-validation-1.1.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
+	<classpathentry kind="lib" path="lib/google-collect-gwt-snapshot.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/gwt-dnd-r1019.jar"/>
