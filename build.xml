@@ -2,6 +2,9 @@
 <project name="jack" default="build" basedir=".">
   <!-- Configure path to GWT SDK -->
   <property name="gwt.sdk" location="C:\lib\gwt-2.0.4" />
+	<property name="appengine.dir" value="C:\progs\eclipse3.6\plugins\com.google.appengine.eclipse.sdkbundle.1.4.0_1.4.0.v201012021502\appengine-java-sdk-1.4.0" />
+
+	<import file="${appengine.dir}/config/user/ant-macros.xml" />
 
   <path id="project.class.path">
     <pathelement location="war/WEB-INF/classes"/>
@@ -127,10 +130,26 @@
   <target name="war" depends="build" description="Create a war file">
     <zip destfile="jack.war" basedir="war"/>
   </target>
+	
+	<target name="update.build.number">
+		<fail if="build.number" message="build.number must not be set before increasing it." />
+		<propertyfile file="build.number">
+			<entry key="build.number" type="int" operation="+" value="1" pattern="00000" />
+			<entry key="hudson.build.number" value="${env.BUILD_NUMBER}" />
+		</propertyfile>
+		<property file="build.number" />
+		<copy todir="war/" file="build.number" />
+		<echo message="Build number is ${build.number}, Hudson build number is ${hudson.build.number}" />
+	</target>
+	
+	<target name="deploy" depends="build" description="Deploy the application to App Engine">
+		<appcfg action="update" war="war" />
+	</target>
 
   <target name="clean" description="Cleans this project">
     <delete dir="war/WEB-INF/classes" failonerror="false" />
     <delete dir="war/jack" failonerror="false" />
+    <delete dir="war/admin" failonerror="false" />
   </target>
 
 </project>
