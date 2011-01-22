@@ -17,3 +17,5 @@ syntax: regexp
 ^extras$
 syntax: regexp
 ^war/WEB-INF/classes$
+syntax: regexp
+^war/build.number$
