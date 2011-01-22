@@ -140,6 +140,8 @@
 		<property file="build.number" />
 		<copy todir="war/" file="build.number" />
 		<echo message="Build number is ${build.number}, Hudson build number is ${hudson.build.number}" />
+        <echo message="Hudson build ID: ${env.BUILD_ID}" />
+        <echo message="Hudson build number: ${env.BUILD_NUMBER}" />
 	</target>
 	
 	<target name="deploy" depends="build" description="Deploy the application to App Engine">
