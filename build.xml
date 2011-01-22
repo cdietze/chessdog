@@ -4,6 +4,8 @@
   <property name="gwt.sdk" location="C:\lib\gwt-2.0.4" />
 	<property name="appengine.dir" value="C:\progs\eclipse3.6\plugins\com.google.appengine.eclipse.sdkbundle.1.4.0_1.4.0.v201012021502\appengine-java-sdk-1.4.0" />
 
+	<property environment="env"/> 
+	
 	<import file="${appengine.dir}/config/user/ant-macros.xml" />
 
   <path id="project.class.path">
