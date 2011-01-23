@@ -6,7 +6,7 @@
 @def squareSize 45px;
 @def rankLabelWidth 12px;
 @def boardWidth 404px;
-	
+
 html,body { /* required for dragNdrop */
 	height: 100%;
 }
@@ -20,6 +20,14 @@ body {
 	direction: ltr;
 	margin: 0;
 	padding: 0;
+}
+
+a {
+	color: blue;
+}
+
+a:VISITED {
+	
 }
 
 .boardContainer {
@@ -93,7 +101,7 @@ body {
 }
 
 .textBoxPlaceholder {
-	color: #666;	
+	color: #666;
 }
 
 .validationMessage {

@@ -7,8 +7,20 @@
 		.inline {
 			display: inline;
 		}
+		
+		.appTitle {
+			font-weight: bold;
+		}
 	</ui:style>
 	<g:HTMLPanel>
+		<g:InlineHTML styleName="{style.appTitle}">
+			chessdog beta
+		</g:InlineHTML>
+		&nbsp;&nbsp;
+		<a href="http://christophdietze.blogspot.com/2011/01/first-beta-release-of-chessdog.html" target="_blank">help/about</a>
+		<br />
+		<br />
+
 		<g:HTMLPanel ui:field="signInPanel">
 			<g:TextBox ui:field="nicknameTextBox" />
 			<g:Button ui:field="signInButton" text="Sign in" />
