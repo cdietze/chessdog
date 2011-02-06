@@ -13,7 +13,7 @@ public interface ChessService extends RemoteService {
 	void signOut(long locationId);
 
 	PostChallengeResponse postChallenge(long locationId, String opponentNickname);
-	void revokeChallenge(long locationId, long challengeId);
+	// void revokeChallenge(long locationId, long challengeId);
 	void acceptChallenge(long locationId, long challengeId);
 	void declineChallenge(long locationId, long challengeId, ChallengeCancellationReason reason);
 
