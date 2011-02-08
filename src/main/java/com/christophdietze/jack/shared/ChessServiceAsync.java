@@ -9,7 +9,9 @@ public interface ChessServiceAsync {
 	void completeSignIn(long locationId, AsyncCallback<Void> callback);
 	void signOut(long locationId, AsyncCallback<Void> callback);
 
-	void postChallenge(long locationId, String opponentNickname, AsyncCallback<PostChallengeResponse> callback);
+	void postPublicChallenge(long locationId, AsyncCallback<PostPublicChallengeResponse> callback);
+	void postPersonalChallenge(long locationId, String opponentNickname,
+			AsyncCallback<PostPersonalChallengeResponse> callback);
 	// void revokeChallenge(long locationId, long challengeId, AsyncCallback<Void> callback);
 
 	void acceptChallenge(long locationId, long challengeId, AsyncCallback<Void> callback);

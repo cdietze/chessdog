@@ -38,7 +38,7 @@ public class PlayGameTest extends TestCase {
 		long locationId2 = ((SignInSuccessfulResponse) chessService.signIn("Bob")).getLocationId();
 		chessService.completeSignIn(locationId2);
 
-		chessService.postChallenge(locationId1, "Bob");
+		chessService.postPersonalChallenge(locationId1, "Bob");
 		long challengeId = cometServerMock.getNextMessageOfType(locationId2, ChallengeReceivedCometMessage.class)
 				.getChallengeId();
 		chessService.acceptChallenge(locationId2, challengeId);
