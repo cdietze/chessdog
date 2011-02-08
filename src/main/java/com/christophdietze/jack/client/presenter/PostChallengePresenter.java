@@ -5,7 +5,7 @@ import com.christophdietze.jack.client.event.LogMessageEvent;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
 import com.christophdietze.jack.shared.ChessServiceAsync;
-import com.christophdietze.jack.shared.PostChallengeResponse;
+import com.christophdietze.jack.shared.PostPersonalChallengeResponse;
 import com.google.inject.Inject;
 
 public class PostChallengePresenter {
@@ -23,10 +23,10 @@ public class PostChallengePresenter {
 	}
 
 	public void onPostPersonalChallenge(final String opponentNick) {
-		chessService.postChallenge(applicationContext.getLocationId(), opponentNick,
-				new MyAsyncCallback<PostChallengeResponse>() {
+		chessService.postPersonalChallenge(applicationContext.getLocationId(), opponentNick,
+				new MyAsyncCallback<PostPersonalChallengeResponse>() {
 					@Override
-					public void onSuccess(PostChallengeResponse result) {
+					public void onSuccess(PostPersonalChallengeResponse result) {
 						Log.debug("challenge posted. response: " + result);
 						switch (result) {
 						case SUCCESS:
