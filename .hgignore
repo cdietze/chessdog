@@ -19,3 +19,8 @@ syntax: regexp
 ^war/WEB-INF/classes$
 syntax: regexp
 ^war/build.number$
+
+syntax: regexp
+^war/jackembedded$
+syntax: regexp
+^war/WEB-INF/deploy$
