@@ -19,5 +19,5 @@
 
 	<stylesheet src="jack.css" />
 
-	<add-linker name="xs" />
+	<add-linker name="xsiframe" />
 </module>
