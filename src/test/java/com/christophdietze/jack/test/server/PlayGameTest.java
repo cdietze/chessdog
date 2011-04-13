@@ -3,6 +3,7 @@ package com.christophdietze.jack.test.server;
 import junit.framework.TestCase;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import com.christophdietze.jack.server.ChessServiceImpl;
 import com.christophdietze.jack.shared.ChallengeReceivedCometMessage;
