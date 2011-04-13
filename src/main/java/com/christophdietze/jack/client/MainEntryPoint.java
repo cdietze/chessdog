@@ -11,7 +11,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
-public class Main implements EntryPoint {
+public class MainEntryPoint implements EntryPoint {
 
 	private static final MyGinjector injector = GWT.create(MyGinjector.class);
 
