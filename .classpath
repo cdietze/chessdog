@@ -20,10 +20,10 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-validation-1.1.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
 	<classpathentry kind="lib" path="lib/google-collect-gwt-snapshot.jar"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/gwt-dnd-r1019.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/objectify-2.2.1.jar" sourcepath="lib/objectify-2.2.1-src.zip"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT (7)"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
