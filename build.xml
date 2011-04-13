@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <project name="jack" default="build" basedir=".">
   <!-- Configure path to GWT SDK -->
-  <property name="gwt.sdk" location="C:\lib\gwt-2.0.4" />
+  <property name="gwt.sdk" location="C:\lib\gwt-2.2.0" />
 	<property name="appengine.dir" value="C:\progs\eclipse3.6\plugins\com.google.appengine.eclipse.sdkbundle.1.4.0_1.4.0.v201012021502\appengine-java-sdk-1.4.0" />
 
 	<!-- Required to access Hudson's environment variables -->
