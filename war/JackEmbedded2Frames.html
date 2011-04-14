@@ -7,9 +7,11 @@
 
 <script type="text/javascript" src="chessdog.embedded.js"></script>
 <script type="text/javascript">
-	var board;
+var board1;
+var board2;
 	function init() {
-		board = new chessdog.Board(document.getElementById('board'));
+		board1 = new chessdog.Board(document.getElementById('board1'));
+		board2 = new chessdog.Board(document.getElementById('board2'));
 	}
 </script>
 </head>
@@ -22,8 +24,11 @@
 			application to display correctly.</div>
 	</noscript>
 	<p>bla bla host page</p>
-	<div id="board"></div>
+	<div id="board1"></div>
 	<p>more bla bla host page</p>
-	<button onclick="board.check2();"> hello</button>
+	<div id="board2"></div>
+	<p>even more bla bla host page</p>
+	<button onclick="board1.check2();">inc board1</button>
+	<button onclick="board2.check2();">inc board2</button>
 </body>
 </html>

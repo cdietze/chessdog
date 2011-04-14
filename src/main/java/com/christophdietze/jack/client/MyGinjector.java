@@ -1,5 +1,6 @@
 package com.christophdietze.jack.client;
 
+import com.christophdietze.jack.client.embedded.JavaScriptBindings;
 import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.view.MainPanel;
@@ -9,6 +10,8 @@ import com.google.gwt.inject.client.Ginjector;
 
 @GinModules(MyGinModule.class)
 public interface MyGinjector extends Ginjector {
+
+	JavaScriptBindings getJavaScriptBindings();
 
 	Application getApplication();
 

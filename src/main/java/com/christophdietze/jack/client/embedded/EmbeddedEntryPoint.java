@@ -17,7 +17,7 @@ public class EmbeddedEntryPoint implements EntryPoint {
 	private static final MyGinjector injector = GWT.create(MyGinjector.class);
 
 	public void onModuleLoad() {
-		JavaScriptBindings.init();
+		injector.getJavaScriptBindings();
 		final ApplicationContext applicationContext = injector.getApplicationContext();
 		final ChessServiceAsync service = injector.getChessServiceAsync();
 		final GlobalEventBus eventBus = injector.getEventBus();
