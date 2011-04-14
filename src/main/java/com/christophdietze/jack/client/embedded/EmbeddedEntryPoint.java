@@ -1,6 +1,7 @@
-package com.christophdietze.jack.client;
+package com.christophdietze.jack.client.embedded;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.christophdietze.jack.client.MyGinjector;
 import com.christophdietze.jack.client.event.UncaughtExceptionEvent;
 import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.util.GlobalEventBus;
@@ -16,6 +17,7 @@ public class EmbeddedEntryPoint implements EntryPoint {
 	private static final MyGinjector injector = GWT.create(MyGinjector.class);
 
 	public void onModuleLoad() {
+		JavaScriptBindings.init();
 		final ApplicationContext applicationContext = injector.getApplicationContext();
 		final ChessServiceAsync service = injector.getChessServiceAsync();
 		final GlobalEventBus eventBus = injector.getEventBus();

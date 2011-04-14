@@ -7,7 +7,7 @@
 	<inherits name="com.google.common.Collect" />
 	<inherits name="com.google.gwt.validation.Validation" />
 
-	<entry-point class='com.christophdietze.jack.client.EmbeddedEntryPoint' />
+	<entry-point class='com.christophdietze.jack.client.embedded.EmbeddedEntryPoint' />
 
 	<!-- see also http://code.google.com/p/gwt-log/wiki/GettingStarted -->
 	<inherits name="com.allen_sauer.gwt.log.gwt-log-DEBUG" />
