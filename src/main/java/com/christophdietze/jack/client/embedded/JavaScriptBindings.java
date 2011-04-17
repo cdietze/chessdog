@@ -23,12 +23,7 @@ public class JavaScriptBindings {
 	}
 
 	private static native void exportStuff() /*-{
-		$wnd.myfunc = function() {
-			$wnd.alert('hello from embedded chessdog');
-		}
 		$wnd.getFen = $entry(@com.christophdietze.jack.client.embedded.JavaScriptBindings::getGameAsFen());
-
-		$wnd.alert('exported myfunc to window ' + $wnd);
 	}-*/;
 
 	private static String getGameAsFen() {

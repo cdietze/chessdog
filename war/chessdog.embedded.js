@@ -1,8 +1,7 @@
 chessdog = {}
 
 chessdog.Board = function(element) {
-	element.innerHTML = "<iframe></iframe>";
-	this.counter = 0;
+	element.innerHTML = "<iframe width='800' height='400'></iframe>";
 	this.frame = element.childNodes[0];
 	this.doc = this.frame.contentDocument;
 	this.wnd = this.frame.contentWindow;
@@ -11,16 +10,18 @@ chessdog.Board = function(element) {
 	doc.write('<!doctype html>\n<html>\n<head><\/head>\n<body><\/body>\n<\/html>\n');
 	doc.close();
 	setTimeout(function() {
-    	var scr = doc.createElement("script");
-    	scr.type = "text/javascript";
-    	scr.src = "http://127.0.0.1:8888/jackembedded/jackembedded.nocache.js";
-    	doc.getElementsByTagName('head')[0].appendChild(scr);
-	},0);
+		var scr = doc.createElement("script");
+		scr.type = "text/javascript";
+		scr.src = "http://127.0.0.1:8888/jackembedded/jackembedded.nocache.js";
+		doc.getElementsByTagName('head')[0].appendChild(scr);
+	}, 0);
 }
 
-chessdog.Board.prototype.check2 = function() {
-	this.counter++;
-//	this.doc.getElementsByTagName('body')[0].innerHTML = "counter: " + this.counter;
-//	this.wnd.myfunc();
-	this.wnd.alert('fen: '+this.wnd.getFen());
+/*
+ * The actual functions (e.g., this.wnd.getFen) are not exported by GWT yet, so
+ * use wrapper functions to provide call by name semantics.
+ */
+chessdog.Board.prototype.getFen = function() {
+	return this.wnd.getFen();
 }
+
