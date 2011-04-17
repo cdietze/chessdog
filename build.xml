@@ -152,6 +152,7 @@
   <target name="clean" description="Cleans this project">
     <delete dir="war/WEB-INF/classes" failonerror="false" />
     <delete dir="war/jack" failonerror="false" />
+    <delete dir="war/jackembed" failonerror="false" />
     <delete dir="war/admin" failonerror="false" />
   </target>
 

@@ -1,4 +1,4 @@
-package com.christophdietze.jack.client.embedded;
+package com.christophdietze.jack.client.embed;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.shared.board.Game;
@@ -23,7 +23,7 @@ public class JavaScriptBindings {
 	}
 
 	private static native void exportStuff() /*-{
-		$wnd.getFen = $entry(@com.christophdietze.jack.client.embedded.JavaScriptBindings::getGameAsFen());
+		$wnd.getFen = $entry(@com.christophdietze.jack.client.embed.JavaScriptBindings::getGameAsFen());
 	}-*/;
 
 	private static String getGameAsFen() {
