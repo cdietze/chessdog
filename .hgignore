@@ -24,3 +24,5 @@ syntax: regexp
 ^war/jackembedded$
 syntax: regexp
 ^war/WEB-INF/deploy$
+syntax: regexp
+^war/jackembed$

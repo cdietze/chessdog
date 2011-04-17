@@ -1,4 +1,4 @@
-package com.christophdietze.jack.client.embedded;
+package com.christophdietze.jack.client.embed;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.MyGinjector;
@@ -12,7 +12,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
-public class EmbeddedEntryPoint implements EntryPoint {
+public class EmbedEntryPoint implements EntryPoint {
 
 	private static final MyGinjector injector = GWT.create(MyGinjector.class);
 
