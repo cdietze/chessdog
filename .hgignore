@@ -26,3 +26,7 @@ syntax: regexp
 ^war/WEB-INF/deploy$
 syntax: regexp
 ^war/jackembed$
+syntax: regexp
+^\.gwt$
+syntax: regexp
+^jack\.war$
