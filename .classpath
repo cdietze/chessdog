@@ -15,7 +15,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/logback-classic-0.9.24.jar"/>
 	<classpathentry kind="lib" path="lib/logback-core-0.9.24.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-validation-1.1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-validation-1.2.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
 	<classpathentry kind="lib" path="lib/google-collect-gwt-snapshot.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/javax.inject.jar"/>
