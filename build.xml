@@ -51,6 +51,7 @@
       <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
       <arg value="com.christophdietze.jack.Jack"/>
       <arg value="com.christophdietze.jack.JackAdmin"/>
+      <arg value="com.christophdietze.jack.JackEmbed"/>
     </java>
   </target>
 

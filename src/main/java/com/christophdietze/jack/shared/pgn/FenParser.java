@@ -15,7 +15,6 @@ import com.christophdietze.jack.shared.board.PositionChecker;
 public class FenParser {
 
 	private static Map<Piece, Character> squareToFenCharMap = new HashMap<Piece, Character>();
-
 	private static Map<Character, Piece> fenCharToSquareMap = new HashMap<Character, Piece>();
 
 	static {

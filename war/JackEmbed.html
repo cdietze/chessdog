@@ -24,6 +24,13 @@
 	<p>bla bla host page</p>
 	<div id="board"></div>
 	<p>more bla bla host page</p>
-	<button onclick="alert('fen: '+board.getFen());">getFen</button>
+	<button onclick="board.resetPosition();">reset position</button>
+	<br/>
+	<button onclick="document.getElementById('fenOutput').value = board.getFen();">get FEN</button>
+	<input id="fenOutput" type="text" size="70"  readonly="readonly"/>
+	<br />
+	<button
+		onclick="board.setFen(document.getElementById('fenInput').value);">set FEN</button>
+	<input id="fenInput" type="text" size="70" />
 </body>
 </html>

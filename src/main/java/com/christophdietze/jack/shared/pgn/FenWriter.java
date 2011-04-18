@@ -8,10 +8,6 @@ import com.christophdietze.jack.shared.board.Position;
  */
 public class FenWriter {
 
-	public static String toFen(Position position) {
-		return new FenWriter().write(position);
-	}
-
 	public FenWriter() {
 	}
 
