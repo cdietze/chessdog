@@ -13,7 +13,7 @@ chessdog.Board = function(element) {
 	setTimeout(function() {
 		var scr = doc.createElement("script");
 		scr.type = "text/javascript";
-		scr.src = "http://jack-test.appspot.com/jackembed/jackembed.nocache.js";
+		scr.src = "http://127.0.0.1:8888/jackembed/jackembed.nocache.js";
 		doc.getElementsByTagName('head')[0].appendChild(scr);
 	}, 0);
 }
