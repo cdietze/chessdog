@@ -1,15 +1,14 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:com.christophdietze.jack.client.view">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:com.christophdietze.jack.client.view"
+	xmlns:ve="urn:import:com.christophdietze.jack.client.view.embed">
 	<ui:style>
 		.boardPanel {
-			float: left;
+	/*		float: left; */
 		}
 		
 		.playerNamePanel {
-			float: left;
-			margin-left: 1em;
-			margin-top: 0.5em;
+			margin-top: 0.5em; 
 		}
 	</ui:style>
 
@@ -17,8 +16,19 @@
 		<g:center>
 			<g:FlowPanel>
 				<v:BoardPanel addStyleNames="{style.boardPanel}" />
-				<v:PlayerNamePanel styleName="{style.playerNamePanel}" />
 			</g:FlowPanel>
 		</g:center>
+		<g:east size="20">
+			<g:HTMLPanel>
+				<!-- <g:VerticalPanel verticalAlignment="ALIGN_TOP"> -->
+				<v:PlayerNamePanel styleName="{style.playerNamePanel}" />
+				
+				<br />
+				<br />
+				
+				<ve:MoveNavigationPanel />
+				<!-- </g:VerticalPanel> -->
+			</g:HTMLPanel>
+		</g:east>
 	</g:DockLayoutPanel>
 </ui:UiBinder>
