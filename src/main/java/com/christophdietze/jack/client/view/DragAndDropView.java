@@ -55,7 +55,7 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 		updateDraggables();
 		// initSelectionMove();
 
-		model.setView(this);
+		model.bindView(this);
 		Log.debug(this.getClass().getName() + " initialized");
 	}
 

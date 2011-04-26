@@ -35,7 +35,7 @@ public class BoardPresenter {
 		initListeners();
 	}
 
-	public void setView(View view) {
+	public void bindView(View view) {
 		assert this.view == null;
 		this.view = view;
 	}
