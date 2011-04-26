@@ -62,7 +62,7 @@ public class BoardPanel extends Composite implements BoardPresenter.View {
 		squareSelection.setVisible(false);
 		initSquareSelection();
 		update();
-		model.setView(this);
+		model.bindView(this);
 		Log.debug("BoardView initialized");
 	}
 

@@ -1,30 +1,25 @@
-package com.christophdietze.jack.client.presenter;
+package com.christophdietze.jack.client.presenter.embed;
 
 import com.christophdietze.jack.client.event.GameUpdatedEvent;
 import com.christophdietze.jack.client.event.GameUpdatedEventHandler;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.shared.board.Game;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
-@Singleton
-public class DragAndDropPresenter {
+public class MoveNavigationPresenter {
 
 	public static interface View {
 		public void update();
 	}
 
-	@Inject
-	private Game game;
-	@Inject
-	private GameManager gameManager;
-
 	private GlobalEventBus eventBus;
+	private Game game;
 	private View view;
 
 	@Inject
-	public DragAndDropPresenter(GlobalEventBus eventBus) {
+	public MoveNavigationPresenter(GlobalEventBus eventBus, Game game) {
 		this.eventBus = eventBus;
+		this.game = game;
 		initListeners();
 	}
 
@@ -37,8 +32,20 @@ public class DragAndDropPresenter {
 		return game;
 	}
 
-	public void makeMove(int fromIndex, int toIndex) {
-		gameManager.makeMove(fromIndex, toIndex);
+	public void onNavStartClick() {
+		game.gotoFirstPosition();
+	}
+
+	public void onNavPrevMoveClick() {
+		game.gotoPrevMove();
+	}
+
+	public void onNavNextMoveClick() {
+		game.gotoNextMove();
+	}
+
+	public void onNavEndClick() {
+		game.gotoLastPosition();
 	}
 
 	private void initListeners() {
