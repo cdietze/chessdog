@@ -4,6 +4,8 @@ import com.google.gwt.resources.client.CssResource;
 
 public interface MyCss extends CssResource {
 
+	String nowrap();
+
 	String boardContainer();
 	String whiteSquare();
 	String blackSquare();
@@ -21,4 +23,11 @@ public interface MyCss extends CssResource {
 
 	String textBoxPlaceholder();
 	String validationMessage();
+
+	String moveListMoveNumber();
+	String moveListMove();
+	String moveListCurrentMove();
+	String moveListBigSpace();
+	String moveListSmallNonBreakableSpace();
+	String moveListSmallBreakableSpace();
 }
