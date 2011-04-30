@@ -89,6 +89,7 @@ public class ChessUtils {
 	}
 
 	public static boolean toIsWhiteToMoveFromPly(int ply) {
+		assert ply >= 0;
 		return ply % 2 == 0;
 	}
 }
