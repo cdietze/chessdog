@@ -31,6 +31,8 @@ public class MainPanelEmbed extends Composite {
 		private Provider<PlayerNamePanel> playerNamePanelProvider;
 		@Inject
 		private Provider<MoveNavigationPanel> moveNavigationPanelProvider;
+		@Inject
+		private Provider<MoveTextPanel> moveTextPanelProvider;
 	}
 
 	private ProviderHelper providerHelper;
@@ -59,5 +61,10 @@ public class MainPanelEmbed extends Composite {
 	@UiFactory
 	MoveNavigationPanel makeMoveNavigationPanel() {
 		return providerHelper.moveNavigationPanelProvider.get();
+	}
+
+	@UiFactory
+	MoveTextPanel makeMoveTextPanel() {
+		return providerHelper.moveTextPanelProvider.get();
 	}
 }

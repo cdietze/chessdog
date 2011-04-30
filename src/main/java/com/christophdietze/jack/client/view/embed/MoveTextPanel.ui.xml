@@ -5,9 +5,16 @@
 		.important {
 			font-weight: bold;
 		}
+		
+		.moveListPanel {
+			overflow: auto;
+			padding: 0.2em;
+			border: 1px solid #bbbbbb;
+			margin-top: 0.5em;
+		}
 	</ui:style>
 	<g:HTMLPanel>
 		Hello,
-		<g:Button styleName="{style.important}" ui:field="button" />
+		<g:FlowPanel ui:field="moveListPanel" styleName="{style.moveListPanel}" />
 	</g:HTMLPanel>
 </ui:UiBinder> 

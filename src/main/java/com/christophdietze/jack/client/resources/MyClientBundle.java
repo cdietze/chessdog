@@ -8,7 +8,6 @@ import com.google.gwt.resources.client.ImageResource;
 public interface MyClientBundle extends ClientBundle {
 
 	static MyClientBundle INSTANCE = GWT.create(MyClientBundle.class);
-
 	static MyCss CSS = INSTANCE.myCss();
 
 	MyCss myCss();
