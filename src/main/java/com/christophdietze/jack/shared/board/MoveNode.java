@@ -1,8 +1,5 @@
 package com.christophdietze.jack.shared.board;
 
-import java.util.Collections;
-import java.util.List;
-
 /**
  * TODO make immutable
  */
@@ -16,7 +13,7 @@ public class MoveNode {
 	private Position position;
 	private MoveNode prev;
 	private MoveNode next;
-	private List<MoveNode> variations = Collections.emptyList();
+	// private List<MoveNode> variations = Collections.emptyList();
 	private String sanNotation;
 
 	public static MoveNode createInitialNode(Position position) {
@@ -82,16 +79,16 @@ public class MoveNode {
 	}
 
 	public boolean isInitialNode() {
-		return this == prev;
+		return prev == null;
 	}
 
-	public boolean hasVariations() {
-		return !variations.isEmpty();
-	}
-
-	public List<MoveNode> getVariations() {
-		return variations;
-	}
+	// public boolean hasVariations() {
+	// return !variations.isEmpty();
+	// }
+	//
+	// public List<MoveNode> getVariations() {
+	// return variations;
+	// }
 
 	public String getSanNotation() {
 		return sanNotation;

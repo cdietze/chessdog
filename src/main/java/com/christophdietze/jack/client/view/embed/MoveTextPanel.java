@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.InlineHTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
@@ -44,114 +43,109 @@ public class MoveTextPanel extends Composite implements View {
 		this.presenter = presenter;
 		presenter.bindView(this);
 		initWidget(uiBinder.createAndBindUi(this));
-		moveListPanel.add(new Label("hi "));
+		update();
 	}
 
 	@Override
 	public void update() {
-		moveListPanel.add(new Label("hi "));
 		moveListPanel.clear();
 		Game game = presenter.getGame();
-		appendToMoveList(game.getInitialMoveNode());
+		appendMoveNode(game.getInitialMoveNode());
 		if (game.getGameResult() != GameResult.UNDECIDED) {
-			addBigSpace();
-			addStaticText(game.getGameResult().getSymbol(), CSS.nowrap());
+			appendBigSpace();
+			appendStaticText(game.getGameResult().getSymbol(), CSS.nowrap());
 		}
 	}
 
-	private void appendToMoveList(MoveNode node) {
+	private void appendMoveNode(MoveNode node) {
 		if (node.isInitialNode()) {
-			return;
-		}
-		boolean firstElement = true;
-		while (true) {
-			if (node.hasVariations()) {
-				for (MoveNode variation : node.getVariations()) {
-					addStaticText("(");
-					addSmallNonbreakableSpace();
-					appendToMoveList(variation);
-					addStaticText(")");
-					addBigSpace();
-				}
-			}
-
-			final MoveNode finalNode = node;
-
-			int fullMoveNum = ChessUtils.toFullmoveNumberFromPly(node.getPly());
-			boolean isWhiteToMove = ChessUtils.toIsWhiteToMoveFromPly(node.getPly());
-			if (isWhiteToMove || firstElement) {
-				Anchor moveNumberLink = new Anchor(fullMoveNum + ".");
-				moveNumberLink.addStyleName(CSS.moveListMoveNumber());
-				moveNumberLink.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
-						presenter.getGame().gotoPly(finalNode.getPly());
-					}
-				});
-				addWidget(moveNumberLink);
-				// addStaticText(fullMoveNum + ".");
-				addSmallNonbreakableSpace();
-				if (!isWhiteToMove) {
-					addStaticText("...");
-					addSmallNonbreakableSpace();
-				}
-			}
-			Anchor link = new Anchor(node.getSanNotation());
-			link.addStyleName(CSS.moveListMove());
-			link.addClickHandler(new ClickHandler() {
-				public void onClick(ClickEvent event) {
-					presenter.getGame().gotoPly(finalNode.getPly());
-				}
-			});
-			if (presenter.getGame().getCurrentMoveNode() == node) {
-				link.addStyleName(CSS.moveListCurrentMove());
-			}
-
-			addWidget(link);
-			// addStaticText(node.getNotation());
-
+			boolean isWhiteToMove = ChessUtils.toIsWhiteToMoveFromPly(node.getPly() + 1);
 			if (isWhiteToMove) {
-				addSmallBreakableSpace();
-			} else {
-				addBigSpace();
+				appendMoveNumber(node);
 			}
-
-			if (!node.hasNext()) {
-				break;
+			if (!isWhiteToMove) {
+				appendMoveNumber(node);
+				appendStaticText("...");
+				appendSmallNonbreakableSpace();
 			}
 			node = node.getNext();
-			firstElement = false;
+		}
+
+		while (node != null) {
+			appendMove(node);
+
+			if (node.hasNext() && ChessUtils.toIsWhiteToMoveFromPly(node.getPly() + 1)) {
+				// if the next move is by white, then append a move number indicator
+				appendMoveNumber(node);
+			}
+
+			node = node.getNext();
 		}
 	}
 
-	private void addBigSpace() {
+	private void appendMoveNumber(final MoveNode node) {
+		int fullMoveNum = ChessUtils.toFullmoveNumberFromPly(node.getPly() + 1);
+		Anchor moveNumberLink = new Anchor(fullMoveNum + ".");
+		moveNumberLink.addStyleName(CSS.moveListMoveNumber());
+		moveNumberLink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				presenter.getGame().gotoPly(node.getPly());
+			}
+		});
+		appendWidget(moveNumberLink);
+		appendSmallNonbreakableSpace();
+	}
+
+	private void appendMove(final MoveNode node) {
+		boolean isWhiteToMove = ChessUtils.toIsWhiteToMoveFromPly(node.getPly());
+		Anchor link = new Anchor(node.getSanNotation());
+		link.addStyleName(CSS.moveListMove());
+		link.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				presenter.getGame().gotoPly(node.getPly());
+			}
+		});
+		if (presenter.getGame().getCurrentMoveNode() == node) {
+			link.addStyleName(CSS.moveListCurrentMove());
+		}
+		appendWidget(link);
+
+		if (isWhiteToMove) {
+			appendSmallBreakableSpace();
+		} else {
+			appendBigSpace();
+		}
+	}
+
+	private void appendBigSpace() {
 		HTML widget = new InlineHTML("&nbsp; ");
 		widget.addStyleName(CSS.moveListBigSpace());
 		moveListPanel.add(widget);
 	}
 
-	private void addSmallNonbreakableSpace() {
+	private void appendSmallNonbreakableSpace() {
 		InlineHTML widget = new InlineHTML("&nbsp;");
 		widget.addStyleName(CSS.moveListSmallNonBreakableSpace());
 		moveListPanel.add(widget);
 	}
 
-	private void addSmallBreakableSpace() {
+	private void appendSmallBreakableSpace() {
 		InlineHTML widget = new InlineHTML("&nbsp; ");
 		widget.addStyleName(CSS.moveListSmallBreakableSpace());
 		moveListPanel.add(widget);
 	}
 
-	private void addStaticText(String text) {
+	private void appendStaticText(String text) {
 		moveListPanel.add(new InlineHTML(text));
 	}
 
-	private void addStaticText(String text, String cssStyle) {
+	private void appendStaticText(String text, String cssStyle) {
 		InlineHTML element = new InlineHTML(text);
 		element.addStyleName(cssStyle);
 		moveListPanel.add(element);
 	}
 
-	private void addWidget(Widget widget) {
+	private void appendWidget(Widget widget) {
 		moveListPanel.add(widget);
 	}
 }
