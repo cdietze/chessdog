@@ -1,7 +1,7 @@
 chessdog = {}
 
 chessdog.Board = function(element) {
-	element.innerHTML = "<iframe width='800' height='400'></iframe>";
+	element.innerHTML = "<iframe width='600' height='385' frameborder='0' style='border: none;'></iframe>";
 	this.frame = element.childNodes[0];
 	this.wnd = this.frame.contentWindow;
 	this.doc = this.wnd.document;
