@@ -7,13 +7,41 @@
 
 <script type="text/javascript" src="jackembed/jackembed.nocache.js"></script>
 <script type="text/javascript">
-	var board;
-	function init() {
-	}
+chessdog = {}
+
+chessdog.Board = function() {
+	this.wnd = window;
+	this.doc = this.wnd.document;
+}
+
+chessdog.Board.prototype.resetPosition = function() {
+	return this.wnd.resetPosition();
+}
+chessdog.Board.prototype.getFen = function() {
+	return this.wnd.getFen();
+}
+chessdog.Board.prototype.setFen = function(fen) {
+	return this.wnd.setFen(fen);
+}
+
+var board;
+function init() {
+	board = new chessdog.Board();
+	board.setFen('rnbqkbnr/ppp3pp/8/3Q4/5P2/8/PPP3PP/RNB1KBNR b KQkq - 0 6')
+}
 </script>
 </head>
 
 <body style="width:800px; height:600px;" onload="init();">
-
+<div style="top:500px; position:relative; z-index:100;">
+	<button onclick="board.resetPosition();">reset position</button>
+	<br/>
+	<button onclick="document.getElementById('fenOutput').value = board.getFen();">get FEN</button>
+	<input id="fenOutput" type="text" size="70"  readonly="readonly"/>
+	<br />
+	<button
+		onclick="board.setFen(document.getElementById('fenInput').value);">set FEN</button>
+	<input id="fenInput" type="text" size="70" />
+</div>
 </body>
 </html>

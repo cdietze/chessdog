@@ -24,6 +24,7 @@ public interface MyCss extends CssResource {
 	String textBoxPlaceholder();
 	String validationMessage();
 
+	String moveListPanel();
 	String moveListMoveNumber();
 	String moveListMove();
 	String moveListCurrentMove();

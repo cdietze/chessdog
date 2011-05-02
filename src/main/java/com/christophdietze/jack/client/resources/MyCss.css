@@ -111,6 +111,15 @@ a:VISITED {
 	color: #d00;
 }
 
+.moveListPanel {
+	overflow: auto;
+	padding: 0.2em;
+	border: 1px solid #bbbbbb;
+	margin-top: 0.5em;
+	height: 250px;
+	width: 15.5em;
+}
+
 .moveListMoveNumber {
 	display: inline;
 	color: black;

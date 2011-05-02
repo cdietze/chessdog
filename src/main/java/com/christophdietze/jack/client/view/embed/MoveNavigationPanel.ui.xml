@@ -6,10 +6,10 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:HTMLPanel>
+	<g:FlowPanel>
 		<g:Button ui:field="navStartButton"  text="|&lt;-" />
 		<g:Button ui:field="navPrevMoveButton"  text="&lt;-" />
 		<g:Button ui:field="navNextMoveButton"  text="-&gt;" />
 		<g:Button ui:field="navEndButton"  text="-&gt;|" />
-	</g:HTMLPanel>
-</ui:UiBinder> 
+	</g:FlowPanel>
+</ui:UiBinder>

@@ -3,27 +3,29 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:com.christophdietze.jack.client.view"
 	xmlns:ve="urn:import:com.christophdietze.jack.client.view.embed">
 	<ui:style>
-		.playerNamePanel {
+		.boardPanel {
+			float: left;
+		}
+		
+		.rightPanel {
+			float: left;
+			margin-left: 1em;
 			margin-top: 0.5em;
+		}
+		
+		.playerNamePanel {
+			margin-bottom: 1.5em;
 		}
 	</ui:style>
 
-	<g:DockLayoutPanel unit="EM">
-		<g:center>
-			<g:FlowPanel>
-				<v:BoardPanel />
-			</g:FlowPanel>
-		</g:center>
-		<g:east size="20">
-			<g:HTMLPanel>
-				<v:PlayerNamePanel styleName="{style.playerNamePanel}" />
+	<g:FlowPanel>
+		<v:BoardPanel styleName="{style.boardPanel}" />
+		<g:FlowPanel styleName="{style.rightPanel}">
+			<v:PlayerNamePanel styleName="{style.playerNamePanel}" />
 
-				<br />
-				<br />
+			<ve:MoveNavigationPanel />
 
-				<ve:MoveNavigationPanel />
-				<ve:MoveTextPanel />
-			</g:HTMLPanel>
-		</g:east>
-	</g:DockLayoutPanel>
+			<ve:MoveTextPanel />
+		</g:FlowPanel>
+	</g:FlowPanel>
 </ui:UiBinder>
