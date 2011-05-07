@@ -14,8 +14,6 @@ public interface MyGinjector extends Ginjector {
 
 	JavaScriptBindings getJavaScriptBindings();
 
-	Application getApplication();
-
 	ApplicationContext getApplicationContext();
 
 	MainPanel getMainPanel();

@@ -7,41 +7,60 @@
 
 <script type="text/javascript" src="jackembed/jackembed.nocache.js"></script>
 <script type="text/javascript">
-chessdog = {}
+	chessdog = {}
 
-chessdog.Board = function() {
-	this.wnd = window;
-	this.doc = this.wnd.document;
-}
+	chessdog.Board = function() {
+		this.wnd = window;
+		this.doc = this.wnd.document;
+	}
 
-chessdog.Board.prototype.resetPosition = function() {
-	return this.wnd.resetPosition();
-}
-chessdog.Board.prototype.getFen = function() {
-	return this.wnd.getFen();
-}
-chessdog.Board.prototype.setFen = function(fen) {
-	return this.wnd.setFen(fen);
-}
-
-var board;
-function init() {
-	board = new chessdog.Board();
-	board.setFen('rnbqkbnr/ppp3pp/8/3Q4/5P2/8/PPP3PP/RNB1KBNR b KQkq - 0 6')
-}
+	chessdog.Board.prototype.resetPosition = function() {
+		return this.wnd.resetPosition();
+	}
+	chessdog.Board.prototype.getFen = function() {
+		return this.wnd.getFen();
+	}
+	chessdog.Board.prototype.setFen = function(fen) {
+		return this.wnd.setFen(fen);
+	}
+	chessdog.Board.prototype.getPgn = function() {
+		return this.wnd.getPgn();
+	}
+	chessdog.Board.prototype.setPgn = function(pgn) {
+		return this.wnd.setPgn(pgn);
+	}
+	var board;
+	function init() {
+		board = new chessdog.Board();
+		board
+				.setFen('rnbqkbnr/ppp3pp/8/3Q4/5P2/8/PPP3PP/RNB1KBNR b KQkq - 0 6')
+	}
 </script>
 </head>
 
-<body style="width:800px; height:600px;" onload="init();">
-<div style="top:500px; position:relative; z-index:100;">
-	<button onclick="board.resetPosition();">reset position</button>
-	<br/>
-	<button onclick="document.getElementById('fenOutput').value = board.getFen();">get FEN</button>
-	<input id="fenOutput" type="text" size="70"  readonly="readonly"/>
-	<br />
-	<button
-		onclick="board.setFen(document.getElementById('fenInput').value);">set FEN</button>
-	<input id="fenInput" type="text" size="70" />
-</div>
+<body style="width: 800px; height: 600px;" onload="init();">
+	<div style="top: 500px; position: relative; z-index: 100;">
+		<button onclick="board.resetPosition();">reset position</button>
+		<br />
+		<button
+			onclick="document.getElementById('fenOutput').value = board.getFen();">get
+			FEN</button>
+		<input id="fenOutput" type="text" size="70" readonly="readonly" /> <br />
+		<button
+			onclick="board.setFen(document.getElementById('fenInput').value);">set
+			FEN</button>
+		<input id="fenInput" type="text" size="70" /> <br /> <br />
+
+		<button
+			onclick="document.getElementById('pgnOutput').value = board.getPgn();">get
+			pgn</button>
+		<textarea id="pgnOutput" cols="70" rows="8"></textarea>
+		<br />
+		<button
+			onclick="board.setPgn(document.getElementById('pgnInput').value);">set
+			pgn</button>
+		<textarea id="pgnInput" cols="70" rows="8"></textarea>
+
+	</div>
 </body>
 </html>
