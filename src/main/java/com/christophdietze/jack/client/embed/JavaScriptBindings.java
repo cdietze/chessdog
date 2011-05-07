@@ -37,6 +37,10 @@ public class JavaScriptBindings {
 		$wnd.setPgn = $entry(@com.christophdietze.jack.client.embed.JavaScriptBindings::setPgn(Ljava/lang/String;));
 	}-*/;
 
+	private static void resetPosition() {
+		INSTANCE.game.setupStartingPosition();
+	}
+
 	private static String getFen() {
 		return FenUtils.positionToFen(INSTANCE.game.getPosition());
 	}
@@ -70,9 +74,5 @@ public class JavaScriptBindings {
 		} catch (PgnParsingException ex) {
 			Window.alert(ex.getMessage());
 		}
-	}
-
-	private static void resetPosition() {
-		INSTANCE.game.setupStartingPosition();
 	}
 }

@@ -5,7 +5,6 @@ import com.christophdietze.jack.client.MyGinjector;
 import com.christophdietze.jack.client.event.UncaughtExceptionEvent;
 import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.util.GlobalEventBus;
-import com.christophdietze.jack.client.view.MainPanel;
 import com.christophdietze.jack.client.view.embed.MainPanelEmbed;
 import com.christophdietze.jack.shared.ChessServiceAsync;
 import com.google.gwt.core.client.EntryPoint;

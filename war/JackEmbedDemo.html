@@ -11,6 +11,17 @@
 	function init() {
 		board = new chessdog.Board(document.getElementById('board'));
 	}
+	
+	function toggleBodyBgColor() {} 
+	toggleBodyBgColor = setBodyBgColor1;
+	function setBodyBgColor1() {
+		document.body.style.backgroundColor = "#96DCFF";
+		toggleBodyBgColor = setBodyBgColor2;
+	}
+	function setBodyBgColor2() {
+		document.body.style.backgroundColor = "";
+		toggleBodyBgColor = setBodyBgColor1;
+	}
 </script>
 </head>
 
@@ -37,15 +48,17 @@
 	<input id="fenInput" type="text" size="70" />
 	<br />
 	<br />
-	
+
 	<button
 		onclick="document.getElementById('pgnOutput').value = board.getPgn();">get
 		pgn</button>
-	<textarea id="pgnOutput"  cols="70" rows="8" ></textarea>
+	<textarea id="pgnOutput" cols="70" rows="8"></textarea>
 	<br />
 	<button
 		onclick="board.setPgn(document.getElementById('pgnInput').value);">set
 		pgn</button>
-	<textarea id="pgnInput"  cols="70" rows="8" ></textarea>
+	<textarea id="pgnInput" cols="70" rows="8"></textarea>
+	<button onclick="toggleBodyBgColor()">Toggle Highlight of host
+		page</button>
 </body>
 </html>
