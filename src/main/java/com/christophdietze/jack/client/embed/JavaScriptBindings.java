@@ -30,14 +30,14 @@ public class JavaScriptBindings {
 	}
 
 	private static native void exportStuff() /*-{
-		$wnd.resetPosition = $entry(@com.christophdietze.jack.client.embed.JavaScriptBindings::resetPosition());
+		$wnd.reset = $entry(@com.christophdietze.jack.client.embed.JavaScriptBindings::reset());
 		$wnd.getFen = $entry(@com.christophdietze.jack.client.embed.JavaScriptBindings::getFen());
 		$wnd.setFen = $entry(@com.christophdietze.jack.client.embed.JavaScriptBindings::setFen(Ljava/lang/String;));
 		$wnd.getPgn = $entry(@com.christophdietze.jack.client.embed.JavaScriptBindings::getPgn());
 		$wnd.setPgn = $entry(@com.christophdietze.jack.client.embed.JavaScriptBindings::setPgn(Ljava/lang/String;));
 	}-*/;
 
-	private static void resetPosition() {
+	private static void reset() {
 		INSTANCE.game.setupStartingPosition();
 	}
 

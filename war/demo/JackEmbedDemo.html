@@ -9,40 +9,27 @@
 	function init() {
 		board = new chessdog.Board(document.getElementById('board'));
 	}
-
-	function toggleBodyBgColor() {
-	}
-	toggleBodyBgColor = setBodyBgColor1;
-	function setBodyBgColor1() {
-		document.body.style.backgroundColor = "#96DCFF";
-		toggleBodyBgColor = setBodyBgColor2;
-	}
-	function setBodyBgColor2() {
-		document.body.style.backgroundColor = "";
-		toggleBodyBgColor = setBodyBgColor1;
-	}
 </script>
 </head>
 
 <body onload="init();">
 	<div id="board"></div>
 
-	<button onclick="board.resetPosition();">reset position</button>
+	<button onclick="board.reset();">Reset Board</button>
 	<br />
-	<button onclick="document.getElementById('fenOutput').value = board.getFen();">get FEN</button>
+	<button onclick="document.getElementById('fenOutput').value = board.getFen();">Get FEN</button>
 	<input id="fenOutput" type="text" size="70" readonly="readonly" />
 	<br />
-	<button onclick="board.setFen(document.getElementById('fenInput').value);">set FEN</button>
+	<button onclick="board.setFen(document.getElementById('fenInput').value);">Set FEN</button>
 	<input id="fenInput" type="text" size="70" />
 	<br />
 	<br />
 
-	<button onclick="document.getElementById('pgnOutput').value = board.getPgn();">get pgn</button>
+	<button onclick="document.getElementById('pgnOutput').value = board.getPgn();">Get PGN</button>
 	<textarea id="pgnOutput" cols="70" rows="8"></textarea>
 	<br />
-	<button onclick="board.setPgn(document.getElementById('pgnInput').value);">set pgn</button>
+	<button onclick="board.setPgn(document.getElementById('pgnInput').value);">Set PGN</button>
 	<textarea id="pgnInput" cols="70" rows="8"></textarea>
-	<br />
-	<button onclick="toggleBodyBgColor()">Highlight Host Page</button>
+
 </body>
 </html>
