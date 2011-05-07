@@ -26,6 +26,7 @@
 
 	<welcome-file-list>
 		<welcome-file>Jack.html</welcome-file>
+		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
 	<security-constraint>
@@ -34,6 +35,7 @@
 			<url-pattern>/admin/*</url-pattern>
 			<url-pattern>/JackAdmin.html</url-pattern>
 			<url-pattern>/cron/*</url-pattern>
+			<url-pattern>/test/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>admin</role-name>
