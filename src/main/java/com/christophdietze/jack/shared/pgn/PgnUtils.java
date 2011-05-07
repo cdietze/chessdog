@@ -3,21 +3,18 @@ package com.christophdietze.jack.shared.pgn;
 import java.util.Map;
 
 import com.christophdietze.jack.shared.board.Game;
-import com.christophdietze.jack.shared.board.IllegalPositionException;
 import com.christophdietze.jack.shared.board.Move;
 
-public class ImportUtils {
+public class PgnUtils {
 
-	public static void importFenString(Game game, String importString) throws FenParsingException,
-			IllegalPositionException {
-		FenParser parser = new FenParser();
-		parser.parse(importString);
-		game.setInitialPosition(parser.getPosition());
+	public static String gameToPgn(Game game) throws PgnWritingException {
+		PgnWriter writer = new PgnWriter();
+		return writer.write(game);
 	}
 
-	public static void importPgnString(Game game, String importString) throws PgnParsingException {
+	public static void importPgnString(Game game, String pgnString) throws PgnParsingException {
 		PgnParser parser = new PgnParser();
-		parser.parse(importString);
+		parser.parse(pgnString);
 
 		game.clear();
 
