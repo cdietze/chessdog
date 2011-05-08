@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='jackembed'>
-	<inherits name='com.google.gwt.user.User' />
 
+	<inherits name='com.google.gwt.user.User' />
 	<inherits name='com.allen_sauer.gwt.dnd.gwt-dnd' />
 	<inherits name="com.google.gwt.inject.Inject" />
 	<inherits name="com.google.common.Collect" />
@@ -10,9 +10,11 @@
 	<entry-point class='com.christophdietze.jack.client.embed.EmbedEntryPoint' />
 
 	<!-- see also http://code.google.com/p/gwt-log/wiki/GettingStarted -->
-	<inherits name="com.allen_sauer.gwt.log.gwt-log-DEBUG" />
-	<set-property name="log_DivLogger" value="DISABLED" />
-	<set-property name="log_SystemLogger" value="DISABLED" />
+	<inherits name="com.allen_sauer.gwt.log.gwt-log-OFF" />
+	<!-- To turn logging on uncomment below -->
+	<!-- inherits name="com.allen_sauer.gwt.log.gwt-log-DEBUG" /> <set-property 
+		name="log_DivLogger" value="DISABLED" /> <set-property name="log_SystemLogger" 
+		value="DISABLED" / -->
 
 	<source path='client' />
 	<source path='shared' />
