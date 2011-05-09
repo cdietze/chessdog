@@ -35,6 +35,7 @@ public class JavaScriptBindings {
 		$wnd.setFen = $entry(@com.christophdietze.jack.client.embed.JavaScriptBindings::setFen(Ljava/lang/String;));
 		$wnd.getPgn = $entry(@com.christophdietze.jack.client.embed.JavaScriptBindings::getPgn());
 		$wnd.setPgn = $entry(@com.christophdietze.jack.client.embed.JavaScriptBindings::setPgn(Ljava/lang/String;));
+		$wnd.chessdogReady = 1;
 	}-*/;
 
 	private static void reset() {
