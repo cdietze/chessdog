@@ -9,6 +9,8 @@ import com.christophdietze.jack.client.view.embed.MainPanelEmbed;
 import com.christophdietze.jack.shared.ChessServiceAsync;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
@@ -38,9 +40,15 @@ public class EmbedEntryPoint implements EntryPoint {
 			}
 		});
 		MainPanelEmbed mainPanel = injector.getMainPanelEmbed();
+		clearAnyRemoveMeElement();
 		RootLayoutPanel.get().add(mainPanel);
-
 		Log.info("GWT Module " + this.getClass().getName() + " initialized.");
+	}
+
+	private void clearAnyRemoveMeElement() {
+		Element element = Document.get().getElementById("removeme");
+		if (element != null)
+			element.removeFromParent();
 	}
 
 	private String buildErrorMessage(Throwable ex) {
