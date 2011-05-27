@@ -14,6 +14,8 @@
 			host = "http://11.latest.chessdog-jack.appspot.com";
 		} else if (env == "prod") {
 			host = "http://chessdog.christophdietze.com";
+		} else {
+			// local host
 		}
 		var scriptSource = host + "/chessdog.embed.js";
 		var scriptElement = document.createElement("script");
