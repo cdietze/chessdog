@@ -1,7 +1,7 @@
 import sbt._
 import sbt.Process._
 
-class SbtGwtGaeTestProject(info: ProjectInfo) extends AppengineProject(info) {
+class JackProject(info: ProjectInfo) extends AppengineProject(info) {
 	
 	val gwtUser = "com.google.gwt" % "gwt-user" % "2.3.0" % "provided"
 	val gwtDev = "com.google.gwt" % "gwt-dev" % "2.3.0" % "provided"
