@@ -24,6 +24,9 @@
 	<inherits name="com.allen_sauer.gwt.log.gwt-log-DEBUG" />
 	<set-property name="log_DivLogger" value="DISABLED" />
 
+	<set-configuration-property name="UiBinder.useSafeHtmlTemplates"
+		value="true" />
+
 	<!-- Specify the paths for translatable code                    -->
 	<source path='client' />
 	<source path='shared' />

@@ -16,6 +16,9 @@
 		name="log_DivLogger" value="DISABLED" /> <set-property name="log_SystemLogger" 
 		value="DISABLED" / -->
 
+	<set-configuration-property name="UiBinder.useSafeHtmlTemplates"
+		value="true" />
+
 	<source path='client' />
 	<source path='shared' />
 
