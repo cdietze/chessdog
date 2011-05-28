@@ -30,3 +30,19 @@ syntax: regexp
 ^\.gwt$
 syntax: regexp
 ^jack\.war$
+syntax: regexp
+^lib_managed$
+syntax: regexp
+^target$
+syntax: regexp
+^project/boot$
+syntax: regexp
+^project/build/target$
+syntax: regexp
+^project/plugins/lib_managed$
+syntax: regexp
+^project/plugins/project$
+syntax: regexp
+^project/plugins/src_managed$
+syntax: regexp
+^project/plugins/target$
