@@ -10,8 +10,6 @@ class SbtGwtGaeTestProject(info: ProjectInfo) extends AppengineProject(info) {
 	val gwtModules = List("Jack", "JackAdmin", "JackEmbed").map("com.christophdietze.jack."+_)
 //	val gwtModules = List("Jack").map("com.christophdietze.jack."+_)
 
-	lazy val hi = task { println("hello World!"); None }
-	
 	lazy val gwtCompile = gwtCompileAction
 	def gwtCompileAction = task {
 		val command = "java -cp " + (compileClasspath +++ mainJavaSourcePath).absString + " com.google.gwt.dev.Compiler -war " + temporaryWarPath.absString + " " + gwtModules.mkString(" ")

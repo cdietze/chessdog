@@ -7,7 +7,6 @@
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="lib" path="lib_compile/gin-1.5-post-gwt-2.2.jar"/>
 	<classpathentry kind="lib" path="lib_compile/guava-r09-gwt.jar"/>
-	<classpathentry kind="lib" path="lib_compile/gwt-dnd-r1019.jar"/>
 	<classpathentry kind="lib" path="lib_compile/jsr305-javax-annotation.jar"/>
 	<classpathentry kind="lib" path="lib_compile/junit-4.8.1.jar"/>
 	<classpathentry kind="lib" path="lib_compile/logback-core-0.9.24.jar"/>
@@ -27,6 +26,7 @@
 	<classpathentry kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-jdk14-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/validation-api-1.0.0.GA.jar"/>
-	<classpathentry kind="lib" path="C:/lib/appengine-java-sdk-1.5.0/lib/testing/appengine-testing.jar"/>
+	<classpathentry kind="lib" path="lib_compile/gwt-dnd-3.1.0.jar"/>
+	<classpathentry kind="var" path="APPENGINE_SDK_HOME/lib/testing/appengine-testing.jar"/>
 	<classpathentry kind="output" path="target/scala_2.9.0/webapp/WEB-INF/classes"/>
 </classpath>
