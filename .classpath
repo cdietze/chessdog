@@ -2,39 +2,31 @@
 <classpath>
 	<classpathentry excluding="com/christophdietze/jack/super/|com/christophdietze/jack/super/" kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/test/java"/>
-	<classpathentry kind="src" path="src/jsr305"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/aopalliance.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-3.0.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-servlet-3.0.jar"/>
-	<classpathentry kind="lib" path="lib/junit-4.8.1.jar"/>
-	<classpathentry kind="lib" path="lib/mockito-all-1.8.4.jar"/>
-	<classpathentry kind="lib" path="lib/gin-1.5-post-gwt-2.2.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/google-collect-1.0.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-log-3.1.2.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/slf4j-api-1.6.1.jar"/>
-	<classpathentry kind="lib" path="lib/logback-classic-0.9.24.jar"/>
-	<classpathentry kind="lib" path="lib/logback-core-0.9.24.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-validation-1.2.0-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
-	<classpathentry kind="lib" path="lib/google-collect-gwt-snapshot.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/javax.inject.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-io-2.0.1.jar" sourcepath="lib/commons-io-2.0.1-sources.jar"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-assistedinject-3.0.jar"/>
-	<classpathentry kind="lib" path="lib/appengine-api-stubs.jar"/>
-	<classpathentry kind="lib" path="lib/appengine-testing.jar"/>
-	<classpathentry kind="lib" path="lib/gwt-dnd-r1019.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/objectify-2.2.1.jar" sourcepath="lib/objectify-2.2.1-src.zip"/>
-	<classpathentry kind="lib" path="C:/progs/eclipse3.6/plugins/com.google.gwt.eclipse.sdkbundle_2.2.0.v201103311225/gwt-2.2.0/gwt-user.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/C:/progs/eclipse3.6/plugins/com.google.gwt.eclipse.sdkbundle_2.2.0.v201103311225/gwt-2.2.0/doc/javadoc/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/progs/eclipse3.6/plugins/com.google.gwt.eclipse.sdkbundle_2.2.0.v201103311225/gwt-2.2.0/gwt-dev.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/C:/progs/eclipse3.6/plugins/com.google.gwt.eclipse.sdkbundle_2.2.0.v201103311225/gwt-2.2.0/doc/javadoc/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="lib" path="lib_compile/gin-1.5-post-gwt-2.2.jar"/>
+	<classpathentry kind="lib" path="lib_compile/guava-r09-gwt.jar"/>
+	<classpathentry kind="lib" path="lib_compile/gwt-dnd-r1019.jar"/>
+	<classpathentry kind="lib" path="lib_compile/jsr305-javax-annotation.jar"/>
+	<classpathentry kind="lib" path="lib_compile/junit-4.8.1.jar"/>
+	<classpathentry kind="lib" path="lib_compile/logback-core-0.9.24.jar"/>
+	<classpathentry kind="lib" path="lib_compile/mockito-all-1.8.4.jar"/>
+	<classpathentry kind="lib" path="lib/aopalliance.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.5.jar"/>
+	<classpathentry kind="lib" path="lib/geronimo-jpa_3.0_spec-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/guava-r09.jar"/>
+	<classpathentry kind="lib" path="lib/guice-3.0.jar"/>
+	<classpathentry kind="lib" path="lib/guice-assistedinject-3.0.jar"/>
+	<classpathentry kind="lib" path="lib/guice-servlet-3.0.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-log-3.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-validation-1.2.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/javax.inject.jar"/>
+	<classpathentry kind="lib" path="lib/objectify-2.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-jdk14-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/validation-api-1.0.0.GA.jar"/>
+	<classpathentry kind="lib" path="C:/lib/appengine-java-sdk-1.5.0/lib/testing/appengine-testing.jar"/>
+	<classpathentry kind="output" path="target/scala_2.9.0/webapp/WEB-INF/classes"/>
 </classpath>
