@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry excluding="com/christophdietze/jack/super/|com/christophdietze/jack/super/" kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (4)"/>
 	<classpathentry kind="lib" path="lib_compile/gin-1.5-post-gwt-2.2.jar"/>
