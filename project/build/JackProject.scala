@@ -28,6 +28,7 @@ class JackProject(info: ProjectInfo) extends AppengineProject(info) {
 
 	lazy val prepareChessdogEmbedJs = prepareChessdogEmbedJsAction
 	def prepareChessdogEmbedJsAction = task {
+		FileUtilities.createDirectory(temporaryWarPath, log)
 
 		val srcFile = new File((mainResourcesPath / "chessdog.embed.src.js").absolutePath)
 		val tmpFile = new File((temporaryWarPath / "chessdog.embed.tmp.js").absolutePath)
@@ -42,8 +43,8 @@ class JackProject(info: ProjectInfo) extends AppengineProject(info) {
 	
 	
 	private def runClosureCompiler(inFile: File, outFile: File) {
-		log.info("Closure compiling: "+inFile +" -> "+outFile)
 		val command = "java -jar ./lib_tools/closure-compiler.jar --js \"" + inFile.getAbsolutePath +"\" --js_output_file \""+outFile.getAbsolutePath+"\""
+		log.info("Running closure compiler: " + command)
 		command ! ;
 	}
 	
