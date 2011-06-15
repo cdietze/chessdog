@@ -43,7 +43,7 @@ class JackProject(info: ProjectInfo) extends AppengineProject(info) {
 	
 	private def runClosureCompiler(inFile: File, outFile: File) {
 		log.info("Closure compiling: "+inFile +" -> "+outFile)
-		val command = "java -jar ./lib_tools/closure-compiler.jar --js " + inFile.getAbsolutePath +" --js_output_file "+outFile.getAbsolutePath
+		val command = "java -jar ./lib_tools/closure-compiler.jar --js \"" + inFile.getAbsolutePath +"\" --js_output_file \""+outFile.getAbsolutePath+"\""
 		command ! ;
 	}
 	
