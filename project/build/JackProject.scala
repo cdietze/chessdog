@@ -22,7 +22,7 @@ class JackProject(info: ProjectInfo) extends AppengineProject(info) {
 		None
 	}
 	
-	override def prepareWebappAction = gwtCompileAction dependsOn(super.prepareWebappAction) dependsOn(prepareChessdogEmbedJs)
+	override def prepareWebappAction = gwtCompileAction dependsOn(prepareChessdogEmbedJs) dependsOn(super.prepareWebappAction)
 	
 	override def compileClasspath = super.compileClasspath +++ descendents( info.projectPath / "lib_compile", "*.jar")
 
@@ -58,6 +58,7 @@ class JackProject(info: ProjectInfo) extends AppengineProject(info) {
 			}
 		}}
 		} finally source match { case b: scala.io.BufferedSource => b.close }
+		log.info("Created: " + outFile)
 	}
 	
 	private def withFile(file: File)(op: java.io.PrintWriter => Unit) {
