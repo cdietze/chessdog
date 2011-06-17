@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<script type="text/javascript" src="chessdog.embed.js"></script>
+<script type="text/javascript">
+	var board;
+	function init() {
+		board = new chessdog.Board(document.getElementById('board'));
+		board.setFen("rn4nr/pPppPkPp/8/5p2/8/4P3/pPPpKPPp/1NB2BN1 w - - 0 19");
+	}
+</script>
+</head>
+
+<body onload="init();">
+	<div id="board"></div>
+</body>
+</html>
