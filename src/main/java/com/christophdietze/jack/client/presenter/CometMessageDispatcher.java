@@ -81,6 +81,8 @@ public class CometMessageDispatcher {
 		applicationContext.setAvailableForChallenges(false);
 		boolean isPlayerWhite = applicationContext.getLocationId() == message.getWhitePlayer().getLocationId();
 		game.setWhiteAtBottom(isPlayerWhite);
+		game.getMetaInfo().setWhitePlayerName(message.getWhitePlayer().getNickname());
+		game.getMetaInfo().setBlackPlayerName(message.getBlackPlayer().getNickname());
 		MatchInfo matchInfo = new MatchInfo(message.getWhitePlayer(), message.getBlackPlayer(), isPlayerWhite);
 		gameManager.switchToMatchMode(matchInfo);
 		eventBus.fireEvent(new MatchStartedEvent(matchInfo));

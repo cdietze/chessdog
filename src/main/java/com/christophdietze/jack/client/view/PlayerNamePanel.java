@@ -2,12 +2,6 @@ package com.christophdietze.jack.client.view;
 
 import com.christophdietze.jack.client.event.GameUpdatedEvent;
 import com.christophdietze.jack.client.event.GameUpdatedEventHandler;
-import com.christophdietze.jack.client.event.MatchEndedEvent;
-import com.christophdietze.jack.client.event.MatchEndedEventHandler;
-import com.christophdietze.jack.client.event.MatchStartedEvent;
-import com.christophdietze.jack.client.event.MatchStartedEventHandler;
-import com.christophdietze.jack.client.presenter.GameManager;
-import com.christophdietze.jack.client.presenter.MatchInfo;
 import com.christophdietze.jack.client.resources.MyClientBundle;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.shared.board.Game;
@@ -42,9 +36,6 @@ public class PlayerNamePanel extends Composite {
 
 	private GlobalEventBus eventBus;
 
-	@SuppressWarnings("unused")
-	private GameManager gameManager;
-
 	private Game game;
 
 	@UiField
@@ -63,9 +54,8 @@ public class PlayerNamePanel extends Composite {
 	HTMLPanel lowerSection;
 
 	@Inject
-	public PlayerNamePanel(GlobalEventBus eventBus, GameManager gameManager, Game game) {
+	public PlayerNamePanel(GlobalEventBus eventBus, Game game) {
 		this.eventBus = eventBus;
-		this.gameManager = gameManager;
 		this.game = game;
 		initWidget(uiBinder.createAndBindUi(this));
 		upperPlayerLabel.setText(BLACK_PLAYER_DEFAULT_NAME);
@@ -77,36 +67,36 @@ public class PlayerNamePanel extends Composite {
 	}
 
 	private void initListeners() {
-		eventBus.addHandler(MatchStartedEvent.TYPE, new MatchStartedEventHandler() {
-			@Override
-			public void onMatchStarted(MatchStartedEvent event) {
-				MatchInfo matchInfo = event.getMatchInfo();
-				upperPlayerLabel.setText(matchInfo.getOpponent().getNickname());
-				lowerPlayerLabel.setText("You");
-				upperPlayerIcon.setResource(game.isWhiteAtBottom() ? myClientBundle.blackPlayerIcon() : myClientBundle
-						.whitePlayerIcon());
-				lowerPlayerIcon.setResource(game.isWhiteAtBottom() ? myClientBundle.whitePlayerIcon() : myClientBundle
-						.blackPlayerIcon());
-			}
-		});
-		eventBus.addHandler(MatchEndedEvent.TYPE, new MatchEndedEventHandler() {
-			@Override
-			public void onMatchEnded(MatchEndedEvent event) {
-				if (game.isWhiteAtBottom()) {
-					upperPlayerLabel.setText(BLACK_PLAYER_DEFAULT_NAME);
-					lowerPlayerLabel.setText(WHITE_PLAYER_DEFAULT_NAME);
-				} else {
-					upperPlayerLabel.setText(WHITE_PLAYER_DEFAULT_NAME);
-					lowerPlayerLabel.setText(BLACK_PLAYER_DEFAULT_NAME);
-				}
-			}
-		});
 		eventBus.addHandler(GameUpdatedEvent.TYPE, new GameUpdatedEventHandler() {
 			@Override
 			public void onUpdate(GameUpdatedEvent event) {
-				updatePlayerNameHighlighting();
+				update();
 			}
 		});
+	}
+
+	private void update() {
+		updatePlayerNames();
+		updatePlayerIcons();
+		updatePlayerNameHighlighting();
+	}
+
+	private void updatePlayerIcons() {
+		upperPlayerIcon.setResource(game.isWhiteAtBottom() ? myClientBundle.blackPlayerIcon() : myClientBundle
+				.whitePlayerIcon());
+		lowerPlayerIcon.setResource(game.isWhiteAtBottom() ? myClientBundle.whitePlayerIcon() : myClientBundle
+				.blackPlayerIcon());
+	}
+
+	private void updatePlayerNames() {
+		Label whitePlayerLabel = game.isWhiteAtBottom() ? lowerPlayerLabel : upperPlayerLabel;
+		Label blackPlayerLabel = game.isWhiteAtBottom() ? upperPlayerLabel : lowerPlayerLabel;
+		String whiteName = game.getMetaInfo().getWhitePlayerName() != null ? game.getMetaInfo().getWhitePlayerName()
+				: WHITE_PLAYER_DEFAULT_NAME;
+		String blackName = game.getMetaInfo().getBlackPlayerName() != null ? game.getMetaInfo().getBlackPlayerName()
+				: BLACK_PLAYER_DEFAULT_NAME;
+		whitePlayerLabel.setText(whiteName);
+		blackPlayerLabel.setText(blackName);
 	}
 
 	private void updatePlayerNameHighlighting() {
