@@ -5,6 +5,10 @@ import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+/**
+ * TODO Game is using the GlobalEventBus and is thus GWT dependent. The dependency itself might not be problematic, but
+ * the singleton event bus could be dangerous on the server side.
+ */
 @Singleton
 public class Game {
 

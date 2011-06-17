@@ -9,11 +9,15 @@ import com.christophdietze.jack.client.event.MatchStartedEvent;
 import com.christophdietze.jack.client.event.MatchStartedEventHandler;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.util.MyAsyncCallback;
+import com.christophdietze.jack.client.view.ChallengeReceivedPopup;
 import com.christophdietze.jack.shared.ChessService.ChallengeCancellationReason;
 import com.christophdietze.jack.shared.ChessServiceAsync;
 import com.christophdietze.jack.shared.Player;
 import com.google.inject.Inject;
 
+/**
+ * Presenter for {@link ChallengeReceivedPopup}
+ */
 public class ChallengeReceivedPresenter {
 
 	public interface View {
