@@ -16,10 +16,16 @@ public class GameMetaInfo {
 
 	private Map<String, String> additionalTags = new HashMap<String, String>();
 
+	/**
+	 * @return null if not set
+	 */
 	public String getWhitePlayerName() {
 		return whitePlayerName;
 	}
 
+	/**
+	 * @return null if not set
+	 */
 	public String getBlackPlayerName() {
 		return blackPlayerName;
 	}
