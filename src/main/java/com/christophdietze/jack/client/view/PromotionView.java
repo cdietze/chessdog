@@ -31,7 +31,7 @@ public class PromotionView implements PromotionPresenter.View {
 	private static MyCss CSS = MyClientBundle.CSS;
 
 	private PromotionPresenter model;
-	private BoardPanel boardView;
+	private BoardPanel boardPanel;
 	private PopupPanel whitePopupPanel;
 	private PopupPanel blackPopupPanel;
 	private boolean pieceSelected = false;
@@ -39,7 +39,7 @@ public class PromotionView implements PromotionPresenter.View {
 	@Inject
 	public PromotionView(PromotionPresenter model, BoardPanel boardView) {
 		this.model = model;
-		this.boardView = boardView;
+		this.boardPanel = boardView;
 
 		whitePopupPanel = createPopupPanel(true);
 		blackPopupPanel = createPopupPanel(false);
@@ -53,7 +53,7 @@ public class PromotionView implements PromotionPresenter.View {
 		int rank = ChessUtils.toRank(toIndex);
 		assert rank == 0 || rank == 7;
 		final PopupPanel popup = rank == 0 ? blackPopupPanel : whitePopupPanel;
-		final Widget reference = boardView.getSquares()[toIndex];
+		final Widget reference = boardPanel.getSquares()[toIndex];
 		popup.setPopupPositionAndShow(new PositionCallback() {
 			public void setPosition(int offsetWidth, int offsetHeight) {
 				UiUtils.setPopupPositionAtTopLeft(popup, reference);
