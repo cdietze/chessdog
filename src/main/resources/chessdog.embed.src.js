@@ -2,7 +2,7 @@
 // http://closure-compiler.appspot.com/home
 // ==ClosureCompiler==
 // @compilation_level SIMPLE_OPTIMIZATIONS
-// @output_file_name chessdog.embed.js
+// @output_file_name chessdog.js
 // ==/ClosureCompiler==
 chessdog = {}
 
