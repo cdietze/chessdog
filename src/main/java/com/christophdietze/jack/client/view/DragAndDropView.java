@@ -35,14 +35,12 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 	}
 
 	private DragAndDropPresenter model;
-
 	private BoardPanel boardPanel;
-
 	private Map<Image, Integer> imageMap = new HashMap<Image, Integer>();
 	/** java.util.BitSet is not available in GWT */
 	private boolean[] draggablesBitSet = new boolean[64];
-
 	private MyDragController dragController;
+	private boolean enabled = true;
 
 	@Inject
 	public DragAndDropView(DragAndDropPresenter model, BoardPanel boardPanel) {
@@ -72,6 +70,9 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 	}
 
 	private void updateDraggables() {
+		if (!enabled) {
+			return;
+		}
 		Position position = model.getGame().getPosition();
 		for (int index = 0; index < 64; ++index) {
 			int viewIndex = model.getGame().isWhiteAtBottom() ? index : 63 - index;
@@ -84,6 +85,20 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 				draggablesBitSet[viewIndex] = false;
 				Image image = boardPanel.getSquares()[viewIndex].getImage();
 				dragController.makeNotDraggable(image);
+			}
+		}
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+		if (enabled) {
+			updateDraggables();
+		} else {
+			for (int index = 0; index < 64; ++index) {
+				if (draggablesBitSet[index]) {
+					dragController.makeNotDraggable(boardPanel.getSquares()[index].getImage());
+					draggablesBitSet[index] = false;
+				}
 			}
 		}
 	}
