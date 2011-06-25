@@ -21,6 +21,8 @@ public class MainPanel extends Composite {
 		@Inject
 		private Provider<BoardPanel> boardPanelProvider;
 		@Inject
+		private Provider<SquareSelectionView> squareSelectionViewProvider;
+		@Inject
 		private Provider<DragAndDropView> dndViewProvider;
 		@Inject
 		private Provider<PromotionView> promotionViewProvider;
@@ -46,6 +48,7 @@ public class MainPanel extends Composite {
 	}
 
 	private void initializeDetachedViews() {
+		providerHelper.squareSelectionViewProvider.get();
 		providerHelper.dndViewProvider.get();
 		providerHelper.promotionViewProvider.get();
 		providerHelper.challengeReceivedPopupProvider.get();

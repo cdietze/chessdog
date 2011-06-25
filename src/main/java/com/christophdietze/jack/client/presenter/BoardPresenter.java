@@ -18,7 +18,6 @@ public class BoardPresenter {
 	public static interface View {
 		public void update();
 		public void showPromotionPawn(int from, int to);
-		public void clearSelection();
 	}
 
 	private View view;
@@ -56,7 +55,6 @@ public class BoardPresenter {
 		eventBus.addHandler(GameUpdatedEvent.TYPE, new GameUpdatedEventHandler() {
 			@Override
 			public void onUpdate(GameUpdatedEvent event) {
-				view.clearSelection();
 				view.update();
 			}
 		});
