@@ -12,6 +12,7 @@ public class DragAndDropPresenter {
 
 	public static interface View {
 		public void update();
+		public void setEnabled(boolean enabled);
 	}
 
 	@Inject
@@ -39,6 +40,10 @@ public class DragAndDropPresenter {
 
 	public void makeMove(int fromIndex, int toIndex) {
 		gameManager.makeMove(fromIndex, toIndex);
+	}
+
+	public void setEnabled(boolean enabled) {
+		view.setEnabled(enabled);
 	}
 
 	private void initListeners() {
