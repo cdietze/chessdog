@@ -22,16 +22,16 @@ class JackProject(info: ProjectInfo) extends AppengineProject(info) {
 		None
 	}
 	
-	override def prepareWebappAction = gwtCompileAction dependsOn(prepareChessdogEmbedJs) dependsOn(super.prepareWebappAction)
+	override def prepareWebappAction = gwtCompileAction dependsOn(prepareChessdogJs) dependsOn(super.prepareWebappAction)
 	
 	override def compileClasspath = super.compileClasspath +++ descendents( info.projectPath / "lib_compile", "*.jar")
 
-	lazy val prepareChessdogEmbedJs = prepareChessdogEmbedJsAction
-	def prepareChessdogEmbedJsAction = task {
+	lazy val prepareChessdogJs = prepareChessdogJsAction
+	def prepareChessdogJsAction = task {
 		FileUtilities.createDirectory(temporaryWarPath, log)
 
-		val srcFile = new File((mainResourcesPath / "chessdog.embed.src.js").absolutePath)
-		val tmpFile = new File((temporaryWarPath / "chessdog.embed.tmp.js").absolutePath)
+		val srcFile = new File((mainResourcesPath / "chessdog.src.js").absolutePath)
+		val tmpFile = new File((temporaryWarPath / "chessdog.tmp.js").absolutePath)
 		val dstFile = new File((temporaryWarPath / "chessdog.embed.js").absolutePath)
 		// for now, create the JS file twice. Running this stuff twice seems simpler to implement than copying :)
 		val dstFile2 = new File((temporaryWarPath / "chessdog.js").absolutePath)
