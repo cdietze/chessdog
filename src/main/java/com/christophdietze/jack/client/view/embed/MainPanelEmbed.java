@@ -4,6 +4,7 @@ import com.christophdietze.jack.client.view.BoardPanel;
 import com.christophdietze.jack.client.view.DragAndDropView;
 import com.christophdietze.jack.client.view.PlayerNamePanel;
 import com.christophdietze.jack.client.view.PromotionView;
+import com.christophdietze.jack.client.view.SquareSelectionView;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
@@ -23,6 +24,8 @@ public class MainPanelEmbed extends Composite {
 	public static class ProviderHelper {
 		@Inject
 		private Provider<BoardPanel> boardPanelProvider;
+		@Inject
+		private Provider<SquareSelectionView> squareSelectionViewProvider;
 		@Inject
 		private Provider<DragAndDropView> dndViewProvider;
 		@Inject
@@ -45,6 +48,7 @@ public class MainPanelEmbed extends Composite {
 	}
 
 	private void initializeDetachedViews() {
+		providerHelper.squareSelectionViewProvider.get();
 		providerHelper.dndViewProvider.get();
 		providerHelper.promotionViewProvider.get();
 	}

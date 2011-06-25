@@ -14,9 +14,6 @@ import com.christophdietze.jack.shared.board.Piece;
 import com.christophdietze.jack.shared.board.PieceType;
 import com.google.common.collect.Lists;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -41,15 +38,11 @@ public class BoardPanel extends Composite implements BoardPresenter.View {
 	private List<Label> rankLabels = Lists.newArrayList(); // 1-8
 	private Image moveFromImage = new Image(MyClientBundle.INSTANCE.moveMarker());
 	private Image moveToImage = new Image(MyClientBundle.INSTANCE.moveMarker());
-	private Image squareSelection = new Image(MyClientBundle.INSTANCE.squareSelection());
-	private int selectedSquareIndex = -1; // -1 means that no square is selected
 
 	@Inject
 	public BoardPanel(BoardPresenter model) {
 		super.initWidget(rootPanel);
 		this.model = model;
-		squareSelection.unsinkEvents(Event.MOUSEEVENTS);
-		rootPanel.add(squareSelection);
 		initGrid();
 		rootPanel.addStyleName(CSS.boardContainer());
 		moveFromImage.addStyleName(CSS.moveMarker());
@@ -58,9 +51,6 @@ public class BoardPanel extends Composite implements BoardPresenter.View {
 		moveToImage.addStyleName(CSS.moveMarker());
 		moveToImage.setVisible(false);
 		rootPanel.add(moveToImage);
-		squareSelection.addStyleName(CSS.squareSelection());
-		squareSelection.setVisible(false);
-		initSquareSelection();
 		update();
 		model.bindView(this);
 		Log.debug("BoardView initialized");
@@ -94,37 +84,6 @@ public class BoardPanel extends Composite implements BoardPresenter.View {
 			fileLabels.add(fileLabel);
 			fileLabel.addStyleName(CSS.fileLabel());
 			rootPanel.add(fileLabel);
-		}
-	}
-
-	private void initSquareSelection() {
-		for (int i = 0; i < 64; ++i) {
-			final int index = i;
-			final BoardSquare square = squares[index];
-			square.getImage().addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					Log.info("onclick " + index);
-					if (selectedSquareIndex < 0) {
-						selectedSquareIndex = index;
-						squareSelection.getElement().getStyle()
-								.setLeft(square.getAbsoluteLeft() - rootPanel.getAbsoluteLeft(), Unit.PX);
-						squareSelection.getElement().getStyle()
-								.setTop(square.getAbsoluteTop() - rootPanel.getAbsoluteTop(), Unit.PX);
-						squareSelection.setVisible(true);
-					} else {
-						int fromIndex = selectedSquareIndex;
-						int toIndex = index;
-						if (!model.getGame().isWhiteAtBottom()) {
-							fromIndex = 63 - fromIndex;
-							toIndex = 63 - toIndex;
-						}
-						selectedSquareIndex = -1;
-						squareSelection.setVisible(false);
-						model.makeMove(fromIndex, toIndex);
-					}
-				}
-			});
 		}
 	}
 
@@ -167,12 +126,6 @@ public class BoardPanel extends Composite implements BoardPresenter.View {
 	}
 
 	@Override
-	public void clearSelection() {
-		selectedSquareIndex = -1;
-		squareSelection.setVisible(false);
-	}
-
-	@Override
 	public void showPromotionPawn(int from, int to) {
 		int rank = ChessUtils.toRank(to);
 		assert rank == 0 || rank == 7;
@@ -183,5 +136,9 @@ public class BoardPanel extends Composite implements BoardPresenter.View {
 
 	public BoardSquare[] getSquares() {
 		return squares;
+	}
+
+	public void addWidget(Widget widget) {
+		rootPanel.add(widget);
 	}
 }
