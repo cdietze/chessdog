@@ -9,11 +9,6 @@ import com.christophdietze.jack.shared.board.PieceType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-/**
- * <p>
- * <img src='doc-files/PromotionMoveEvent.jpg'>
- * </p>
- */
 @Singleton
 public class PromotionPresenter {
 
