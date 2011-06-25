@@ -56,46 +56,47 @@ window.chessdog.Board = function(element) {
  */
 
 chessdog.Board.prototype.reset = function() {
-	if(assertChessdogReady(this)) {
-		return this.wnd.reset();
-	}
+	var board = this;
+	chessdog._onReady(this, function() {
+		board.wnd.reset();
+	});
 }
 
 chessdog.Board.prototype.getFen = function() {
-	if(assertChessdogReady(this)) {
+	if(chessdog._assertReady(this)) {
 		return this.wnd.getFen();
 	}
 }
 
 chessdog.Board.prototype.setFen = function(fen) {
 	var board = this;
-	onChessdogReady(this, function() {
+	chessdog._onReady(this, function() {
 		board.wnd.setFen(fen);
 	});
 }
 
 chessdog.Board.prototype.getPgn = function() {
-	if(assertChessdogReady(this)){
+	if(chessdog._assertReady(this)){
 		return this.wnd.getPgn();
 	}
 }
 
 chessdog.Board.prototype.setPgn = function(pgn) {
 	var board = this;
-	onChessdogReady(this, function() {
+	chessdog._onReady(this, function() {
 		board.wnd.setPgn(pgn);
 	});
 }
 
 chessdog.Board.prototype.allowUserMoves = function(allowed) {
 	var board = this;
-	onChessdogReady(this, function() {
+	chessdog._onReady(this, function() {
 		board.wnd.allowUserMoves(allowed);
 	});
 }
 
 chessdog.Board.prototype.onReady = function(fun) {
-	onChessdogReady(this, fun);
+	chessdog._onReady(this, fun);
 }
 
 
@@ -103,15 +104,31 @@ chessdog.Board.prototype.onReady = function(fun) {
  * private functions
  */
 
-var onChessdogReady = function(board, fun) {
+chessdog._readyQueue = []
+
+chessdog._onReady = function(board, fun) {
 	if (board.wnd.chessdogReady) {
 		fun();
 	} else {
-		setTimeout(function() {	onChessdogReady(board, fun);}, 100);
+		chessdog._readyQueue.push(fun);
+		if(chessdog._readyQueue.length==1) {
+			chessdog._processReadyQueue(board);
+		}
 	}
 }
 
-var assertChessdogReady = function(board) {
+chessdog._processReadyQueue = function(board) {
+	if(board.wnd.chessdogReady) {
+		for(i=0;i<chessdog._readyQueue.length;i++) {
+			chessdog._readyQueue[i]();
+		}
+		chessdog._readyQueue=[];
+	} else {
+		setTimeout(function() {	chessdog._processReadyQueue(board);}, 100);
+	}
+}
+
+chessdog._assertReady = function(board) {
 	if(board.wnd.chessdogReady) {
 		return true;
 	} else {
