@@ -37,9 +37,9 @@ public class PromotionView implements PromotionPresenter.View {
 	private boolean pieceSelected = false;
 
 	@Inject
-	public PromotionView(PromotionPresenter model, BoardPanel boardView) {
+	public PromotionView(PromotionPresenter model, BoardPanel boardPanel) {
 		this.model = model;
-		this.boardPanel = boardView;
+		this.boardPanel = boardPanel;
 
 		whitePopupPanel = createPopupPanel(true);
 		blackPopupPanel = createPopupPanel(false);
