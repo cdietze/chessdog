@@ -33,6 +33,7 @@ public class SquareSelectionView {
 	private FlowPanel rootPanel = new FlowPanel();
 	private Image squareSelection = new Image(MyClientBundle.INSTANCE.squareSelection());
 	private int selectedSquareIndex = -1; // -1 means that no square is selected
+	private boolean enabled = true;
 
 	@Inject
 	public SquareSelectionView(Game game, GameManager gameManager, GlobalEventBus eventBus, BoardPanel boardPanel) {
@@ -50,6 +51,11 @@ public class SquareSelectionView {
 		Log.debug(this.getClass() + " initialized");
 	}
 
+	public void setEnabled(boolean enabled) {
+		clearSelection();
+		this.enabled = enabled;
+	}
+
 	private void initSquareSelection() {
 		for (int i = 0; i < 64; ++i) {
 			final int index = i;
@@ -57,7 +63,9 @@ public class SquareSelectionView {
 			square.getImage().addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					Log.info("onclick " + index);
+					if (!enabled) {
+						return;
+					}
 					if (selectedSquareIndex < 0) {
 						selectedSquareIndex = index;
 						squareSelection.getElement().getStyle()
