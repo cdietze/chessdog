@@ -29,6 +29,9 @@
 	chessdog.Board.prototype.setPgn = function(pgn) {
 		return this.wnd.setPgn(pgn);
 	}
+	chessdog.Board.prototype.allowUserMoves = function(allowed) {
+		return this.wnd.allowUserMoves(allowed);
+	}
 	var board;
 	function init() {
 		board = new chessdog.Board();

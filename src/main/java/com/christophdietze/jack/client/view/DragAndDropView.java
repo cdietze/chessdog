@@ -89,6 +89,7 @@ public class DragAndDropView implements DragAndDropPresenter.View {
 		}
 	}
 
+	@Override
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 		if (enabled) {

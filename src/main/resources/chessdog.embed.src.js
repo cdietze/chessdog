@@ -87,6 +87,13 @@ chessdog.Board.prototype.setPgn = function(pgn) {
 	});
 }
 
+chessdog.Board.prototype.allowUserMoves = function(allowed) {
+	var board = this;
+	onChessdogReady(this, function() {
+		board.wnd.allowUserMoves(allowed);
+	});
+}
+
 chessdog.Board.prototype.onReady = function(fun) {
 	onChessdogReady(this, fun);
 }
