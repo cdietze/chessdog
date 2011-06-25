@@ -33,9 +33,12 @@ class JackProject(info: ProjectInfo) extends AppengineProject(info) {
 		val srcFile = new File((mainResourcesPath / "chessdog.embed.src.js").absolutePath)
 		val tmpFile = new File((temporaryWarPath / "chessdog.embed.tmp.js").absolutePath)
 		val dstFile = new File((temporaryWarPath / "chessdog.embed.js").absolutePath)
+		// for now, create the JS file twice. Running this stuff twice seems simpler to implement than copying :)
+		val dstFile2 = new File((temporaryWarPath / "chessdog.js").absolutePath)
 
 		runClosureCompiler(srcFile, tmpFile)
 		replaceHostVariable(tmpFile, dstFile)
+		replaceHostVariable(tmpFile, dstFile2)
 		
 		tmpFile.delete
 		None
