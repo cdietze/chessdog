@@ -10,11 +10,8 @@
 	<classpathentry kind="lib" path="lib_compile/jsr305-javax-annotation.jar"/>
 	<classpathentry kind="lib" path="lib_compile/junit-4.8.1.jar"/>
 	<classpathentry kind="lib" path="lib_compile/logback-core-0.9.24.jar"/>
-	<classpathentry kind="lib" path="lib_compile/mockito-all-1.8.4.jar"/>
-	<classpathentry kind="lib" path="lib/aopalliance.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-2.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.5.jar"/>
-	<classpathentry kind="lib" path="lib/geronimo-jpa_3.0_spec-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/guava-r09.jar"/>
 	<classpathentry kind="lib" path="lib/guice-3.0.jar"/>
 	<classpathentry kind="lib" path="lib/guice-assistedinject-3.0.jar"/>
@@ -22,7 +19,6 @@
 	<classpathentry kind="lib" path="lib/gwt-log-3.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/gwt-validation-1.2.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/javax.inject.jar"/>
-	<classpathentry kind="lib" path="lib/objectify-2.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-jdk14-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/validation-api-1.0.0.GA.jar"/>
