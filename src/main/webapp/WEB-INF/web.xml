@@ -33,7 +33,6 @@
 		<web-resource-collection>
 			<web-resource-name>Only for admins</web-resource-name>
 			<url-pattern>/admin/*</url-pattern>
-			<url-pattern>/JackAdmin.html</url-pattern>
 			<url-pattern>/cron/*</url-pattern>
 			<url-pattern>/test/*</url-pattern>
 		</web-resource-collection>
