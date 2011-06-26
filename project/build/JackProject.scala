@@ -11,7 +11,7 @@ class JackProject(info: ProjectInfo) extends AppengineProject(info) {
 	val gwtServlet = "com.google.gwt" % "gwt-servlet" % "2.3.0"
 	val googleClosureCompiler = "com.google.javascript" % "closure-compiler" % "r946" % "provided"
 	
-	val gwtModules = List("Jack", "JackAdmin", "JackEmbed").map("com.christophdietze.jack."+_)
+	val gwtModules = List("Jack", "JackEmbed").map("com.christophdietze.jack."+_)
 //	val gwtModules = List("JackEmbed").map("com.christophdietze.jack."+_)
 	val productionHost = "chessdog.christophdietze.com"
 
