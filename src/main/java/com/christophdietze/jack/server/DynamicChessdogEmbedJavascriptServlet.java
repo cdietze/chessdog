@@ -20,7 +20,7 @@ public class DynamicChessdogEmbedJavascriptServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String filename = "chessdog.embed.src.js";
+		String filename = "chessdog.src.js";
 		String host = req.getHeader("Host");
 		InputStream contentIS = this.getClass().getClassLoader().getResourceAsStream(filename);
 		String content = IOUtils.toString(contentIS);
