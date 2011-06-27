@@ -23,6 +23,7 @@
 	<classpathentry kind="lib" path="lib/slf4j-jdk14-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/validation-api-1.0.0.GA.jar"/>
 	<classpathentry kind="lib" path="lib_compile/gwt-dnd-3.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/aopalliance.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT"/>
 	<classpathentry kind="output" path="target/scala_2.9.0/webapp/WEB-INF/classes"/>
 </classpath>
