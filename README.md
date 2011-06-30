@@ -1,7 +1,7 @@
 chessdog
 ========
 
-chessdog is a chess program that runs directly inside your browser. It can easily be embedded into other websites via a simple API.
+chessdog is a chess program that runs directly inside your browser. It can easily be embedded into other websites via a simple JavaScript API.
 
 Getting Started
 ---------------
