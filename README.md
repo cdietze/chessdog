@@ -52,3 +52,15 @@ This is an example of including multiple chess frames in one single host page.
 
 This page has the immortal game as a PGN embedded.
 [http://chessdog.christophdietze.com/demo/ImmortalGameDemo.html]()
+
+Building from source
+--------------------
+In order to build from source you will need sbt v0.7.7 [https://github.com/harrah/xsbt]() (the newer version 0.10 will not work).
+
+    git clone git@github.com:thunderklaus/chessdog.git
+    cd chessdog
+    sbt update package
+
+After the build finished successfully, the finally war file will be in this directory:
+
+    ./target/scala_2.9.0/
