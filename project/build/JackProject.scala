@@ -26,6 +26,12 @@ class JackProject(info: ProjectInfo) extends AppengineProject(info) {
 	
 	override def compileClasspath = super.compileClasspath +++ descendents( info.projectPath / "lib_compile", "*.jar")
 
+  /**
+   * The default prepareWebappAction brutally deletes any resources not copied by it, including my precious chessdog.js file.
+   * Force it being generated again for the package action here...
+   */
+	override def packageAction = super.packageAction dependsOn(prepareChessdogJsAction)
+
 	lazy val prepareChessdogJs = prepareChessdogJsAction
 	def prepareChessdogJsAction = task {
 		FileUtilities.createDirectory(temporaryWarPath, log)
@@ -43,7 +49,6 @@ class JackProject(info: ProjectInfo) extends AppengineProject(info) {
 		tmpFile.delete
 		None
 	}
-	
 	
 	private def runClosureCompiler(inFile: File, outFile: File) {
 		val command = "java -jar ./lib_tools/closure-compiler.jar --js \"" + inFile.getAbsolutePath +"\" --js_output_file \""+outFile.getAbsolutePath+"\""
