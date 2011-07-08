@@ -9,7 +9,7 @@ object MyBuild extends Build {
 
   val chessdogJsTempPath = SettingKey[File]("chessdog-js-temp-path")
   val prepareChessdogJs = TaskKey[Unit]("prepare-chessdog-js")
-  
+
   val chessdogHost = "chessdog.christophdietze.com"
 
   lazy val rootSettings = Defaults.defaultSettings ++ sbtappengine.AppenginePlugin.webSettings ++ gwtOnlySettings ++
@@ -18,7 +18,7 @@ object MyBuild extends Build {
       name := "chessdog",
       version := "1.0-SNAPSHOT",
       scalaVersion := "2.9.0-1",
-      unmanagedClasspath in Compile <++= (baseDirectory) map (b => Attributed.blankSeq((b ** "*.jar").get)),
+      unmanagedClasspath in Compile <++= (baseDirectory) map { b => Attributed.blankSeq((b ** "*.jar").get) },
       chessdogJsTempPath <<= (target) { (target) => target / "chessdog-temp" },
       webappResources <<= (webappResources, chessdogJsTempPath) { (w: PathFinder, p: File) => w +++ PathFinder(p) },
       prepareWebapp <<= prepareWebapp.dependsOn(prepareChessdogJs),
