@@ -12,12 +12,13 @@ object MyBuild extends Build {
 
   val chessdogHost = "chessdog.christophdietze.com"
 
-  lazy val rootSettings = Defaults.defaultSettings ++ sbtappengine.AppenginePlugin.webSettings ++ gwtOnlySettings ++
+  lazy val rootSettings = Defaults.defaultSettings ++ sbtappengine.Plugin.webSettings ++ gwtOnlySettings ++
     Seq(
       organization := "net.thunderklaus",
       name := "chessdog",
       version := "1.0-SNAPSHOT",
-      scalaVersion := "2.9.0-1",
+      scalaVersion := "2.9.1",
+      gaeSdkPath := Option(System.getenv("APPENGINE_SDK_HOME")),
       unmanagedClasspath in Compile <++= (baseDirectory) map { b => Attributed.blankSeq((b ** "*.jar").get) },
       chessdogJsTempPath <<= (target) { (target) => target / "chessdog-temp" },
       webappResources <<= (webappResources, chessdogJsTempPath) { (w: PathFinder, p: File) => w +++ PathFinder(p) },
