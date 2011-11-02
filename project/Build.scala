@@ -18,6 +18,7 @@ object MyBuild extends Build {
       name := "chessdog",
       version := "1.0-SNAPSHOT",
       scalaVersion := "2.9.1",
+      autoScalaLibrary := false,
       gaeSdkPath := Option(System.getenv("APPENGINE_SDK_HOME")),
       unmanagedClasspath in Compile <++= (baseDirectory) map { b => Attributed.blankSeq((b ** "*.jar").get) },
       chessdogJsTempPath <<= (target) { (target) => target / "chessdog-temp" },
