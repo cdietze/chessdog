@@ -55,12 +55,12 @@ This page has the immortal game as a PGN embedded.
 
 Building from source
 --------------------
-In order to build from source you will need sbt v0.7.7 [https://github.com/harrah/xsbt]() (the newer version 0.10 will not work).
+In order to build from source you will need sbt v0.11 [https://github.com/harrah/xsbt]().
 
     git clone git@github.com:thunderklaus/chessdog.git
     cd chessdog
-    sbt update package
+    sbt package-war
 
-After the build finished successfully, the finally war file will be in this directory:
+After the build finished successfully, the final war file will be in the target directory:
 
-    ./target/scala_2.9.0/
+    ./target/scala_xxx/
