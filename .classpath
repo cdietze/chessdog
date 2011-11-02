@@ -3,9 +3,8 @@
 	<classpathentry excluding="com/christophdietze/jack/super/|com/christophdietze/jack/super/" kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="src/main/resources"/>
-	<classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/appengine-java-sdk-1.5.5"/>
 	<classpathentry kind="lib" path="lib_compile/gin-1.5-post-gwt-2.2.jar"/>
 	<classpathentry kind="lib" path="lib_compile/guava-r09-gwt.jar"/>
 	<classpathentry kind="lib" path="lib_compile/jsr305-javax-annotation.jar"/>
@@ -25,6 +24,6 @@
 	<classpathentry kind="lib" path="lib/validation-api-1.0.0.GA.jar"/>
 	<classpathentry kind="lib" path="lib_compile/gwt-dnd-3.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/aopalliance.jar"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/gwt-2.4.0"/>
 	<classpathentry kind="output" path="target/webapp/WEB-INF/classes"/>
 </classpath>
