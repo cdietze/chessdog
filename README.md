@@ -44,18 +44,13 @@ Let's dissect what this does:
 Demos
 -----
 
-Here is a simple HTML page that includes the chess frame. The host page contains buttons which call some API functions.
-[http://chessdog.christophdietze.com/demo/JackEmbedDemo.html]()
-
-This is an example of including multiple chess frames in one single host page.
-[http://chessdog.christophdietze.com/demo/JackEmbed2Frames.html]()
-
-This page has the immortal game as a PGN embedded.
-[http://chessdog.christophdietze.com/demo/ImmortalGameDemo.html]()
+* [Board](http://chessdog.christophdietze.com/demo/JackEmbedDemo.html)
+* [Two boards](http://chessdog.christophdietze.com/demo/JackEmbed2Frames.html)
+* [Board showing the Immortal Game read from PGN](http://chessdog.christophdietze.com/demo/ImmortalGameDemo.html)
 
 Building from source
 --------------------
-In order to build from source you will need sbt v0.11 [https://github.com/harrah/xsbt]().
+In order to build from source you will need [sbt](https://github.com/harrah/xsbt) v0.11.
 
     git clone git@github.com:thunderklaus/chessdog.git
     cd chessdog
