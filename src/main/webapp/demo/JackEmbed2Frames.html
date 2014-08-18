@@ -3,13 +3,13 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-<script type="text/javascript" src="http://chessdog.christophdietze.com/chessdog.js"></script>
+<script type="text/javascript" src="../chessdog.js"></script>
 <script type="text/javascript">
 	var board1;
 	var board2;
 	function init() {
-		board1 = new chessdog.Board(document.getElementById('board1'));
-		board2 = new chessdog.Board(document.getElementById('board2'));
+		board1 = new chessdog.Board(document.getElementById('board1'), "../jackembed/jackembed.nocache.js");
+		board2 = new chessdog.Board(document.getElementById('board2'), "../jackembed/jackembed.nocache.js");
 	}
 </script>
 </head>
