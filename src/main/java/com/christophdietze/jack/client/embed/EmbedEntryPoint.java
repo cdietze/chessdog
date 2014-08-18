@@ -3,15 +3,12 @@ package com.christophdietze.jack.client.embed;
 import com.allen_sauer.gwt.log.client.Log;
 import com.christophdietze.jack.client.MyGinjector;
 import com.christophdietze.jack.client.event.UncaughtExceptionEvent;
-import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.util.GlobalEventBus;
 import com.christophdietze.jack.client.view.embed.MainPanelEmbed;
-import com.christophdietze.jack.shared.ChessServiceAsync;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
 public class EmbedEntryPoint implements EntryPoint {
@@ -20,23 +17,12 @@ public class EmbedEntryPoint implements EntryPoint {
 
 	public void onModuleLoad() {
 		injector.getJavaScriptBindings();
-		final ApplicationContext applicationContext = injector.getApplicationContext();
-		final ChessServiceAsync service = injector.getChessServiceAsync();
 		final GlobalEventBus eventBus = injector.getEventBus();
 		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
 			public void onUncaughtException(Throwable ex) {
 				Log.error("Uncaught exception:", ex);
 				String errorMessage = buildErrorMessage(ex);
 				eventBus.fireEvent(new UncaughtExceptionEvent(errorMessage));
-				service.sendErrorReport(applicationContext.getLocationId(), errorMessage, new AsyncCallback<Void>() {
-					@Override
-					public void onSuccess(Void result) {
-					}
-					@Override
-					public void onFailure(Throwable ex) {
-						// don't throw another uncaught exception, rather just fail silently
-					}
-				});
 			}
 		});
 		MainPanelEmbed mainPanel = injector.getMainPanelEmbed();
