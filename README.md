@@ -56,6 +56,5 @@ In order to build from source you will need [sbt](https://github.com/harrah/xsbt
     cd chessdog
     sbt package-war
 
-After the build finished successfully, the final war file will be in the target directory:
-
-    ./target/scala_xxx/
+After the build finished successfully, you can open a demo page at `./target/webapp/demo/JackEmbedDemo.html`.
+The final war file will be in the target directory `./target/scala_xxx/`.
