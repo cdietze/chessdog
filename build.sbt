@@ -1,8 +1,6 @@
 
 import net.thunderklaus.GwtPlugin._
 
-appengineSettings
-
 seq(gwtSettings :_*)
 
 libraryDependencies ++= Seq(
