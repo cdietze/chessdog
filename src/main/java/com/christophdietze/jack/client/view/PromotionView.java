@@ -20,11 +20,6 @@ import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-/**
- * <p>
- * <img class='gallery' src='doc-files/PromotionMoveEvent.jpg'>
- * </p>
- */
 @Singleton
 public class PromotionView implements PromotionPresenter.View {
 

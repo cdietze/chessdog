@@ -1,11 +1,8 @@
 package com.christophdietze.jack.client;
 
 import com.christophdietze.jack.client.embed.JavaScriptBindings;
-import com.christophdietze.jack.client.presenter.ApplicationContext;
 import com.christophdietze.jack.client.util.GlobalEventBus;
-import com.christophdietze.jack.client.view.MainPanel;
 import com.christophdietze.jack.client.view.embed.MainPanelEmbed;
-import com.christophdietze.jack.shared.ChessServiceAsync;
 import com.google.gwt.inject.client.GinModules;
 import com.google.gwt.inject.client.Ginjector;
 
@@ -14,12 +11,7 @@ public interface MyGinjector extends Ginjector {
 
 	JavaScriptBindings getJavaScriptBindings();
 
-	ApplicationContext getApplicationContext();
-
-	MainPanel getMainPanel();
 	MainPanelEmbed getMainPanelEmbed();
-
-	ChessServiceAsync getChessServiceAsync();
 
 	GlobalEventBus getEventBus();
 }
